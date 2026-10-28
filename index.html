@@ -201,6 +201,16 @@ function ddM(y,m){const key=ym(y,m),M=mon(y,m),c=D.costs||[],cm={},g={};c.forEac
  const ex={};D.expenses.filter(e=>day(e[0]).slice(0,7)==key).forEach(e=>ex[k(e[1])]=(ex[k(e[1])]||0)+(+e[2]||0));
  const pu={};D.purchases.filter(p=>day(p[0]).slice(0,7)==key).forEach(p=>{const o=pu[k(p[1])]=pu[k(p[1])]||[k(p[1]),0,0];o[1]+=+p[2]||0;o[2]+=(+p[2]||0)*(+p[4]||0)});
  dd(MN[m-1]+' '+y,[['Борлуулалт (бүтээгдэхүүнээр)',['Бүтээгдэхүүн','Тоо','Орлого','Өртөг'],Object.values(g).sort((a,b)=>b[2]-a[2])],['Зардал (ангиллаар)',['Ангилал','Дүн'],Object.entries(ex)],['Худалдан авалт (орцоор)',['Орц','Тоо','Дүн'],Object.values(pu)]])}
+
+// ===== v2: Excel-ийн хажуугийн нэгтгэл хүснэгтүүд
+const SC=(t,hd,rows)=>`<div class="card"><h3>${t}</h3><div class="sc"><table><thead><tr>${hd.map((x,i)=>`<th class="${i?'n':''}">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td class="${i?'n':''}">${typeof v=='number'?fmt(v):v}</td>`).join('')}</tr>`).join('')||'<tr><td>Алга</td></tr>'}</tbody></table></div></div>`;
+const SUMM={
+ rec:()=>{const cm={},pr={};(D.costs||[]).forEach(c=>cm[k(c[0])]=+c[1]||0);(RAW().products||[]).forEach(r=>pr[k(r[1])]=+r[2]||0);
+  const ns=[...new Set([...Object.keys(cm),...Object.keys(pr)])].sort();
+  return SC('БҮТЭЭГДЭХҮҮН ТУТМЫН ТОЙМ',['Бүтээгдэхүүн','Нэгжийн өртөг','Борлуулах үнэ','Ашиг/нэгж','Ашиг %'],ns.map(p=>{const c=cm[p]||0,v=pr[p]||0;return[p,c,v,v?v-c:0,v?(((v-c)/v*100).toFixed(1)+'%'):'-']}))},
+ buy:()=>{const g={};D.purchases.forEach(p=>{const i=k(p[1]),o=g[i]=g[i]||[i,0,0,0];o[1]+=+p[2]||0;o[3]+=(+p[2]||0)*(+p[4]||0)});
+  return SC('ОРЦООР НИЙЛҮҮЛЭЛТИЙН НИЙТ (Худалдан авалтаас авт.)',['Орц','Нийт авсан тоо','Дундаж нэгж өртөг','Нийт дүн ₮'],Object.values(g).sort((a,b)=>b[3]-a[3]).map(o=>[o[0],o[1],o[1]?o[3]/o[1]:0,o[3]]))}};
+{const _c=crud;crud=function(id){_c(id);if(SUMM[id])$('#p-'+id).insertAdjacentHTML('beforeend',SUMM[id]())}}
 {const _r=render;render=function(){_r();Object.keys(DB).forEach(crud);dayR();prodR();yrR()}}
 $('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
 function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
