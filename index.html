@@ -78,7 +78,7 @@ svg text{fill:var(--m);font-size:10px}
 </main></div>
 <dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div>
 <script>
-const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
+const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzXFEwDCTxNqWau5C6pxUMOHXCoyhF1T79wfON9HkkWmzqCHSAmmlj9Wuxodlrl99SQ_Q/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
 const today=new Date(),iso=d=>d.toISOString().slice(0,10),pad=n=>String(n).padStart(2,'0');
 const ym=(y,m)=>y+'-'+pad(m);
@@ -97,7 +97,15 @@ async function load(){
  render()}
 async function save(sheet,row){
  (D[sheet]=D[sheet]||[]).push(row);LS.bmData=JSON.stringify(D);
- if(URL_)try{const r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({sheet,row})});const j=await r.json();if(j.ok)toast('Sheets-д хадгаллаа');else{console.error(j);toast('Sheets алдаа: '+(j.error||'?'));alert('Sheets алдаа: '+(j.error||JSON.stringify(j)))}}catch(e){console.error(e);toast('Sheets-д бичиж чадсангүй (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)')}
+ if(URL_)try{const exp=D[sheet].length;
+  await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({sheet,row})});
+  toast('Илгээлээ, шалгаж байна...');
+  await new Promise(r=>setTimeout(r,1500));
+  const j=await (await fetch(URL_)).json();
+  if(j.error)toast('Sheets алдаа: '+j.error);
+  else if((j[sheet]||[]).length>=exp){D=j;LS.bmData=JSON.stringify(D);toast('Sheets-д хадгаллаа ✅')}
+  else toast('Sheets-д орсонгүй — Apps Script-ийн Executions-ээс алдааг харна уу')
+ }catch(e){console.error(e);toast('Sheets-тэй холбогдож чадсангүй')}
  else toast('Хадгаллаа (туршилтын горим)');render()}
 // ---- БМ тайлан тооцоо
 function rows(ing){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
