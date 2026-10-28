@@ -73,12 +73,12 @@ svg text{fill:var(--m);font-size:10px}
 <div class="pop" id="pop" hidden></div></header>
 <main>
 <section id="p-dash"></section>
-<section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн хөдөлгөөнтэй</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
+<section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн энэ хугацаанд орлого/зарлагатай орц</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
 <section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
 </main></div>
 <dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div>
 <script>
-const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
+const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzXFEwDCTxNqWau5C6pxUMOHXCoyhF1T79wfON9HkkWmzqCHSAmmlj9Wuxodlrl99SQ_Q/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
 const today=new Date(),iso=d=>d.toISOString().slice(0,10),pad=n=>String(n).padStart(2,'0');
 const ym=(y,m)=>y+'-'+pad(m);
@@ -203,10 +203,10 @@ function ddM(y,m){const key=ym(y,m),M=mon(y,m),c=D.costs||[],cm={},g={};c.forEac
  dd(MN[m-1]+' '+y,[['Борлуулалт (бүтээгдэхүүнээр)',['Бүтээгдэхүүн','Тоо','Орлого','Өртөг'],Object.values(g).sort((a,b)=>b[2]-a[2])],['Зардал (ангиллаар)',['Ангилал','Дүн'],Object.entries(ex)],['Худалдан авалт (орцоор)',['Орц','Тоо','Дүн'],Object.values(pu)]])}
 {const _r=render;render=function(){_r();Object.keys(DB).forEach(crud);dayR();prodR();yrR()}}
 $('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
-function bmTab2le(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
+function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
  $('#bmt').innerHTML=`<div class="sc"><table><colgroup><col style="width:230px"><col style="width:60px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:120px"><col style="width:190px"></colgroup><thead><tr><th>Орц ▸</th><th>Нэгж</th><th class="n">Эхний ▸</th><th class="n">Орлого ▸</th><th class="n">Зарлага ▸</th><th class="n">Эцсийн ▸</th><th class="n">Доод хязгаар</th><th>Статус ▸</th></tr></thead><tbody>
  ${B.map((b,i)=>[b,i]).filter(x=>(!q||x[0].n.toLowerCase().includes(q))&&(!$('#mv').checked||x[0].i||x[0].o)).map(([b,i])=>`<tr><td title="${b.n}"><b>${L(i,'sum',b.n)}</b></td><td>${b.u}</td><td class="n">${L(i,'sum',fmt(b.open))}</td><td class="n">${L(i,'i',fmt(b.i))}</td><td class="n">${L(i,'o',fmt(b.o))}</td><td class="n"><b>${L(i,'sum',fmt(b.c))}</b></td><td class="n">${fmt(b.mn)}</td><td>${L(i,'sum','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>')}</td></tr>`).join('')}</tbody></table></div>`}
-function render(){dash();bmTab2le();
+function render(){dash();bmTable();
  const ings=[...new Set(D.stock.map(s=>s[0]))],prods=[...new Set(D.recipes.map(r=>k(r[0])))],opt=a=>a.map(x=>`<option>${x}</option>`).join('');
  $('#p-in').innerHTML=`<div class="card f"><h3>Орлого бүртгэх</h3><label>Огноо</label><input type="date" id="a1" value="${iso(today)}"><label>Орц</label><select id="a2">${opt(ings)}</select><label>Авсан тоо</label><input type="number" id="a3"><label>Нэгж үнэ</label><input type="number" id="a4"><label>Нийлүүлэгч</label><input id="a5"><p><button class="btn pri" onclick="fi()">Хадгалах</button></p></div>`;
  $('#p-sale').innerHTML=`<div class="card f"><h3>Өдрийн борлуулалт</h3><label>Огноо</label><input type="date" id="b1" value="${iso(today)}"><label>Бүтээгдэхүүн</label><select id="b2">${opt(prods)}</select><label>Ангилал</label><input id="b5" placeholder="жишээ: Нарын боов"><label>Тоо</label><input type="number" id="b3"><label>Нийт дүн</label><input type="number" id="b4"><p><button class="btn pri" onclick="fs()">Хадгалах</button></p></div>`;
@@ -275,5 +275,5 @@ $('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.sto
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top button');if(!b||b.classList.contains('sw'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),sp=document.createElement('span');
  sp.className='rp';sp.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(sp);setTimeout(()=>sp.remove(),600)});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
-$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTab2le;$('#q').oninput=bmTab2le;$('#mv').onchange=bmTab2le;load();
+$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=LS.bmMv!=='0';$('#mv').onchange=()=>{LS.bmMv=$('#mv').checked?'1':'0';bmTable()};load();
 </script></body></html>
