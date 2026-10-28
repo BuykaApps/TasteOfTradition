@@ -1,0 +1,224 @@
+<!DOCTYPE html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Taste of Tradition — Түүхий эдийн систем</title>
+<style>
+:root{--bg:#e9eff5;--c:rgba(255,255,255,.74);--cd:rgba(255,255,255,.9);--t:#17232d;--m:#64748b;--b:rgba(15,42,67,.1);--a:#1f6f8b;--p:#0f2a43;--r:#c0392b;--y:#d68910;--g:#1e8449;--sh:0 1px 2px #0b1f3012,0 8px 24px #0b1f3012;--sw:250px}
+html[data-theme=dark]{--bg:#091017;--c:rgba(24,36,47,.62);--cd:rgba(18,28,37,.92);--t:#e6edf1;--m:#8fa1ad;--b:rgba(255,255,255,.09);--p:#0a1c2d;--sh:0 1px 2px #0006,0 8px 28px #0005}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:14px/1.45 system-ui,"Segoe UI",sans-serif;background:var(--bg);color:var(--t);min-height:100vh;transition:background .3s}
+body.col{--sw:74px}
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}body.noaur .aurora{display:none}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.42;animation:fl 20s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:46vw;height:46vw;left:-8vw;top:-12vw;background:var(--a)}
+.aurora i:nth-child(2){width:38vw;height:38vw;right:-10vw;top:10vh;background:#7a5cf0;animation-duration:26s}
+.aurora i:nth-child(3){width:42vw;height:42vw;left:30vw;bottom:-18vw;background:#1ec3a5;animation-duration:30s}
+html[data-theme=dark] .aurora i{opacity:.28}
+@keyframes fl{to{transform:translate(6vw,5vh) scale(1.18)}}
+aside{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:linear-gradient(180deg,#0c2338e6,#0a1826f2);backdrop-filter:blur(18px);color:#fff;display:flex;flex-direction:column;z-index:20;transition:width .25s,transform .25s;box-shadow:4px 0 28px #0004}
+.brand{display:flex;gap:11px;align-items:center;padding:18px 16px;border-bottom:1px solid #ffffff18;overflow:hidden;white-space:nowrap}
+.brand span{font-size:26px;filter:drop-shadow(0 0 8px var(--a))}.brand b{display:block;font-size:14px;letter-spacing:.3px}.brand small{opacity:.65;font-size:11px}
+aside nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:4px;overflow:auto}
+aside nav button{display:flex;align-items:center;gap:12px;background:none;border:0;color:#cfe0ec;padding:11px 13px;border-radius:11px;cursor:pointer;font:inherit;text-align:left;white-space:nowrap;position:relative;overflow:hidden;transition:background .18s,transform .18s,color .18s}
+aside nav button .ic{font-size:18px;width:22px;text-align:center;flex:none;transition:transform .2s}
+aside nav button:hover{background:#ffffff1a;color:#fff;transform:translateX(4px)}aside nav button:hover .ic{transform:scale(1.2) rotate(-6deg)}
+aside nav button.on{background:linear-gradient(90deg,color-mix(in srgb,var(--a) 75%,transparent),#ffffff10);color:#fff;font-weight:600;box-shadow:0 4px 16px color-mix(in srgb,var(--a) 45%,transparent)}
+aside nav button.on::before{content:"";position:absolute;left:0;top:20%;bottom:20%;width:4px;border-radius:0 4px 4px 0;background:#fff}
+body.col aside nav button .lb,body.col .brand div,body.col #src{display:none}body.col aside nav button:hover{transform:none}
+.sfoot{padding:12px 14px;border-top:1px solid #ffffff18;display:flex;align-items:center;gap:8px;justify-content:space-between;font-size:12px;color:#b8cddd}
+#colb{background:#ffffff1a;border:0;color:#fff;border-radius:8px;width:30px;height:30px;cursor:pointer;transition:.2s}#colb:hover{background:#ffffff33;transform:scale(1.1)}
+.wrap{margin-left:var(--sw);transition:margin .25s;min-height:100vh}
+.top{position:sticky;top:0;z-index:10;display:flex;gap:10px;align-items:center;padding:12px 22px;background:var(--c);backdrop-filter:blur(16px);border-bottom:1px solid var(--b)}
+.top h1{margin:0;font-size:18px}.top h1 small{color:var(--m);font-weight:400;font-size:12px;margin-left:8px}.sp{flex:1}#burger{display:none}
+.btn,.top button{border:1px solid var(--b);background:var(--cd);color:var(--t);padding:8px 14px;border-radius:10px;cursor:pointer;font:inherit;position:relative;overflow:hidden;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover,.top button:hover{transform:translateY(-1px);box-shadow:0 6px 16px #0b1f3026;border-color:var(--a)}.btn:active,.top button:active{transform:scale(.96)}
+.btn.pri{background:var(--a);color:#fff;border-color:var(--a)}
+.rp{position:absolute;border-radius:50%;background:#ffffff66;transform:scale(0);animation:rp .55s linear;pointer-events:none}@keyframes rp{to{transform:scale(4);opacity:0}}
+main{padding:18px 22px 40px;max-width:1320px;margin:auto}
+section{animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--c);backdrop-filter:blur(14px);border:1px solid var(--b);border-radius:14px;padding:15px;margin-bottom:14px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--a) 45%,var(--b))}
+.card h3{margin:0 0 10px;font-size:12px;letter-spacing:.5px;color:var(--m);text-transform:uppercase}
+.tool{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tool input,.tool select{width:auto}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:14px}
+.kpi{background:var(--c);backdrop-filter:blur(14px);border-radius:14px;box-shadow:var(--sh);border:1px solid var(--b);border-top:4px solid var(--k,#1f6f8b);padding:13px 14px;text-align:center;transition:transform .2s,box-shadow .25s;animation:in .5s both}
+.kpi:nth-child(2){animation-delay:.05s}.kpi:nth-child(3){animation-delay:.1s}.kpi:nth-child(4){animation-delay:.15s}.kpi:nth-child(5){animation-delay:.2s}
+.kpi:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 14px 32px color-mix(in srgb,var(--k,#1f6f8b) 35%,transparent)}
+.kpi span{display:block;font-size:11px;letter-spacing:.4px;color:var(--m);font-weight:600}.kpi b{display:block;font-size:24px;margin-top:6px;color:var(--k,#1f6f8b)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:14px}
+table{border-collapse:collapse;width:100%}th,td{padding:9px 12px;border-bottom:1px solid var(--b);text-align:left;white-space:nowrap}
+th{background:color-mix(in srgb,var(--a) 62%,#0a1c2d);color:#fff;font-weight:600;position:sticky;top:0;z-index:1}
+tbody tr{transition:background .15s,transform .15s}tbody tr:nth-child(even){background:#8aa0b30f}tbody tr:hover{background:color-mix(in srgb,var(--a) 16%,transparent)}
+td.n,th.n{text-align:right}.sc{overflow:auto;max-height:68vh;border-radius:10px}.bm table{table-layout:fixed;width:1040px}.bm td,.bm th{overflow:hidden;text-overflow:ellipsis}
+.z{opacity:.5}.p{background:#1e84491a}.p td{font-weight:600}.sub{color:var(--m);font-size:12px}
+a.l{color:var(--a);cursor:pointer;font-weight:600;border-bottom:1px dashed var(--a);transition:.15s}a.l:hover{background:color-mix(in srgb,var(--a) 18%,transparent);border-bottom-style:solid}
+.bar{height:12px;background:var(--b);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),color-mix(in srgb,var(--a) 50%,#fff));border-radius:6px;animation:gw .8s ease both;transform-origin:left}@keyframes gw{from{transform:scaleX(0)}}
+.hb{display:grid;grid-template-columns:130px 1fr 100px;gap:8px;align-items:center;margin:4px -6px;padding:4px 6px;border-radius:8px;font-size:13px;transition:background .15s,transform .15s}.hb:hover{background:color-mix(in srgb,var(--a) 12%,transparent);transform:translateX(3px)}.hb u{text-decoration:none;text-align:right;color:var(--m)}
+.chip{padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#8aa0b322;display:inline-block;transition:transform .15s}a.l:hover .chip{transform:scale(1.08)}.chip.w{background:#c0392b24;color:var(--r)}.chip.y{background:#d6891024;color:var(--y)}.chip.ok{background:#1e844924;color:var(--g)}
+label{display:block;margin:10px 0 4px;color:var(--m);font-size:12px}input,select{width:100%;padding:9px 11px;border:1px solid var(--b);border-radius:10px;background:var(--cd);color:var(--t);font:inherit;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus{outline:0;border-color:var(--a);box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 25%,transparent)}
+.f{max-width:480px}.w{color:var(--r);font-weight:600}.ok{color:var(--g)}
+dialog{border:1px solid var(--b);border-radius:16px;background:var(--cd);backdrop-filter:blur(22px);color:var(--t);max-width:880px;width:94%;box-shadow:0 24px 70px #0007;padding:20px;animation:pp .22s}
+dialog::backdrop{background:#030a1277;backdrop-filter:blur(5px)}@keyframes pp{from{opacity:0;transform:translateY(14px) scale(.97)}}
+#msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--t);color:var(--bg);padding:10px 20px;border-radius:24px;display:none;z-index:60;box-shadow:var(--sh)}
+.pop{position:absolute;right:22px;top:58px;width:270px;background:var(--cd);backdrop-filter:blur(20px);border:1px solid var(--b);border-radius:14px;padding:14px;box-shadow:0 18px 50px #0006;animation:pp .18s}.pop[hidden]{display:none}
+.pop h4{margin:0 0 8px;font-size:13px}.pop .row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}.pop .row button{flex:1;padding:6px 8px;font-size:12px}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent!important;padding:0!important;flex:none!important;transition:transform .15s}.sw:hover{transform:scale(1.2)!important}.sw.on{border-color:var(--t)!important}
+.pop label{display:flex;gap:8px;align-items:center;margin:6px 0;color:var(--t);font-size:13px}.pop input{width:auto}
+svg text{fill:var(--m);font-size:10px}
+@media(max-width:860px){aside{transform:translateX(-100%)}body.open aside{transform:none}.wrap{margin-left:0}#burger{display:inline-block}main{padding:14px}}
+</style></head><body>
+<div class="aurora"><i></i><i></i><i></i></div>
+<aside id="side"><div class="brand"><span>🍽</span><div><b>Taste of Tradition</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
+<div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
+<div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
+<button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="cfg">⚙ Холболт</button><button id="ui" title="Харагдац">🎨</button>
+<div class="pop" id="pop" hidden></div></header>
+<main>
+<section id="p-dash"></section>
+<section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
+<section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
+</main></div>
+<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div>
+<script>
+const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzXFEwDCTxNqWau5C6pxUMOHXCoyhF1T79wfON9HkkWmzqCHSAmmlj9Wuxodlrl99SQ_Q/exec';
+const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
+const today=new Date(),iso=d=>d.toISOString().slice(0,10),pad=n=>String(n).padStart(2,'0');
+const ym=(y,m)=>y+'-'+pad(m);
+$('#d1').value=ym(today.getFullYear(),today.getMonth()+1)+'-01';$('#d2').value=iso(new Date(today.getFullYear(),today.getMonth()+1,0)).slice(0,10);
+const mm=today.getFullYear()+'-'+pad(today.getMonth()+1);
+const DEMO={purchases:[],sales:[[mm+'-03','Аарц крем','Бурэлт',3,3000],[mm+'-04','Аарцтай боов','Нарын боов',27,0],[mm+'-17','Аарц крем','Бурэлт',3,3000]],
+recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боов','Аарц','','гр'],['Аарцтай боов','Гурил',42.3,'гр']],stock:[['Аарц','гр',8500,1000],['Гурил','гр',20000,5000]],costs:[],expenses:[]};
+let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||LS.bmUrl||'';
+const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
+const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
+const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
+async function load(){
+ if(!URL_){$('#src').textContent='Туршилтын горим';return render()}
+ try{const j=await (await fetch(URL_)).json();if(j.error){alert(j.error);return render()}D=j;LS.bmData=JSON.stringify(D);$('#src').textContent='✅ Google Sheets'}
+ catch(e){toast('Sheets-тэй холбогдож чадсангүй')}
+ render()}
+async function save(sheet,row){
+ (D[sheet]=D[sheet]||[]).push(row);LS.bmData=JSON.stringify(D);
+ if(URL_)try{await fetch(URL_,{method:'POST',body:JSON.stringify({sheet,row})});toast('Sheets-д хадгаллаа')}catch(e){toast('Sheets-д бичиж чадсангүй')}
+ else toast('Хадгаллаа (туршилтын горим)');render()}
+// ---- БМ тайлан тооцоо
+function rows(ing){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
+ return D.sales.filter(s=>inR(s[0])&&k(s[1])in rec).map(s=>({d:day(s[0]),p:s[1],q:+s[3]||0,a:rec[k(s[1])],e:(+s[3]||0)*rec[k(s[1])]}))}
+const ins=ing=>D.purchases.filter(p=>inR(p[0])&&k(p[1])==k(ing));
+function bm(){return D.stock.map(s=>{const i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0),o=rows(s[0]).reduce((a,r)=>a+r.e,0),c=(+s[2]||0)+i-o,mn=+s[3]||0;
+ const st=c<=0?['Дуссан','w']:c<=mn?['Доод хязгаараас доош','w']:c<=mn*1.3?['Анхааруулга','y']:['Хангалттай','ok'];
+ return{n:s[0],u:s[1],open:+s[2]||0,i,o,c,mn,st}})}
+// ---- Dashboard тооцоо (Excel-ийн Дашбоард-тай ижил)
+const sel={y:today.getFullYear(),m:today.getMonth()+1};
+function mon(y,m){const key=ym(y,m),cm={};(D.costs||[]).forEach(c=>cm[k(c[0])]=+c[1]||0);
+ const S=D.sales.filter(s=>day(s[0]).slice(0,7)==key);
+ const rev=S.reduce((a,s)=>a+(+s[4]||0),0),cost=S.reduce((a,s)=>a+(+s[3]||0)*(cm[k(s[1])]||0),0);
+ const exp=(D.expenses||[]).filter(e=>day(e[0]).slice(0,7)==key).reduce((a,e)=>a+(+e[2]||0),0);
+ const buy=D.purchases.filter(p=>day(p[0]).slice(0,7)==key).reduce((a,p)=>a+(+p[2]||0)*(+p[4]||0),0);
+ return{S,rev,cost,exp,buy,net:rev-cost-exp}}
+function lineChart(a,b){const W=420,H=200,P=34,all=[...a,...b],mx=Math.max(...all,1),mn=Math.min(...all,0),X=i=>P+i*(W-P-8)/11,Y=v=>H-24-(v-mn)/(mx-mn||1)*(H-44);
+ const pl=(d,c)=>`<polyline fill="none" stroke="${c}" stroke-width="2.5" points="${d.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`+d.map((v,i)=>`<circle cx="${X(i)}" cy="${Y(v)}" r="2.6" fill="${c}"/>`).join('');
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${P}" x2="${W-8}" y1="${Y(0)}" y2="${Y(0)}" stroke="#8aa0b366"/>`+
+ [0,.5,1].map(f=>{const v=mn+(mx-mn)*f;return `<text x="2" y="${Y(v)+3}">${fmt(v/1e6)}M</text>`}).join('')+pl(a,'#1f6f8b')+pl(b,'#0f2a43')+
+ [...Array(12)].map((_,i)=>`<text x="${X(i)-4}" y="${H-8}">${i+1}</text>`).join('')+
+ `<rect x="${W-130}" y="2" width="9" height="9" fill="#1f6f8b"/><text x="${W-118}" y="10">Орлого</text><rect x="${W-70}" y="2" width="9" height="9" fill="#0f2a43"/><text x="${W-58}" y="10">Цэвэр ашиг</text></svg>`}
+const MN=['1-р сар','2-р сар','3-р сар','4-р сар','5-р сар','6-р сар','7-р сар','8-р сар','9-р сар','10-р сар','11-р сар','12-р сар'];
+function dash(){const M=mon(sel.y,sel.m),days=new Date(sel.y,sel.m,0).getDate(),B=bm();
+ const gp=M.rev-M.cost,pc=(a,b)=>b?(a/b*100).toFixed(1)+'%':'0.0%',cat={};
+ M.S.forEach(s=>{const c=k(s[2])||'Бусад';(cat[c]=cat[c]||{r:0,q:0});cat[c].r+=+s[4]||0;cat[c].q+=+s[3]||0});
+ const cr=Object.entries(cat).sort((a,b)=>b[1].r-a[1].r),cx=cr[0]?Math.max(cr[0][1].r,1):1;
+ const ys=[...Array(12)].map((_,i)=>mon(sel.y,i+1)),low=B.filter(b=>b.st[1]=='w');
+ const bad=new Set();D.recipes.forEach(r=>{if(!+r[2])bad.add(k(r[0])+' → '+k(r[1]))});
+ const K=(l,v,c,n)=>`<div class="kpi" style="--k:${c};cursor:pointer" onclick="kd('${n}')" title="Дарж задлах"><span>${l}</span><b>${v}</b></div>`;
+ const yo=[...Array(5)].map((_,i)=>sel.y-2+i+1).filter(y=>y<=today.getFullYear()+1);
+ LM=M;LC=cr.map(c=>c[0]);$('#p-dash').innerHTML=`<div class="card tool" style="background:linear-gradient(120deg,var(--p),#1f4f73);color:#fff"><b>📅 ЖИЛ & САР СОНГОХ →</b>
+ <select id="sy" style="max-width:100px">${yo.map(y=>`<option ${y==sel.y?'selected':''}>${y}</option>`).join('')}</select>
+ <select id="sm" style="max-width:130px">${MN.map((n,i)=>`<option value="${i+1}" ${i+1==sel.m?'selected':''}>${n}</option>`).join('')}</select>
+ <span class="sp"></span><b style="color:#f3c969;font-size:16px">${MN[sel.m-1]} ${sel.y} он</b></div>
+ <div class="kpis">${K('💰 НИЙТ ОРЛОГО',T(M.rev),'#1f6f8b','rev')}${K('🍽 ХООЛНЫ ӨРТӨГ (онол)',T(M.cost),'#1e8449','cost')}${K('💸 ҮЙЛ АЖИЛЛАГААНЫ ЗАРДАЛ',T(M.exp),'#c0392b','exp')}${K('💎 ЦЭВЭР АШИГ',T(M.net),M.net<0?'#c0392b':'#0f2a43','net')}</div>
+ <div class="kpis">${K('🔢 ХООЛНЫ ӨРТГИЙН ХУВЬ',pc(M.cost,M.rev),'#1e8449','cost')}${K('📈 НИЙЛСЭН АШИГ (GP)',T(gp),'#1f6f8b','gp')}${K('📦 АВАЛТ VS ОНОЛ ӨРТӨГ %',pc(M.buy,M.cost),'#d68910','buy')}${K('🛒 БОРЛУУЛАЛТЫН МӨР ТОО',fmt(M.S.length),'#117a8b','rev')}${K('📅 ӨДРИЙН ДУНДАЖ ОРЛОГО',T(M.rev/days),'#0f2a43','avg')}</div>
+ <div class="grid"><div class="card"><h3>Ангиллаар орлого</h3>${cr.map(c=>`<div class="hb" style="cursor:pointer" onclick="kd('cat',${cr.indexOf(c)})"><span>${c[0]}</span><div class="bar"><i style="width:${c[1].r/cx*100}%"></i></div><u>${T(c[1].r)}</u></div>`).join('')||'<p style="color:var(--m)">Өгөгдөл алга</p>'}</div>
+ <div class="card"><h3>Сарын орлого & ашиг — ${sel.y}</h3>${lineChart(ys.map(x=>x.rev),ys.map(x=>x.net))}</div></div>
+ <div class="grid"><div class="card"><h3>Ангиллаар орлого (хүснэгт)</h3><table><thead><tr><th>Ангилал</th><th class="n">Орлого</th><th class="n">Хувь</th><th class="n">Борлуулсан тоо</th></tr></thead><tbody>
+ ${cr.map(c=>`<tr style="cursor:pointer" onclick="kd('cat',${cr.indexOf(c)})"><td>${c[0]}</td><td class="n">${T(c[1].r)}</td><td class="n">${pc(c[1].r,M.rev)}</td><td class="n">${fmt(c[1].q)}</td></tr>`).join('')||'<tr><td colspan="4">Өгөгдөл алга</td></tr>'}</tbody></table></div>
+ <div class="card"><h3>📦 Анхаарах орцууд</h3><table><tbody>${low.slice(0,12).map(b=>`<tr style="cursor:pointer" onclick="dr(${B.indexOf(b)},'sum')"><td>${b.n}</td><td class="n">${fmt(b.c)} ${b.u}</td><td><span class="chip w">${b.st[0]}</span></td></tr>`).join('')||'<tr><td class="ok">Бүгд хэвийн ✅</td></tr>'}</tbody></table>
+ ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
+ $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
+// ---- харагдац
+const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['in','📥','Орлого бүртгэх'],['sale','🧾','Борлуулалт'],['rec','🍽','Жор']];
+$('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`).join('');
+function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);[...$('#nav').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));
+ const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab=t;document.body.classList.remove('open')}
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
+function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
+ $('#bmt').innerHTML=`<div class="sc"><table><colgroup><col style="width:230px"><col style="width:60px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:120px"><col style="width:190px"></colgroup><thead><tr><th>Орц ▸</th><th>Нэгж</th><th class="n">Эхний ▸</th><th class="n">Орлого ▸</th><th class="n">Зарлага ▸</th><th class="n">Эцсийн ▸</th><th class="n">Доод хязгаар</th><th>Статус ▸</th></tr></thead><tbody>
+ ${B.map((b,i)=>[b,i]).filter(x=>!q||x[0].n.toLowerCase().includes(q)).map(([b,i])=>`<tr><td title="${b.n}"><b>${L(i,'sum',b.n)}</b></td><td>${b.u}</td><td class="n">${L(i,'sum',fmt(b.open))}</td><td class="n">${L(i,'i',fmt(b.i))}</td><td class="n">${L(i,'o',fmt(b.o))}</td><td class="n"><b>${L(i,'sum',fmt(b.c))}</b></td><td class="n">${fmt(b.mn)}</td><td>${L(i,'sum','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>')}</td></tr>`).join('')}</tbody></table></div>`}
+function render(){dash();bmTable();
+ const ings=[...new Set(D.stock.map(s=>s[0]))],prods=[...new Set(D.recipes.map(r=>k(r[0])))],opt=a=>a.map(x=>`<option>${x}</option>`).join('');
+ $('#p-in').innerHTML=`<div class="card f"><h3>Орлого бүртгэх</h3><label>Огноо</label><input type="date" id="a1" value="${iso(today)}"><label>Орц</label><select id="a2">${opt(ings)}</select><label>Авсан тоо</label><input type="number" id="a3"><label>Нэгж үнэ</label><input type="number" id="a4"><label>Нийлүүлэгч</label><input id="a5"><p><button class="btn pri" onclick="fi()">Хадгалах</button></p></div>`;
+ $('#p-sale').innerHTML=`<div class="card f"><h3>Өдрийн борлуулалт</h3><label>Огноо</label><input type="date" id="b1" value="${iso(today)}"><label>Бүтээгдэхүүн</label><select id="b2">${opt(prods)}</select><label>Ангилал</label><input id="b5" placeholder="жишээ: Нарын боов"><label>Тоо</label><input type="number" id="b3"><label>Нийт дүн</label><input type="number" id="b4"><p><button class="btn pri" onclick="fs()">Хадгалах</button></p></div>`;
+ $('#p-rec').innerHTML=`<div class="card f"><h3>Жорд орц нэмэх</h3><label>Бүтээгдэхүүн</label><input id="c1" list="pl"><datalist id="pl">${opt(prods)}</datalist><label>Орц</label><select id="c2">${opt(ings)}</select><label>1 ширхэгт орох хэмжээ</label><input type="number" id="c3"><label>Нэгж</label><input id="c4" value="гр"><p><button class="btn pri" onclick="fr()">Хадгалах</button></p></div>`}
+let LM,LC,cur={i:0,t:'sum',f:'all'};
+const R=(c,v)=>{c.v=v;return c},rng=()=>`${$('#d1').value} → ${$('#d2').value}`;
+const tbl=(hd,rs,ft)=>`<div class="sc" style="max-height:46vh"><table><thead><tr>${hd.map(x=>`<th class="${x[1]?'n':''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${rs.map(r=>`<tr class="${r.v===0?'z':r.v>0?'p':''}">${r.map((c,i)=>`<td class="${hd[i][1]?'n':''}">${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${hd.length}" class="sub">Мөр алга</td></tr>`}</tbody>${ft?`<tfoot><tr>${ft.map((c,i)=>`<th class="${hd[i][1]?'n':''}">${c}</th>`).join('')}</tr></tfoot>`:''}</table></div>`;
+const show=(t,body)=>{$('#dc').innerHTML=`<h3 style="margin:0 0 8px;font-size:17px;text-transform:none;color:var(--t)">${t}</h3>${body}`;dlg.showModal()};
+window.dr=(i,t,f)=>{cur={i,t,f:f||'all'};drw()};
+function drw(){const b=bm()[cur.i],t=cur.t,i=cur.i,A=(tt,x)=>`<a class="l" onclick="dr(${i},'${tt}')">${x}</a>`;
+ const tabs=[['sum','Нэгтгэл'],['i','Орлого ('+fmt(b.i)+')'],['o','Зарлага ('+fmt(b.o)+')']].map(x=>`<button class="btn ${t==x[0]?'pri':''}" onclick="dr(${i},'${x[0]}')">${x[1]}</button>`).join(' ');
+ let h=`<div class="tool">${tabs}<span class="sub">${rng()} · ${b.u}</span></div><br>`;
+ if(t=='sum')h+=tbl([['Үзүүлэлт'],['Дүн',1],['Тайлбар']],[
+  R(['Эхний үлдэгдэл',fmt(b.open),'БМ тайлан хуудасны D багана (гараар оруулсан)']),
+  R(['+ Орлого',A('i',fmt(b.i)),'Түүхий_эд хуудаснаас, сонгосон хугацаанд — дарж задлах']),
+  R(['− Зарлага',A('o',fmt(b.o)),'Борлуулсан тоо × жор дахь орцын хэмжээ — дарж задлах']),
+  R(['= Эцсийн үлдэгдэл','<b>'+fmt(b.c)+'</b>','Эхний + Орлого − Зарлага']),
+  R(['Доод хязгаар',fmt(b.mn),'Анхааруулга: эцсийн ≤ '+fmt(b.mn*1.3)+' (хязгаар × 1.3)']),
+  R(['Статус','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>',b.c<=0?'Эцсийн үлдэгдэл 0 эсвэл сөрөг':b.c<=b.mn?'Эцсийн ≤ доод хязгаар':b.c<=b.mn*1.3?'Хязгаарт ойрхон':'Хэвийн'])]);
+ else if(t=='i'){const r=ins(b.n).sort((x,y)=>day(x[0]).localeCompare(day(y[0])));
+  h+=tbl([['Огноо'],['Тоо',1],['Нэгж'],['Нэгж үнэ',1],['Нийлүүлэгч']],r.map(p=>R([day(p[0]),fmt(p[2]),p[3]||'',fmt(p[4]),p[5]||''],+p[2]||0)),['Нийт',fmt(b.i),'','','']);}
+ else{const all=rows(b.n),pos=all.filter(r=>r.e>0),zero=all.filter(r=>!(r.e>0)),f=cur.f,F=(k2,x,n)=>`<button class="btn ${f==k2?'pri':''}" onclick="dr(${i},'o','${k2}')">${x} (${n})</button>`;
+  const g={};all.forEach(r=>{const o=g[k(r.p)]=g[k(r.p)]||{q:0,a:r.a,e:0};o.q+=r.q;o.e+=r.e});
+  const gs=Object.entries(g).sort((x,y)=>y[1].e-x[1].e);
+  h+=`<p class="sub" style="margin:0 0 6px"><b>Бүтээгдэхүүнээр</b> — ямар бүтээгдэхүүн хэдийг зарцуулсан</p>`+tbl([['Бүтээгдэхүүн'],['Зарсан',1],['Орцын хэмжээ (1 ш)',1],['Зарлага',1]],gs.map(([p,o])=>R([p,fmt(o.q),o.a?fmt(o.a):'<span class="w">⚠ хоосон</span>',fmt(o.e)],o.e)),['Нийт','','',fmt(b.o)])+
+  `<p class="sub" style="margin:12px 0 6px"><b>Мөр бүрээр</b></p><div class="tool">${F('all','Бүгд',all.length)}${F('pos','Зөвхөн 0-ээс их',pos.length)}${F('zero','Зөвхөн 0 / ⚠',zero.length)}</div><br>`+
+  tbl([['Огноо'],['Бүтээгдэхүүн'],['Зарсан',1],['Орцын хэмжээ',1],['Зарлага',1]],(f=='pos'?pos:f=='zero'?zero:[...pos,...zero]).map(r=>R([r.d,r.p,fmt(r.q),r.a?fmt(r.a):'<span class="w">⚠ хоосон</span>',fmt(r.e)],r.e)),['Нийт','','','',fmt(b.o)]);}
+ show(`${b.n}`,h)}
+window.kd=(n,c)=>{const M=LM,cm={},mn=`${MN[sel.m-1]} ${sel.y}`,sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);(D.costs||[]).forEach(x=>cm[k(x[0])]=+x[1]||0);
+ const srt=a=>a.slice().sort((x,y)=>day(x[0]).localeCompare(day(y[0]))),L=(m,x)=>`<a class="l" onclick="kd('${m}')">${x}</a>`;
+ const days=new Date(sel.y,sel.m,0).getDate(),gp=M.rev-M.cost;
+ if(n=='rev'||n=='cat'){const cn=n=='cat'?LC[c]:null,S=srt(cn?M.S.filter(s=>(k(s[2])||'Бусад')==cn):M.S);
+  return show('Орлого — '+(cn||'бүгд')+' · '+mn,tbl([['Огноо'],['Бүтээгдэхүүн'],['Ангилал'],['Тоо',1],['Дүн',1]],S.map(s=>R([day(s[0]),s[1],s[2]||'',fmt(s[3]),T(s[4])],+s[4]||0)),['Нийт ('+S.length+' мөр)','','',fmt(sum(S,s=>+s[3]||0)),T(sum(S,s=>+s[4]||0))]))}
+ if(n=='cost'){const g={};M.S.forEach(s=>{const o=g[k(s[1])]=g[k(s[1])]||{q:0};o.q+=+s[3]||0});const E=Object.entries(g).map(([p,o])=>[p,o.q,cm[p]||0,o.q*(cm[p]||0)]).sort((x,y)=>y[3]-x[3]);
+  return show('Хоолны өртөг (онол) · '+mn,`<p class="sub">Өртөг = борлуулсан тоо × Жор_меню дахь нэгжийн өртөг</p>`+tbl([['Бүтээгдэхүүн'],['Зарсан',1],['Нэгжийн өртөг',1],['Өртөг',1]],E.map(e=>R([e[0],fmt(e[1]),e[2]?T(e[2]):'<span class="w">⚠ өртөг алга</span>',T(e[3])],e[3])),['Нийт','','',T(M.cost)]))}
+ if(n=='exp'){const X=srt((D.expenses||[]).filter(e=>day(e[0]).slice(0,7)==ym(sel.y,sel.m)));
+  return show('Үйл ажиллагааны зардал · '+mn,tbl([['Огноо'],['Ангилал'],['Дүн',1]],X.map(e=>R([day(e[0]),e[1]||'',T(e[2])],+e[2]||0)),['Нийт','',T(M.exp)]))}
+ if(n=='buy'){const P=srt(D.purchases.filter(p=>day(p[0]).slice(0,7)==ym(sel.y,sel.m)));
+  return show('Авалт (бодит) · '+mn,`<p class="sub">Авалт ${T(M.buy)} ÷ онол өртөг ${T(M.cost)} = ${M.cost?(M.buy/M.cost*100).toFixed(1):0}%</p>`+tbl([['Огноо'],['Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн',1]],P.map(p=>R([day(p[0]),p[1],fmt(p[2]),fmt(p[4]),T((+p[2]||0)*(+p[4]||0))],(+p[2]||0)*(+p[4]||0))),['Нийт','','','',T(M.buy)]))}
+ const line=(a,b,m)=>R([a,b,m||'']);
+ if(n=='net')return show('Цэвэр ашиг · '+mn,tbl([['Үзүүлэлт'],['Дүн',1],['Задлах']],[line('Нийт орлого',T(M.rev),L('rev','харах')),line('− Хоолны өртөг',T(M.cost),L('cost','харах')),line('− Үйл ажиллагааны зардал',T(M.exp),L('exp','харах')),line('= Цэвэр ашиг','<b>'+T(M.net)+'</b>')]));
+ if(n=='gp')return show('Нийлсэн ашиг (GP) · '+mn,tbl([['Үзүүлэлт'],['Дүн',1],['Задлах']],[line('Нийт орлого',T(M.rev),L('rev','харах')),line('− Хоолны өртөг',T(M.cost),L('cost','харах')),line('= Нийлсэн ашиг','<b>'+T(gp)+'</b>'),line('Хувь (GP ÷ орлого)',M.rev?(gp/M.rev*100).toFixed(1)+'%':'0%')]));
+ if(n=='avg')return show('Өдрийн дундаж орлого · '+mn,tbl([['Үзүүлэлт'],['Дүн',1],['Задлах']],[line('Нийт орлого',T(M.rev),L('rev','харах')),line('Сарын өдөр',days),line('= Дундаж','<b>'+T(M.rev/days)+'</b>')]))};
+const v=id=>$('#'+id).value;
+window.fi=()=>{if(!(+v('a3')>0))return toast('Тоо оруулна уу');const s=D.stock.find(x=>x[0]==v('a2'));save('purchases',[v('a1'),v('a2'),+v('a3'),s?s[1]:'',+v('a4')||0,v('a5')])};
+window.fs=()=>{if(!(+v('b3')>0))return toast('Тоо оруулна уу');save('sales',[v('b1'),v('b2'),v('b5'),+v('b3'),+v('b4')||0])};
+window.fr=()=>{if(!v('c1'))return toast('Бүтээгдэхүүн оруулна уу');if(!(+v('c3')>0)&&!confirm('Хэмжээ хоосон/0 байна. Ингэж хадгалбал зарлага 0 гарна. Үргэлжлүүлэх үү?'))return;save('recipes',[v('c1'),v('c2'),+v('c3')||'',v('c4')])};
+$('#cfg').onclick=()=>{const u=prompt('Apps Script Web App URL (хоосон = туршилтын горим):',URL_);if(u!==null){URL_=u.trim();LS.bmUrl=URL_;load()}};
+
+// ---- харагдац тохиргоо (buyka.html шиг)
+let UI=Object.assign({theme:'auto',accent:'#1f6f8b',aurora:true,col:false},JSON.parse(LS.bmUi||'{}'));
+const mq=matchMedia('(prefers-color-scheme: dark)');
+function applyUi(){document.documentElement.dataset.theme=UI.theme=='auto'?(mq.matches?'dark':'light'):UI.theme;
+ document.documentElement.style.setProperty('--a',UI.accent);document.body.classList.toggle('noaur',!UI.aurora);document.body.classList.toggle('col',UI.col);
+ $('#colb').textContent=UI.col?'»':'«';LS.bmUi=JSON.stringify(UI)}
+mq.onchange=applyUi;
+function pop(){const C=['#1f6f8b','#2563eb','#7c3aed','#db2777','#ea580c','#16a34a'];
+ $('#pop').innerHTML=`<h4>Горим</h4><div class="row">${[['auto','Авто'],['light','☀ Өдөр'],['dark','🌙 Шөнө']].map(x=>`<button class="${UI.theme==x[0]?'btn pri':''}" data-th="${x[0]}">${x[1]}</button>`).join('')}</div>
+ <h4>Өнгө</h4><div class="row">${C.map(c=>`<button class="sw ${UI.accent==c?'on':''}" style="background:${c}" data-ac="${c}"></button>`).join('')}</div>
+ <label><input type="checkbox" id="oa" ${UI.aurora?'checked':''}> Aurora анимаци</label><label><input type="checkbox" id="oc" ${UI.col?'checked':''}> Жижиг цэс</label>`;
+ $('#pop').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.th)UI.theme=b.dataset.th;if(b.dataset.ac)UI.accent=b.dataset.ac;applyUi();pop()};
+ $('#oa').onchange=e=>{UI.aurora=e.target.checked;applyUi()};$('#oc').onchange=e=>{UI.col=e.target.checked;applyUi()}}
+$('#ui').onclick=e=>{e.stopPropagation();const p=$('#pop');p.hidden=!p.hidden;if(!p.hidden)pop()};
+document.addEventListener('click',e=>{if(!e.target.closest('#pop'))$('#pop').hidden=true});
+$('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.stopPropagation();document.body.classList.toggle('open')};
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top button');if(!b||b.classList.contains('sw'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),sp=document.createElement('span');
+ sp.className='rp';sp.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(sp);setTimeout(()=>sp.remove(),600)});
+applyUi();go(LS.bmTab&&TABS.some(t=>t[0]==LS.bmTab)?LS.bmTab:'dash');
+$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;load();
+</script></body></html>
