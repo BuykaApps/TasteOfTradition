@@ -97,7 +97,7 @@ async function load(){
  render()}
 async function save(sheet,row){
  (D[sheet]=D[sheet]||[]).push(row);LS.bmData=JSON.stringify(D);
- if(URL_)try{await fetch(URL_,{method:'POST',body:JSON.stringify({sheet,row})});toast('Sheets-д хадгаллаа')}catch(e){toast('Sheets-д бичиж чадсангүй')}
+ if(URL_)try{const r=await fetch(URL_,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({sheet,row})});const j=await r.json();if(j.ok)toast('Sheets-д хадгаллаа');else{console.error(j);toast('Sheets алдаа: '+(j.error||'?'));alert('Sheets алдаа: '+(j.error||JSON.stringify(j)))}}catch(e){console.error(e);toast('Sheets-д бичиж чадсангүй (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)')}
  else toast('Хадгаллаа (туршилтын горим)');render()}
 // ---- БМ тайлан тооцоо
 function rows(ing){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
