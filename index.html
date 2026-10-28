@@ -64,6 +64,18 @@ dialog::backdrop{background:#030a1277;backdrop-filter:blur(5px)}@keyframes pp{fr
 .pop label{display:flex;gap:8px;align-items:center;margin:6px 0;color:var(--t);font-size:13px}.pop input{width:auto}
 svg text{fill:var(--m);font-size:10px}
 @media(max-width:860px){aside{transform:translateX(-100%)}body.open aside{transform:none}.wrap{margin-left:0}#burger{display:inline-block}main{padding:14px}}
+
+#cdd{position:fixed;z-index:99999;min-width:160px;max-height:240px;overflow:auto;background:var(--cd);backdrop-filter:blur(18px);border:1px solid var(--b);border-radius:12px;box-shadow:0 14px 40px #0006;padding:5px;animation:pp .15s;color:var(--t)}
+#cdd[hidden]{display:none}#cdd div{padding:8px 11px;border-radius:8px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cdd div:hover,#cdd div.on{background:color-mix(in srgb,var(--a) 22%,transparent)}#cdd div.sel{font-weight:700;color:var(--a)}
+select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238aa0b3' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center}
+#cdlg{border:1px solid var(--b);border-radius:16px;background:var(--cd);backdrop-filter:blur(22px);color:var(--t);max-width:440px;width:92%;box-shadow:0 24px 70px #0008;padding:22px;animation:pp .2s}#cdlg::backdrop{background:#030a1288;backdrop-filter:blur(5px)}
+.cmb{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+.ngh{display:flex;align-items:center;gap:12px;width:100%;background:none;border:0;color:#9fb9cc;padding:10px 13px;border-radius:11px;cursor:pointer;font:inherit;text-align:left;letter-spacing:.4px;text-transform:uppercase;font-size:12px;font-weight:700;transition:background .18s,color .18s}
+.ngh:hover{background:#ffffff14;color:#fff}.ngh .ic{font-size:17px;width:22px;text-align:center;flex:none}.ngh .chv{margin-left:auto;transition:transform .2s;font-size:17px}
+.ng.open>.ngh .chv{transform:rotate(90deg)}.ng.open>.ngh{color:#fff}.gi{display:none;flex-direction:column;gap:2px;margin:2px 0 8px 20px;padding-left:8px;border-left:1px solid #ffffff24}.ng.open>.gi{display:flex}
+aside nav .gi button{padding:9px 12px;font-size:13.5px}
+body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:0;border:0}
 #pa{display:none}
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
@@ -78,7 +90,7 @@ svg text{fill:var(--m);font-size:10px}
 <section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн энэ хугацаанд орлого/зарлагатай орц</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
 <section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
 </main></div>
-<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div><div id="pa"></div>
+<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><dialog id="cdlg"><div id="cdc"></div></dialog><div id="msg"></div><div id="pa"></div>
 <script>
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
@@ -91,7 +103,7 @@ recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боо�
 let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||'';
 const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
 const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
-const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
+const toast=t=>{const m=$('#msg');(dlg.open?dlg:document.body).appendChild(m);m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
 async function load(){
  if(!URL_){$('#src').textContent='Туршилтын горим';return render()}
  try{const j=await (await fetch(URL_)).json();if(j.error){alert(j.error);return render()}D=j;LS.bmData=JSON.stringify(D);$('#src').textContent='✅ Google Sheets'}
@@ -150,9 +162,11 @@ function dash(){const M=mon(sel.y,sel.m),days=new Date(sel.y,sel.m,0).getDate(),
  ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
  $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
 // ---- харагдац
-const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['warn','🚨','Анхааруулга'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Тайлан'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['mv','🔁','Хөдөлгөөн'],['prod','🍰','Бүтээгдэхүүн'],['org','🏢','Байгууллага']];
-$('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`).join('');
-function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);[...$('#nav').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));
+const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['warn','🚨','Анхааруулга'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Ашиг алдагдал'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['mv','🔁','Хөдөлгөөн'],['prod','🍰','Бүтээгдэхүүн'],['org','🏢','Байгууллага']];
+const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['doc','🧾','Баримт бүртгэх',['sale','buy','exp','cnt','mv','set']],['ref','📚','Лавлах',['rec','stock','prod']],['cfg','⚙️','Тохиргоо',['org']]],NO=JSON.parse(LS.navOpen||'{}'),tb=id=>TABS.find(x=>x[0]==id);
+const nb=t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`;
+$('#nav').innerHTML=nb(tb('dash'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
+function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
  const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
 
 // ===== v2: бүртгэл (нэмэх/засах/устгах) + тайлангууд
@@ -170,12 +184,12 @@ const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['
 function crud(id){const [t,n,F]=DB[id],q=(cs[id]||'').toLowerCase(),rows=(RAW()[t]||[]).slice();
  if(F[0][1]=='date')rows.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
  const L=rows.filter(r=>!q||r.join(' ').toLowerCase().includes(q));
- $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span>${id=='sale'||id=='buy'?`<button class="btn" onclick="prDlg('${id}')">🖨 Хэвлэх</button>`:''}<button class="btn pri" onclick="ed('${id}')">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
+ $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span>${id=='sale'||id=='buy'?`<button class="btn" onclick="prDlg('${id}')">🖨 Хэвлэх</button>`:''}<button class="btn pri" onclick="${id=='sale'||id=='buy'?`docN('${id}')`:`ed('${id}')`}">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
 function ed(id,rid){const [t,n,F]=DB[id],r=rid?(RAW()[t]||[]).find(x=>x[0]==rid):null,R=RAW(),ls={pr:nm(R.products,1),ing:nm(R.stock,1),cat:[...new Set([...nm(R.sales,3),...nm(R.products,3),...nm(R.expenses,2)])],own:['Өөрийн','Бусад']};
  $('#dc').innerHTML=`<h3>${rid?'Засах':'Нэмэх'}: ${n}</h3>`+F.map((f,i)=>{const v=r?r[i+1]:(f[1]=='date'?tl():'');return `<label>${f[0]}</label><input id="f${i}" type="${f[1]=='number'||f[1]=='date'?f[1]:'text'}" value="${String(v??'').replace(/"/g,'&quot;')}" ${ls[f[1]]?`list="dl-${f[1]}"`:''} ${f[1]=='number'?'step="any"':''}>`}).join('')+Object.keys(ls).map(x=>`<datalist id="dl-${x}">${ls[x].map(o=>`<option>${o}</option>`).join('')}</datalist>`).join('')+`<p><button class="btn pri" onclick="sv('${id}','${rid||''}')">Хадгалах</button></p>`;dlg.showModal()}
 async function sv(id,rid){const [t,,F]=DB[id],row=F.map((f,i)=>{const v=$('#f'+i).value.trim();return f[1]=='number'?(v===''?'':+v):v});
  if(row[0]==='')return toast('Эхний талбарыг бөглөнө үү');if(await api({act:rid?'upd':'add',t,id:rid,row}))dlg.close()}
-async function del(id,rid){if(confirm('Устгах уу?'))api({act:'del',t:DB[id][0],id:rid})}
+async function del(id,rid){if(await uiConfirm('Устгах уу?'))api({act:'del',t:DB[id][0],id:rid})}
 async function api(d){if(!URL_){toast('Холболт тохируулаагүй');return false}
  try{toast('Хадгалж байна...');const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify(d)))).json();if(j.ok){toast('Хадгаллаа ✅');await load();return true}alert('Алдаа: '+j.error)}catch(e){toast('Холбогдож чадсангүй')}return false}
 function dayR(){const d=cs.day=cs.day||tl(),S=D.sales.filter(s=>day(s[0])==d),rec={},use={},sm=(a,i)=>fmt(a.reduce((x,r)=>x+(+r[i]||0),0));
@@ -233,7 +247,7 @@ function dayR(){const a=cs.d1=cs.d1||tl(),b=cs.d2=cs.d2||a,S=D.sales.filter(s=>r
  if(mi.length)$('#bmt').insertAdjacentHTML('afterbegin',`<div style="border:1px solid #d9a400;border-radius:10px;padding:10px 14px;margin-bottom:12px">⚠ Жор байхгүй тул орцын зарлага тооцогдоогүй бүтээгдэхүүн: <b>${mi.join(', ')}</b></div>`);
  if(!$('#bmt tbody tr'))$('#bmt').insertAdjacentHTML('beforeend','<p style="padding:12px">Энэ хугацаанд орлого/зарлагатай орц алга. Дээрх "Зөвхөн ... орц" сонголтыг болиулбал бүх орц харагдана.</p>')}}
 {const _r=render;render=function(){_r();Object.keys(DB).forEach(crud);dayR();prodR();yrR()}}
-$('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
+$('#nav').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.g){const n=b.parentNode;n.classList.toggle('open');NO[b.dataset.g]=n.classList.contains('open')?1:0;LS.navOpen=JSON.stringify(NO)}else go(b.dataset.t)};
 function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
  $('#bmt').innerHTML=`<div class="sc"><table><colgroup><col style="width:230px"><col style="width:60px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:120px"><col style="width:190px"></colgroup><thead><tr><th>Орц ▸</th><th>Нэгж</th><th class="n">Эхний ▸</th><th class="n">Орлого ▸</th><th class="n">Зарлага ▸</th><th class="n">Эцсийн ▸</th><th class="n">Доод хязгаар</th><th>Статус ▸</th></tr></thead><tbody>
  ${B.map((b,i)=>[b,i]).filter(x=>(!q||x[0].n.toLowerCase().includes(q))&&(!$('#mv').checked||x[0].i||x[0].o)).map(([b,i])=>`<tr><td title="${b.n}"><b>${L(i,'sum',b.n)}</b></td><td>${b.u}</td><td class="n">${L(i,'sum',fmt(b.open))}</td><td class="n">${L(i,'i',fmt(b.i))}</td><td class="n">${L(i,'o',fmt(b.o))}</td><td class="n"><b>${L(i,'sum',fmt(b.c))}</b></td><td class="n">${fmt(b.mn)}</td><td>${L(i,'sum','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>')}</td></tr>`).join('')}</tbody></table></div>`}
@@ -285,7 +299,7 @@ window.kd=(n,c)=>{const M=LM,cm={},mn=`${MN[sel.m-1]} ${sel.y}`,sum=(a,f)=>a.red
 const v=id=>$('#'+id).value;
 window.fi=()=>{if(!(+v('a3')>0))return toast('Тоо оруулна уу');const s=D.stock.find(x=>x[0]==v('a2'));save('purchases',[v('a1'),v('a2'),+v('a3'),s?s[1]:'',+v('a4')||0,v('a5')])};
 window.fs=()=>{if(!(+v('b3')>0))return toast('Тоо оруулна уу');save('sales',[v('b1'),v('b2'),v('b5'),+v('b3'),+v('b4')||0])};
-window.fr=()=>{if(!v('c1'))return toast('Бүтээгдэхүүн оруулна уу');if(!(+v('c3')>0)&&!confirm('Хэмжээ хоосон/0 байна. Ингэж хадгалбал зарлага 0 гарна. Үргэлжлүүлэх үү?'))return;save('recipes',[v('c1'),v('c2'),+v('c3')||'',v('c4')])};
+window.fr=async()=>{if(!v('c1'))return toast('Бүтээгдэхүүн оруулна уу');if(!(+v('c3')>0)&&!await uiConfirm('Хэмжээ хоосон/0 байна. Ингэж хадгалбал зарлага 0 гарна. Үргэлжлүүлэх үү?'))return;save('recipes',[v('c1'),v('c2'),+v('c3')||'',v('c4')])};
 
 // ---- харагдац тохиргоо (buyka.html шиг)
 let UI=Object.assign({theme:'auto',accent:'#1f6f8b',aurora:true,col:false},JSON.parse(LS.bmUi||'{}'));
@@ -351,7 +365,7 @@ window.cntXR=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдс�
  add('Орц x Сар',['Орц',...t.M],t.mat);
  add('Жагсаалт',['Огноо','Орц','Нэгж','Тоо','Дүн ₮','Төрөл','Тэмдэглэл'],t.list.map(r=>r.slice(0,7)));
  XLSX.writeFile(wb,'Тооллогын_тайлан_'+tl()+'.xlsx')};
-window.cntD=id=>{if(confirm('Устгах уу?'))api({act:'del',t:'adj',id})};
+window.cntD=async id=>{if(await uiConfirm('Устгах уу?'))api({act:'del',t:'adj',id})};
 window.cntX=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдсангүй (интернэтээ шалгана уу)');const d=$('#d2').value,A=[['Төрөл','Нэр','Нэгж','Системийн үлдэгдэл ('+d+')','Тоолсон үлдэгдэл','Тайлбар']];
  bm().forEach(b=>A.push(['Орц',b.n,b.u,+(+b.c).toFixed(3),'','']));nm(RAW().products,1).forEach(p=>A.push(['Бүтээгдэхүүн',p,'ш','','','']));
  const ws=XLSX.utils.aoa_to_sheet(A),wb=XLSX.utils.book_new();ws['!cols']=[{wch:14},{wch:34},{wch:8},{wch:24},{wch:18},{wch:30}];XLSX.utils.book_append_sheet(wb,ws,'Тооллого');XLSX.writeFile(wb,'Тооллого_'+d+'.xlsx')};
@@ -366,7 +380,7 @@ function cntV(){const B={};bm().forEach(b=>B[k(b.n)]=b);
  <div class="sc"><table><thead><tr><th>✔</th><th>Нэр</th><th>Нэгж</th><th class="n">Систем</th><th class="n">Тоолсон</th><th class="n">Зөрүү</th><th>Санал</th></tr></thead><tbody>${CI.map((x,i)=>`<tr><td>${x.pr||!x.z?'':`<input type="checkbox" id="ck${i}" checked style="width:auto">`}</td><td>${x.n}</td><td>${x.u}</td><td class="n">${x.pr?'':fmt(x.s)}</td><td class="n">${fmt(x.c)}</td><td class="n">${x.pr?'':fmt(x.z)}</td><td>${x.pr?'Системд үлдэгдэл хөтлөгддөггүй':x.z<0?'🔻 Дутуу → зарлагадах':x.z>0?'🔺 Илүү → орлогодох':'✅ Таарсан'}</td></tr>`).join('')}</tbody></table></div>
  <p><button class="btn pri" onclick="cntA()">✅ Сонгосныг бүртгэж үлдэгдлийг тааруулах</button> <button class="btn" onclick="CI=[];$('#cres').innerHTML=''">Цуцлах</button></p></div>`}
 window.cntA=async()=>{const S=CI.filter((x,i)=>{const c=$('#ck'+i);return c&&c.checked&&c.closest('tr').style.display!='none'});if(!S.length)return toast('Бүртгэх мөр сонгоогүй байна');
- const sh=S.filter(x=>x.z<0).length,su=S.length-sh;if(!confirm(`Дутуу ${sh} орцыг ЗАРЛАГАД, илүү ${su} орцыг ОРЛОГОД бүртгэж, эцсийн үлдэгдлийг тоолсонтой тааруулах уу?`))return;
+ const sh=S.filter(x=>x.z<0).length,su=S.length-sh;if(!await uiConfirm(`Дутуу ${sh} орцыг ЗАРЛАГАД, илүү ${su} орцыг ОРЛОГОД бүртгэж, эцсийн үлдэгдлийг тоолсонтой тааруулах уу?`))return;
  if(!URL_)return toast('Холболт тохируулаагүй');const d=$('#d2').value;let n=0;toast('Бүртгэж байна...');
  for(const x of S){try{const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify({act:'add',t:'adj',row:[d,x.n,x.z,x.z<0?'Зарлага (дутуу)':'Орлого (илүү)','Тооллого']})))).json();if(j.ok)n++;else{alert('Алдаа: '+j.error+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');break}}catch(e){break}}
  toast(n+'/'+S.length+' бүртгэгдлээ ✅');if(n==S.length)CI=[];await load()};
@@ -406,13 +420,13 @@ function mvR(){const g={},c=ICOST();MV().forEach(r=>{const o=g[r[2]]=g[r[2]]||{d
  $('#p-mv').innerHTML=`<div class="card tool"><span>🔁 Салбар хоорондын хөдөлгөөн${own()[2]?' — '+esc(own()[2])+' салбараас':''}</span><span class="sp"></span><button class="btn pri" onclick="mvN()">＋ Шинэ шилжүүлэг</button></div>
  <div class="card"><div class="sc"><table><thead><tr><th>Огноо</th><th>Баримт №</th><th>Хүлээн авагч салбар</th><th class="n">Мөр</th><th class="n">Өртөг ₮</th><th>Төлөв</th><th></th></tr></thead><tbody>${docs.map(([n,o])=>`<tr><td>${day(o.d)}</td><td><b>${esc(n)}</b></td><td>${esc(o.b)}</td><td class="n">${o.L.length}</td><td class="n">${fmt(o.L.reduce((a,r)=>a+(+r[5]||0)*(c[k(r[4])]||0),0))}</td><td><select onchange="mvS('${esc(n)}',this.value)" style="width:auto">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==o.st?'selected':''}>${s}</option>`).join('')}</select></td><td style="white-space:nowrap"><a class="l" onclick="mvP('${esc(n)}')">🖨</a> <a class="l" onclick="mvD('${esc(n)}')">🗑</a></td></tr>`).join('')||'<tr><td colspan="7">Шилжүүлэг алга</td></tr>'}</tbody></table></div></div>`}
 window.mvS=(doc,st)=>bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'upd',t:'moves',id:r[0],row:[r[1],r[2],r[3],r[4],r[5],r[6],st]})));
-window.mvD=doc=>{if(confirm(doc+' баримтыг устгах уу? (Цуцлах бол төлөвийг "Цуцлагдсан" болгоно)'))bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'del',t:'moves',id:r[0]})))};
+window.mvD=async doc=>{if(await uiConfirm(doc+' баримтыг устгах уу? (Цуцлах бол төлөвийг "Цуцлагдсан" болгоно)'))bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'del',t:'moves',id:r[0]})))};
 window.mvN=()=>{const br=BR().filter(b=>k(b[6])!='Өөрийн');if(!br.length)return alert('Эхлээд "Байгууллага" цэсэнд хүлээн авагч салбараа бүртгэнэ үү');
  $('#dc').innerHTML=`<h3>🔁 Шинэ шилжүүлэг</h3><label>Огноо</label><input type="date" id="m0" value="${tl()}"><label>Хүлээн авагч салбар</label><select id="m1">${br.map(b=>`<option>${esc(b[2])}</option>`).join('')}</select><label>Тэмдэглэл</label><input id="m2"><datalist id="dl-m">${nm(RAW().stock,1).map(o=>`<option>${esc(o)}</option>`).join('')}</datalist><h4 style="margin:12px 0 4px">Шилжүүлэх орц</h4><div id="ml"></div><p><button class="btn" onclick="mvL()">＋ Мөр нэмэх</button> <button class="btn pri" onclick="mvV()">💾 Хадгалаад хэвлэх</button></p>`;mvL();dlg.showModal()};
 window.mvL=()=>$('#ml').insertAdjacentHTML('beforeend','<div class="tool ml" style="margin-bottom:6px"><input list="dl-m" placeholder="Орц" style="flex:2"><input type="number" step="any" placeholder="Тоо" style="flex:1"><a class="l" onclick="this.parentNode.remove()">✖</a></div>');
 window.mvV=async()=>{const L=[...document.querySelectorAll('#ml .ml')].map(d=>[k(d.children[0].value),+d.children[1].value]).filter(x=>x[0]&&x[1]>0),B={};bm().forEach(b=>B[k(b.n)]=b);
  if(!L.length)return toast('Орц, тоо оруулна уу');const bad=L.find(x=>!B[x[0]]);if(bad)return toast('Орц олдсонгүй: '+bad[0]);
- const lo=L.filter(x=>x[1]>B[x[0]].c).map(x=>x[0]);if(lo.length&&!confirm('Үлдэгдэл хүрэлцэхгүй: '+lo.join(', ')+'. Үргэлжлүүлэх үү?'))return;
+ const lo=L.filter(x=>x[1]>B[x[0]].c).map(x=>x[0]);if(lo.length&&!await uiConfirm('Үлдэгдэл хүрэлцэхгүй: '+lo.join(', ')+'. Үргэлжлүүлэх үү?'))return;
  const y=v('m0').slice(0,4),n=new Set(MV().filter(r=>String(r[2]).startsWith('MV-'+y)).map(r=>r[2])).size+1,doc='MV-'+y+'-'+String(n).padStart(4,'0');
  if(await bulk(L.map(x=>({act:'add',t:'moves',row:[v('m0'),doc,v('m1'),x[0],x[1],v('m2'),'Илгээсэн']}))))dlg.close(),mvP(doc)};
 window.mvP=doc=>{const L=MV().filter(r=>r[2]==doc);if(!L.length)return;const r0=L[0],to=BR().find(b=>k(b[2])==k(r0[3]))||[],fr=own(),c=ICOST(),U={};(RAW().stock||[]).forEach(r=>U[k(r[1])]=r[2]);
@@ -424,6 +438,62 @@ function warnR(){const B=bm().map((b,i)=>[b,i]),W=B.filter(([b])=>b.st[1]!='ok')
  $('#p-warn').innerHTML=`<div class="kpis">${K('🔴 ДУССАН',cnt('Дуссан'),'#c0392b')}${K('🔴 ДООД ХЯЗГААРААС ДООШ',cnt('Доод хязгаараас доош'),'#c0392b')}${K('🟡 АНХААРУУЛГА',cnt('Анхааруулга'),'#d68910')}${K('✅ ХАНГАЛТТАЙ',cnt('Хангалттай'),'#1e8449')}</div>`+
  SC('Анхаарах орцууд (БМ тайлангийн хугацааны төгсгөл байдлаар)',['Орц','Нэгж','Эцсийн','Доод хязгаар','Дутагдал','Статус'],W.map(([b,i])=>[`<a class="l" onclick="dr(${i},'sum')">${esc(b.n)}</a>`,b.u,b.c,b.mn,Math.max(0,b.mn-b.c),`<span class="chip ${b.st[1]}">${b.st[0]}</span>`]))}
 {const _r4=render;render=function(){_r4();warnR();mvR();orgR()}}
+
+// ===== v5: системийн dropdown / мессеж / баримт бүртгэх + хэвлэх
+const pm=document.createElement('div');pm.id='cdd';pm.hidden=true;document.body.appendChild(pm);
+let DT=null,ddBusy=false,lastOpen=0;
+{const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){lastOpen=Date.now();return sm.call(this)}}
+function ddShow(el,items,pick,sel){DT=el;const host=dlg.open?dlg:document.body;if(pm.parentNode!==host)host.appendChild(pm);
+ pm.innerHTML=items.map(([x,t],i)=>`<div data-i="${i}" class="${x==sel?'sel':''}">${esc(t)}</div>`).join('')||'<div style="opacity:.6;cursor:default">Илэрц алга</div>';
+ pm._p=i=>pick(items[i][0]);pm.hidden=false;const r=el.getBoundingClientRect(),h=Math.min(pm.scrollHeight,240);pm.style.minWidth=r.width+'px';
+ let x=r.left,y=r.bottom+4;if(y+h>innerHeight&&r.top>h)y=r.top-h-4;
+ if(host===dlg){const c=dlg.getBoundingClientRect();pm.style.position='absolute';pm.style.left=(x-c.left+dlg.scrollLeft)+'px';pm.style.top=(y-c.top+dlg.scrollTop)+'px'}
+ else{pm.style.position='fixed';pm.style.left=x+'px';pm.style.top=y+'px'}
+ const s=pm.querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
+function ddHide(){pm.hidden=true;DT=null}
+function pickDD(i){ddBusy=true;try{pm._p(i)}finally{ddBusy=false}ddHide()}
+pm.onmousedown=e=>{e.preventDefault();const t=e.target.closest('[data-i]');if(t)pickDD(+t.dataset.i)};
+function cmb(i){const id=i.dataset.dl||i.getAttribute('list');if(!id)return;i.dataset.dl=id;i.removeAttribute('list');const q=i.value.toLowerCase().trim(),
+ L=[...document.querySelectorAll('#'+id+' option')].map(o=>o.value).filter((x,j,a)=>a.indexOf(x)==j&&(!q||x.toLowerCase().includes(q))).slice(0,80);
+ ddShow(i,L.map(x=>[x,x]),x=>{i.value=x;i.dispatchEvent(new Event('input',{bubbles:true}));i.dispatchEvent(new Event('change',{bubbles:true}))},i.value)}
+document.addEventListener('mousedown',e=>{const t=e.target;if(!t.closest||t.closest('#cdd'))return;const s=t.closest('select');
+ if(s){e.preventDefault();s.focus();if(DT===s)return ddHide();ddShow(s,[...s.options].map(o=>[o.value,o.text]),x=>{s.value=x;s.dispatchEvent(new Event('change',{bubbles:true}))},s.value);return}
+ if(t!==DT)ddHide()},true);
+document.addEventListener('focusin',e=>{const i=e.target;if(i.matches&&i.matches('input[list],input[data-dl]')&&Date.now()-lastOpen>300)cmb(i)});
+document.addEventListener('click',e=>{const i=e.target;if(i.matches&&i.matches('input[list],input[data-dl]')&&DT!==i)cmb(i)});
+document.addEventListener('input',e=>{const i=e.target;if(!ddBusy&&i.matches&&i.matches('input[data-dl]'))cmb(i)});
+document.addEventListener('keydown',e=>{if(pm.hidden)return;const L=[...pm.querySelectorAll('[data-i]')];
+ if(e.key=='Escape'){e.preventDefault();ddHide()}
+ else if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();let i=L.findIndex(x=>x.classList.contains('on'));L.forEach(x=>x.classList.remove('on'));i=e.key=='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i-1);if(L[i]){L[i].classList.add('on');L[i].scrollIntoView({block:'nearest'})}}
+ else if(e.key=='Enter'){const o=pm.querySelector('.on');if(o){e.preventDefault();pickDD(+o.dataset.i)}}},true);
+addEventListener('scroll',e=>{if(e.target!==pm&&!pm.contains(e.target))ddHide()},true);addEventListener('resize',ddHide);
+dlg.addEventListener('close',()=>{ddHide();document.body.appendChild($('#msg'))});
+const nox=n=>{if(n.nodeType!=1)return;(n.matches('input')?[n]:[...n.querySelectorAll('input')]).forEach(i=>i.setAttribute('autocomplete','off'))};
+nox(document.body);new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(nox))).observe(document.body,{childList:true,subtree:true});
+// ---- өөрийн alert / confirm
+function uiMsg(t,c){return new Promise(r=>{const d=$('#cdlg');$('#cdc').innerHTML=`<div style="display:flex;gap:12px;align-items:flex-start"><span style="font-size:26px">${c?'❓':'⚠️'}</span><div style="white-space:pre-line;padding-top:4px">${esc(t)}</div></div><div class="cmb">${c?'<button class="btn" id="cn">Болих</button>':''}<button class="btn pri" id="cy">${c?'Тийм':'За'}</button></div>`;
+ const f=x=>{d.oncancel=null;d.close();r(x)};$('#cy').onclick=()=>f(true);if(c)$('#cn').onclick=()=>f(false);d.oncancel=()=>r(false);d.showModal();$('#cy').focus()})}
+const uiConfirm=t=>uiMsg(String(t),1);window.alert=t=>{uiMsg(String(t))};
+// ---- борлуулалт / худалдан авалт: баримтаар бүртгэх + хэвлэх
+const PP=()=>{const m={};(RAW().products||[]).forEach(r=>m[k(r[1])]=+r[2]||0);return m},CT=()=>{const m={};(RAW().products||[]).forEach(r=>m[k(r[1])]=r[3]||'');return m};
+window.docN=id=>{const S=id=='sale',sp=[...new Set(D.purchases.map(p=>k(p[5])).filter(Boolean))],op=a=>a.map(x=>`<option value="${esc(x)}"></option>`).join('');
+ $('#dc').innerHTML=`<h3>${S?'🧾 Борлуулалт бүртгэх':'📥 Худалдан авалт бүртгэх'}</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label>Огноо</label><input type="date" id="x0" value="${tl()}"></div><div><label>${S?'Харилцагч (хэвлэхэд, заавал биш)':'Нийлүүлэгч'}</label><input id="x1" ${S?'':'list="dl-xs"'}></div></div>
+ <datalist id="dl-xs">${op(sp)}</datalist><datalist id="dl-xn">${op(S?nm(RAW().products,1):nm(RAW().stock,1))}</datalist>
+ <h4 style="margin:14px 0 6px">${S?'Бүтээгдэхүүн':'Орц'} <span class="sub">· ${S?'Нэр · Тоо · Дүн (үнээс автоматаар)':'Нэр · Тоо · Нэгж үнэ · Дүн'}</span></h4><div id="xl" data-t="${id}"></div>
+ <p><button class="btn" onclick="xL()">＋ Мөр нэмэх</button> <b id="xt" style="float:right;font-size:16px"></b></p><p><button class="btn pri" onclick="xS('${id}',0)">💾 Хадгалах</button> <button class="btn pri" onclick="xS('${id}',1)">💾🖨 Хадгалаад хэвлэх</button></p>`;xL();dlg.showModal()};
+window.xL=()=>{const S=$('#xl').dataset.t=='sale';$('#xl').insertAdjacentHTML('beforeend',`<div class="tool xl" style="margin-bottom:6px"><input list="dl-xn" placeholder="${S?'Бүтээгдэхүүн':'Орц'}" style="flex:3;min-width:140px" oninput="xC(this)"><input type="number" step="any" placeholder="Тоо" style="flex:1;min-width:70px" oninput="xC(this)"><input type="number" step="any" placeholder="${S?'Дүн ₮':'Нэгж үнэ'}" style="flex:1.4;min-width:90px" oninput="${S?'xM(this)':'xC(this)'}">${S?'':'<b class="am" style="min-width:80px;text-align:right">0</b>'}<a class="l" onclick="this.parentNode.remove();xT()">✖</a></div>`)};
+window.xC=el=>{const S=$('#xl').dataset.t=='sale',d=el.parentNode,c=d.querySelectorAll('input'),q=+c[1].value||0,n=k(c[0].value);
+ if(S){if(!c[2].dataset.man){const pr=PP()[n]||0;c[2].value=pr&&q?+(pr*q).toFixed(2):''}}
+ else{if(el===c[0]&&!c[2].value&&ICOST()[n])c[2].value=ICOST()[n];d.querySelector('.am').textContent=fmt(q*(+c[2].value||0))}xT()};
+window.xM=el=>{el.dataset.man=el.value?1:'';xT()};
+function xT(){const S=$('#xl').dataset.t=='sale';let t=0;document.querySelectorAll('#xl .xl').forEach(d=>{const c=d.querySelectorAll('input');t+=S?(+c[2].value||0):(+c[1].value||0)*(+c[2].value||0)});$('#xt').textContent='Нийт: '+fmt(t)+' ₮'}
+window.xS=async(id,pr)=>{const S=id=='sale',d=v('x0'),w=k(v('x1')),P=PP(),C=CT(),
+ L=[...document.querySelectorAll('#xl .xl')].map(e=>{const c=e.querySelectorAll('input'),n=k(c[0].value),q=+c[1].value||0,a=+c[2].value||0;return{n,q,a:S?(a||(P[n]||0)*q):a}}).filter(x=>x.n&&x.q>0);
+ if(!d||!L.length)return toast('Огноо, мөр (нэр, тоо) оруулна уу');if(!S&&!w)return toast('Нийлүүлэгч оруулна уу');
+ if(!await bulk(L.map(x=>S?{act:'add',t:'sales',row:[d,x.n,C[x.n]||'',x.q,x.a]}:{act:'add',t:'purchases',row:[d,x.n,x.q,x.a,w,'']})))return;dlg.close();
+ if(!pr)return;const tx=+OG()[6]||0,tot=S?L.reduce((a,x)=>a+x.a,0):L.reduce((a,x)=>a+x.q*x.a,0),H=[['№'],[S?'Бүтээгдэхүүн':'Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]];
+ pdoc(S?'БОРЛУУЛАЛТЫН БАРИМТ':'ХУДАЛДАН АВАЛТЫН БАРИМТ',[`Огноо: ${d}`,S?(w?'Харилцагч: '+esc(w):''):'Нийлүүлэгч: '+esc(w)].filter(Boolean),H,
+  L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(S?x.a/x.q:x.a),fmt(S?x.a:x.q*x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(tot)],tx?tot*tx/(100+tx):0,S?['Борлуулсан:','Хүлээн авсан:']:['Нийлүүлсэн: '+esc(w),'Хүлээн авсан:'])};
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
 $('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
