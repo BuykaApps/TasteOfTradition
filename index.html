@@ -97,15 +97,12 @@ async function load(){
  render()}
 async function save(sheet,row){
  (D[sheet]=D[sheet]||[]).push(row);LS.bmData=JSON.stringify(D);
- if(URL_)try{const exp=D[sheet].length;
-  await fetch(URL_,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({sheet,row})});
-  toast('Илгээлээ, шалгаж байна...');
-  await new Promise(r=>setTimeout(r,1500));
-  const j=await (await fetch(URL_)).json();
-  if(j.error)toast('Sheets алдаа: '+j.error);
-  else if((j[sheet]||[]).length>=exp){D=j;LS.bmData=JSON.stringify(D);toast('Sheets-д хадгаллаа ✅')}
-  else toast('Sheets-д орсонгүй — Apps Script-ийн Executions-ээс алдааг харна уу')
- }catch(e){console.error(e);toast('Sheets-тэй холбогдож чадсангүй')}
+ if(URL_)try{
+  toast('Илгээж байна...');
+  const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify({sheet,row})))).json();
+  if(j.ok)toast('Sheets-д хадгаллаа ✅');
+  else{console.error(j);alert('Sheets алдаа: '+(j.error||JSON.stringify(j)));toast('Sheets алдаа: '+(j.error||'?'))}
+ }catch(e){console.error(e);toast('Sheets-тэй холбогдож чадсангүй — Apps Script-ийг New version-оор Deploy хийсэн үү?')}
  else toast('Хадгаллаа (туршилтын горим)');render()}
 // ---- БМ тайлан тооцоо
 function rows(ing){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
