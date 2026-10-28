@@ -211,6 +211,20 @@ const SUMM={
  buy:()=>{const g={};D.purchases.forEach(p=>{const i=k(p[1]),o=g[i]=g[i]||[i,0,0,0];o[1]+=+p[2]||0;o[3]+=(+p[2]||0)*(+p[4]||0)});
   return SC('ОРЦООР НИЙЛҮҮЛЭЛТИЙН НИЙТ (Худалдан авалтаас авт.)',['Орц','Нийт авсан тоо','Дундаж нэгж өртөг','Нийт дүн ₮'],Object.values(g).sort((a,b)=>b[3]-a[3]).map(o=>[o[0],o[1],o[1]?o[3]/o[1]:0,o[3]]))}};
 {const _c=crud;crud=function(id){_c(id);if(SUMM[id])$('#p-'+id).insertAdjacentHTML('beforeend',SUMM[id]())}}
+
+// ===== v2.1: Өдрийн тайлан — бүтээгдэхүүн бүрийн орц задрах, жоргүй бүтээгдэхүүний анхааруулга
+function dayR(){const a=cs.d1=cs.d1||tl(),b=cs.d2=cs.d2||a,S=D.sales.filter(s=>rg(s[0],a,b)),c=ICOST(),rec={},g={},use={};let tc=0;
+ D.recipes.forEach(r=>(rec[k(r[0])]=rec[k(r[0])]||[]).push([k(r[1]),+r[2]||0]));
+ S.forEach(s=>{const p=k(s[1]),o=g[p]=g[p]||{q:0,r:0};o.q+=+s[3]||0;o.r+=+s[4]||0});
+ const blocks=Object.entries(g).map(([p,o])=>{const R=rec[p];
+  if(!R)return `<div class="card" style="border-color:#d9a400"><h3>${p} — ${fmt(o.q)} ш · ${fmt(o.r)}₮</h3><p>⚠ Жор бүртгэгдээгүй (эсвэл нэр таарахгүй) тул орц тооцогдохгүй. "Жор меню" цэсэнд яг ийм нэрээр жор нэмнэ үү.</p></div>`;
+  const rows=R.map(([i,q1])=>{const t=q1*o.q,oc=t*(c[i]||0);use[i]=(use[i]||0)+t;tc+=oc;return[i,q1,t,oc]});
+  return `<div class="card dd" onclick="ddP('${E(p)}','${a}','${b}')"><h3>${p} — ${fmt(o.q)} ш · ${fmt(o.r)}₮</h3><div class="sc"><table><thead><tr><th>Орц</th><th class="n">1 ш-д</th><th class="n">Нийт зарцуулалт</th><th class="n">Өртөг ₮</th></tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td class="${i?'n':''}">${typeof v=='number'?fmt(v):v}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>`}).join('');
+ const ex=D.expenses.filter(e=>rg(e[0],a,b));
+ $('#p-day').innerHTML=`<div class="card tool"><b>Огноо:</b><input type="date" value="${a}" onchange="cs.d1=this.value;if(cs.d2<cs.d1)cs.d2=cs.d1;dayR()"><span>→</span><input type="date" value="${b}" onchange="cs.d2=this.value;dayR()"><span class="sp"></span><span>Борлуулалт <b>${fmt(sum(S,4))}₮</b> · Орцын өртөг <b>${fmt(tc)}₮</b> · Зардал <b>${fmt(sum(ex,2))}₮</b></span></div>${blocks||'<div class="card">Энэ хугацаанд борлуулалт алга</div>'}<div class="grid"><div class="card"><h3>📤 Орцоор нэгтгэсэн зарлага</h3><table>${Object.entries(use).map(([i,v])=>`<tr class="dd" onclick="ddI('${E(i)}','${a}','${b}')"><td>${i}</td><td class="n">${fmt(v)}</td><td class="n">${fmt(v*(c[i]||0))}₮</td></tr>`).join('')||'<tr><td>Алга</td></tr>'}</table></div><div class="card"><h3>💸 Зардал</h3><table>${ex.map(e=>`<tr class="dd" onclick="ddX('${E(k(e[1]))}','${day(e[0])}')"><td>${day(e[0])}</td><td>${e[1]}</td><td class="n">${fmt(e[2])}</td></tr>`).join('')||'<tr><td>Алга</td></tr>'}</table></div></div>`}
+{const _b=bmTable;bmTable=function(){_b();const rp=new Set(D.recipes.map(r=>k(r[0]))),mi=[...new Set(D.sales.filter(s=>inR(s[0])&&!rp.has(k(s[1]))).map(s=>k(s[1])))];
+ if(mi.length)$('#bmt').insertAdjacentHTML('afterbegin',`<div style="border:1px solid #d9a400;border-radius:10px;padding:10px 14px;margin-bottom:12px">⚠ Жор байхгүй тул орцын зарлага тооцогдоогүй бүтээгдэхүүн: <b>${mi.join(', ')}</b></div>`);
+ if(!$('#bmt tbody tr'))$('#bmt').insertAdjacentHTML('beforeend','<p style="padding:12px">Энэ хугацаанд орлого/зарлагатай орц алга. Дээрх "Зөвхөн ... орц" сонголтыг болиулбал бүх орц харагдана.</p>')}}
 {const _r=render;render=function(){_r();Object.keys(DB).forEach(crud);dayR();prodR();yrR()}}
 $('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
 function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
@@ -285,5 +299,5 @@ $('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.sto
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top button');if(!b||b.classList.contains('sw'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),sp=document.createElement('span');
  sp.className='rp';sp.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(sp);setTimeout(()=>sp.remove(),600)});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
-$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=LS.bmMv!=='0';$('#mv').onchange=()=>{LS.bmMv=$('#mv').checked?'1':'0';bmTable()};load();
+$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
 </script></body></html>
