@@ -73,12 +73,12 @@ svg text{fill:var(--m);font-size:10px}
 <div class="pop" id="pop" hidden></div></header>
 <main>
 <section id="p-dash"></section>
-<section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
+<section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн хөдөлгөөнтэй</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
 <section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
 </main></div>
 <dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div>
 <script>
-const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
+const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzXFEwDCTxNqWau5C6pxUMOHXCoyhF1T79wfON9HkkWmzqCHSAmmlj9Wuxodlrl99SQ_Q/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
 const today=new Date(),iso=d=>d.toISOString().slice(0,10),pad=n=>String(n).padStart(2,'0');
 const ym=(y,m)=>y+'-'+pad(m);
@@ -105,12 +105,12 @@ async function save(sheet,row){
  }catch(e){console.error(e);toast('Sheets-тэй холбогдож чадсангүй — Apps Script-ийг New version-оор Deploy хийсэн үү?')}
  else toast('Хадгаллаа (туршилтын горим)');render()}
 // ---- БМ тайлан тооцоо
-function rows(ing){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
- return D.sales.filter(s=>inR(s[0])&&k(s[1])in rec).map(s=>({d:day(s[0]),p:s[1],q:+s[3]||0,a:rec[k(s[1])],e:(+s[3]||0)*rec[k(s[1])]}))}
-const ins=ing=>D.purchases.filter(p=>inR(p[0])&&k(p[1])==k(ing));
-function bm(){return D.stock.map(s=>{const i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0),o=rows(s[0]).reduce((a,r)=>a+r.e,0),c=(+s[2]||0)+i-o,mn=+s[3]||0;
+function rows(ing,f=inR){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
+ return D.sales.filter(s=>f(s[0])&&k(s[1])in rec).map(s=>({d:day(s[0]),p:s[1],q:+s[3]||0,a:rec[k(s[1])],e:(+s[3]||0)*rec[k(s[1])]}))}
+const ins=(ing,f=inR)=>D.purchases.filter(p=>f(p[0])&&k(p[1])==k(ing));
+function bm(){const d1=$('#d1').value,ms=d1.slice(0,7)+'-01',pre=d=>day(d)>=ms&&day(d)<d1;return D.stock.map(s=>{const i0=ins(s[0],pre).reduce((a,p)=>a+(+p[2]||0),0),o0=rows(s[0],pre).reduce((a,r)=>a+r.e,0),op=(+s[2]||0)+i0-o0,i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0),o=rows(s[0]).reduce((a,r)=>a+r.e,0),c=op+i-o,mn=+s[3]||0;
  const st=c<=0?['Дуссан','w']:c<=mn?['Доод хязгаараас доош','w']:c<=mn*1.3?['Анхааруулга','y']:['Хангалттай','ok'];
- return{n:s[0],u:s[1],open:+s[2]||0,i,o,c,mn,st}})}
+ return{n:s[0],u:s[1],open:op,i,o,c,mn,st}})}
 // ---- Dashboard тооцоо (Excel-ийн Дашбоард-тай ижил)
 const sel={y:today.getFullYear(),m:today.getMonth()+1};
 function mon(y,m){const key=ym(y,m),cm={};(D.costs||[]).forEach(c=>cm[k(c[0])]=+c[1]||0);
@@ -155,7 +155,7 @@ function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);[...$('#nav').child
 $('#nav').onclick=e=>{const b=e.target.closest('button');if(b)go(b.dataset.t)};
 function bmTable(){const q=k($('#q').value).toLowerCase(),B=bm(),L=(i,t,x)=>`<a class="l" onclick="dr(${i},'${t}')">${x}</a>`;
  $('#bmt').innerHTML=`<div class="sc"><table><colgroup><col style="width:230px"><col style="width:60px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:110px"><col style="width:120px"><col style="width:190px"></colgroup><thead><tr><th>Орц ▸</th><th>Нэгж</th><th class="n">Эхний ▸</th><th class="n">Орлого ▸</th><th class="n">Зарлага ▸</th><th class="n">Эцсийн ▸</th><th class="n">Доод хязгаар</th><th>Статус ▸</th></tr></thead><tbody>
- ${B.map((b,i)=>[b,i]).filter(x=>!q||x[0].n.toLowerCase().includes(q)).map(([b,i])=>`<tr><td title="${b.n}"><b>${L(i,'sum',b.n)}</b></td><td>${b.u}</td><td class="n">${L(i,'sum',fmt(b.open))}</td><td class="n">${L(i,'i',fmt(b.i))}</td><td class="n">${L(i,'o',fmt(b.o))}</td><td class="n"><b>${L(i,'sum',fmt(b.c))}</b></td><td class="n">${fmt(b.mn)}</td><td>${L(i,'sum','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>')}</td></tr>`).join('')}</tbody></table></div>`}
+ ${B.map((b,i)=>[b,i]).filter(x=>(!q||x[0].n.toLowerCase().includes(q))&&(!$('#mv').checked||x[0].i||x[0].o)).map(([b,i])=>`<tr><td title="${b.n}"><b>${L(i,'sum',b.n)}</b></td><td>${b.u}</td><td class="n">${L(i,'sum',fmt(b.open))}</td><td class="n">${L(i,'i',fmt(b.i))}</td><td class="n">${L(i,'o',fmt(b.o))}</td><td class="n"><b>${L(i,'sum',fmt(b.c))}</b></td><td class="n">${fmt(b.mn)}</td><td>${L(i,'sum','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>')}</td></tr>`).join('')}</tbody></table></div>`}
 function render(){dash();bmTable();
  const ings=[...new Set(D.stock.map(s=>s[0]))],prods=[...new Set(D.recipes.map(r=>k(r[0])))],opt=a=>a.map(x=>`<option>${x}</option>`).join('');
  $('#p-in').innerHTML=`<div class="card f"><h3>Орлого бүртгэх</h3><label>Огноо</label><input type="date" id="a1" value="${iso(today)}"><label>Орц</label><select id="a2">${opt(ings)}</select><label>Авсан тоо</label><input type="number" id="a3"><label>Нэгж үнэ</label><input type="number" id="a4"><label>Нийлүүлэгч</label><input id="a5"><p><button class="btn pri" onclick="fi()">Хадгалах</button></p></div>`;
@@ -225,5 +225,5 @@ $('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.sto
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top button');if(!b||b.classList.contains('sw'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),sp=document.createElement('span');
  sp.className='rp';sp.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(sp);setTimeout(()=>sp.remove(),600)});
 applyUi();go(LS.bmTab&&TABS.some(t=>t[0]==LS.bmTab)?LS.bmTab:'dash');
-$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;load();
+$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').onchange=bmTable;load();
 </script></body></html>
