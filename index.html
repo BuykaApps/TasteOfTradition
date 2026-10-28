@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Taste of Tradition — Түүхий эдийн систем</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><title>Taste of Tradition — Түүхий эдийн систем</title>
 <style>
 :root{--bg:#e9eff5;--c:rgba(255,255,255,.74);--cd:rgba(255,255,255,.9);--t:#17232d;--m:#64748b;--b:rgba(15,42,67,.1);--a:#1f6f8b;--p:#0f2a43;--r:#c0392b;--y:#d68910;--g:#1e8449;--sh:0 1px 2px #0b1f3012,0 8px 24px #0b1f3012;--sw:250px}
 html[data-theme=dark]{--bg:#091017;--c:rgba(24,36,47,.62);--cd:rgba(18,28,37,.92);--t:#e6edf1;--m:#8fa1ad;--b:rgba(255,255,255,.09);--p:#0a1c2d;--sh:0 1px 2px #0006,0 8px 28px #0005}
@@ -108,7 +108,7 @@ async function save(sheet,row){
 function rows(ing,f=inR){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
  return D.sales.filter(s=>f(s[0])&&k(s[1])in rec).map(s=>({d:day(s[0]),p:s[1],q:+s[3]||0,a:rec[k(s[1])],e:(+s[3]||0)*rec[k(s[1])]}))}
 const ins=(ing,f=inR)=>D.purchases.filter(p=>f(p[0])&&k(p[1])==k(ing));
-function bm(){const d1=$('#d1').value,ms=d1.slice(0,7)+'-01',pre=d=>day(d)>=ms&&day(d)<d1;return D.stock.map(s=>{const i0=ins(s[0],pre).reduce((a,p)=>a+(+p[2]||0),0),o0=rows(s[0],pre).reduce((a,r)=>a+r.e,0),op=(+s[2]||0)+i0-o0,i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0),o=rows(s[0]).reduce((a,r)=>a+r.e,0),c=op+i-o,mn=+s[3]||0;
+function bm(){const d1=$('#d1').value,ms=d1.slice(0,7)+'-01',pre=d=>day(d)>=ms&&day(d)<d1;return D.stock.map(s=>{const i0=ins(s[0],pre).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],pre,1),o0=rows(s[0],pre).reduce((a,r)=>a+r.e,0)+adj(s[0],pre,0),op=(+s[2]||0)+i0-o0,i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],inR,1),o=rows(s[0]).reduce((a,r)=>a+r.e,0)+adj(s[0],inR,0),c=op+i-o,mn=+s[3]||0;
  const st=c<=0?['Дуссан','w']:c<=mn?['Доод хязгаараас доош','w']:c<=mn*1.3?['Анхааруулга','y']:['Хангалттай','ok'];
  return{n:s[0],u:s[1],open:op,i,o,c,mn,st}})}
 // ---- Dashboard тооцоо (Excel-ийн Дашбоард-тай ижил)
@@ -148,7 +148,7 @@ function dash(){const M=mon(sel.y,sel.m),days=new Date(sel.y,sel.m,0).getDate(),
  ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
  $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
 // ---- харагдац
-const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Тайлан'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['prod','🍰','Бүтээгдэхүүн']];
+const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Тайлан'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['prod','🍰','Бүтээгдэхүүн']];
 $('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`).join('');
 function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);[...$('#nav').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));
  const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
@@ -162,7 +162,7 @@ const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['
  set:['settle','Тооцоо (авлага/өглөг)',[['Огноо','date'],['Харилцагч','text'],['Төрөл','text'],['Тайлбар','text'],['Авлага','number'],['Өглөг','number'],['Дуусах','date'],['Барагдуулалт','number']]],
  sale:['sales','Борлуулалт',[['Огноо','date'],['Бүтээгдэхүүн','pr'],['Ангилал','cat'],['Тоо','number'],['Нийт дүн','number']]],
  prod:['products','Бүтээгдэхүүн',[['Бүтээгдэхүүн','text'],['Үнэ','number'],['Ангилал','cat']]]};
-['day','pr','yr',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
+['day','pr','yr','cnt',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
 function crud(id){const [t,n,F]=DB[id],q=(cs[id]||'').toLowerCase(),rows=(RAW()[t]||[]).slice();
  if(F[0][1]=='date')rows.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
  const L=rows.filter(r=>!q||r.join(' ').toLowerCase().includes(q));
@@ -251,7 +251,7 @@ function drw(){const b=bm()[cur.i],t=cur.t,i=cur.i,A=(tt,x)=>`<a class="l" oncli
   R(['Доод хязгаар',fmt(b.mn),'Анхааруулга: эцсийн ≤ '+fmt(b.mn*1.3)+' (хязгаар × 1.3)']),
   R(['Статус','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>',b.c<=0?'Эцсийн үлдэгдэл 0 эсвэл сөрөг':b.c<=b.mn?'Эцсийн ≤ доод хязгаар':b.c<=b.mn*1.3?'Хязгаарт ойрхон':'Хэвийн'])]);
  else if(t=='i'){const r=ins(b.n).sort((x,y)=>day(x[0]).localeCompare(day(y[0])));
-  h+=tbl([['Огноо'],['Тоо',1],['Нэгж'],['Нэгж үнэ',1],['Нийлүүлэгч']],r.map(p=>R([day(p[0]),fmt(p[2]),p[3]||'',fmt(p[4]),p[5]||''],+p[2]||0)),['Нийт',fmt(b.i),'','','']);}
+  h+=tbl([['Огноо'],['Тоо',1],['Нэгж'],['Нэгж үнэ',1],['Нийлүүлэгч']],r.map(p=>R([day(p[0]),fmt(p[2]),p[3]||'',fmt(p[4]),p[5]||''],+p[2]||0)).concat(AJ().filter(a=>inR(a[1])&&k(a[2])==k(b.n)&&+a[3]>0).map(a=>R([day(a[1]),fmt(a[3]),b.u,'','Тооллогын илүү'],1))),['Нийт',fmt(b.i),'','','']);}
  else{const all=rows(b.n),pos=all.filter(r=>r.e>0),zero=all.filter(r=>!(r.e>0)),f=cur.f,F=(k2,x,n)=>`<button class="btn ${f==k2?'pri':''}" onclick="dr(${i},'o','${k2}')">${x} (${n})</button>`;
   const g={};all.forEach(r=>{const o=g[k(r.p)]=g[k(r.p)]||{q:0,a:r.a,e:0};o.q+=r.q;o.e+=r.e});
   const gs=Object.entries(g).sort((x,y)=>y[1].e-x[1].e);
@@ -298,6 +298,52 @@ document.addEventListener('click',e=>{if(!e.target.closest('#pop'))$('#pop').hid
 $('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.stopPropagation();document.body.classList.toggle('open')};
 document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top button');if(!b||b.classList.contains('sw'))return;const r=b.getBoundingClientRect(),s=Math.max(r.width,r.height),sp=document.createElement('span');
  sp.className='rp';sp.style.cssText=`width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;b.appendChild(sp);setTimeout(()=>sp.remove(),600)});
+// ===== v3: хөл дүн, нэрээр хайх, тооллого
+const AJ=()=>RAW().adj||[];
+function adj(ing,f,pos){return AJ().filter(r=>f(r[1])&&k(r[2])==k(ing)).reduce((a,r)=>{const q=+r[3]||0;return a+(pos?(q>0?q:0):(q<0?-q:0))},0)}
+const sq={},NOSUM=/%|Нэгж|1 ш|Доод|Дундаж|үнэ|Үнэ/,SECS=['bm','day','pr','yr','cnt',...Object.keys(DB)],SRCH=['day','pr','yr','cnt'];
+const num=t=>{t=t.replace(/[,\s₮]/g,'');return /^-?\d*\.?\d+$/.test(t)?+t:0};
+function foot(t){if(!t.tHead||!t.tBodies[0])return;let f=t.tFoot;if(f&&!f.dataset.auto)return;if(f)f.remove();
+ const hs=[...t.tHead.rows[0].cells],rs=[...t.tBodies[0].rows].filter(r=>r.style.display!='none'&&r.cells.length==hs.length);
+ if(!rs.length||!hs.some(h=>h.classList.contains('n')))return;
+ f=t.createTFoot();f.dataset.auto=1;const tr=f.insertRow();
+ hs.forEach((h,i)=>{const c=document.createElement('th'),n=h.classList.contains('n');if(n)c.className='n';
+  if(i==0)c.textContent='Хөл дүн ('+rs.length+')';else if(n&&!NOSUM.test(h.textContent))c.textContent=fmt(rs.reduce((a,x)=>a+num(x.cells[i].textContent),0));tr.appendChild(c)})}
+function filt(id){const s=$('#p-'+id),q=(sq[id]||'').toLowerCase().trim(),ok=e=>!q||e.textContent.toLowerCase().includes(q);
+ s.querySelectorAll('.card.dd').forEach(c=>c.style.display=ok(c)?'':'none');
+ if(q||SRCH.includes(id))s.querySelectorAll('tbody tr').forEach(r=>{if(!r.closest('.card.dd'))r.style.display=ok(r)?'':'none'});
+ s.querySelectorAll('table').forEach(foot)}
+let tm;const obs=new MutationObserver(()=>{clearTimeout(tm);tm=setTimeout(enh,60)});
+function enh(){obs.disconnect();SECS.forEach(id=>{const s=$('#p-'+id);if(!s)return;
+ if(SRCH.includes(id)&&!s.querySelector('.sx')){const d=document.createElement('div');d.className='card tool sx';d.innerHTML=`<input placeholder="🔍 Нэрээр хайх..." value="${(sq[id]||'').replace(/"/g,'&quot;')}" style="max-width:260px">`;d.firstChild.oninput=e=>{sq[id]=e.target.value;filt(id)};s.prepend(d)}
+ filt(id)});obs.observe($('main'),{childList:true,subtree:true})}
+let CI=[];
+function cntR(){const B=bm(),A=AJ().slice().sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
+ $('#p-cnt').innerHTML=`<div class="card tool"><button class="btn pri" onclick="cntX()">⬇ Тооллогын Excel татах</button><label class="btn">⬆ Тооллогын файл оруулах<input type="file" accept=".xlsx,.xls" hidden onchange="cntI(this.files[0]);this.value=''"></label><span class="sp"></span><span class="sub">Үлдэгдэл: ${$('#d2').value} байдлаар (БМ тайлангийн хугацааны төгсгөл)</span></div><div id="cres"></div>
+ <div class="card"><h3>Системийн эцсийн үлдэгдэл</h3><div class="sc"><table><thead><tr><th>Орц</th><th>Нэгж</th><th class="n">Эцсийн үлдэгдэл</th></tr></thead><tbody>${B.map(b=>`<tr><td>${b.n}</td><td>${b.u}</td><td class="n">${fmt(b.c)}</td></tr>`).join('')}</tbody></table></div></div>
+ <div class="card"><h3>Тооллогоор хийсэн засвар</h3><div class="sc"><table><thead><tr><th>Огноо</th><th>Орц</th><th class="n">Тоо</th><th>Төрөл</th><th></th></tr></thead><tbody>${A.map(r=>`<tr><td>${day(r[1])}</td><td>${r[2]}</td><td class="n">${fmt(r[3])}</td><td>${r[4]}</td><td><a class="l" onclick="cntD('${r[0]}')">🗑</a></td></tr>`).join('')}</tbody></table></div></div>`;if(CI.length)cntV()}
+window.cntD=id=>{if(confirm('Устгах уу?'))api({act:'del',t:'adj',id})};
+window.cntX=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдсангүй (интернэтээ шалгана уу)');const d=$('#d2').value,A=[['Төрөл','Нэр','Нэгж','Системийн үлдэгдэл ('+d+')','Тоолсон үлдэгдэл','Тайлбар']];
+ bm().forEach(b=>A.push(['Орц',b.n,b.u,+(+b.c).toFixed(3),'','']));nm(RAW().products,1).forEach(p=>A.push(['Бүтээгдэхүүн',p,'ш','','','']));
+ const ws=XLSX.utils.aoa_to_sheet(A),wb=XLSX.utils.book_new();ws['!cols']=[{wch:14},{wch:34},{wch:8},{wch:24},{wch:18},{wch:30}];XLSX.utils.book_append_sheet(wb,ws,'Тооллого');XLSX.writeFile(wb,'Тооллого_'+d+'.xlsx')};
+window.cntI=async f=>{if(!f)return;if(!window.XLSX)return alert('Excel сан ачаалагдсангүй');
+ const wb=XLSX.read(await f.arrayBuffer()),A=XLSX.utils.sheet_to_json(wb.Sheets['Тооллого']||wb.Sheets[wb.SheetNames[0]],{header:1,defval:''});CI=[];
+ A.slice(1).forEach(r=>{const n=k(r[1]),c=r[4];if(!n||c===''||isNaN(+c))return;CI.push({t:k(r[0]),n,u:k(r[2]),c:+c})});
+ if(!CI.length)toast('Тоолсон үлдэгдэл бөглөсөн мөр олдсонгүй');cntV()};
+function cntV(){const B={};bm().forEach(b=>B[k(b.n)]=b);
+ CI.forEach(x=>{const b=B[x.n];x.pr=!b;x.s=b?+b.c:null;x.z=b?Math.round((x.c-x.s)*1000)/1000:null});
+ const sh=CI.filter(x=>x.z<0).length,su=CI.filter(x=>x.z>0).length,ok=CI.filter(x=>x.z===0).length;
+ $('#cres').innerHTML=`<div class="card"><h3>Тооллогын зөрүү</h3><p>🔻 Дутуу: <b>${sh}</b> · 🔺 Илүү: <b>${su}</b> · ✅ Таарсан: <b>${ok}</b></p><p class="sub">Дутууг <b>зарлагад</b>, илүүг <b>орлогод</b> бүртгэхэд эцсийн үлдэгдэл тоолсонтой таарна. Бүтээгдэхүүний үлдэгдэл системд хөтлөгддөггүй тул зөвхөн харуулна.</p>
+ <div class="sc"><table><thead><tr><th>✔</th><th>Нэр</th><th>Нэгж</th><th class="n">Систем</th><th class="n">Тоолсон</th><th class="n">Зөрүү</th><th>Санал</th></tr></thead><tbody>${CI.map((x,i)=>`<tr><td>${x.pr||!x.z?'':`<input type="checkbox" id="ck${i}" checked style="width:auto">`}</td><td>${x.n}</td><td>${x.u}</td><td class="n">${x.pr?'':fmt(x.s)}</td><td class="n">${fmt(x.c)}</td><td class="n">${x.pr?'':fmt(x.z)}</td><td>${x.pr?'Системд үлдэгдэл хөтлөгддөггүй':x.z<0?'🔻 Дутуу → зарлагадах':x.z>0?'🔺 Илүү → орлогодох':'✅ Таарсан'}</td></tr>`).join('')}</tbody></table></div>
+ <p><button class="btn pri" onclick="cntA()">✅ Сонгосныг бүртгэж үлдэгдлийг тааруулах</button> <button class="btn" onclick="CI=[];$('#cres').innerHTML=''">Цуцлах</button></p></div>`}
+window.cntA=async()=>{const S=CI.filter((x,i)=>{const c=$('#ck'+i);return c&&c.checked&&c.closest('tr').style.display!='none'});if(!S.length)return toast('Бүртгэх мөр сонгоогүй байна');
+ const sh=S.filter(x=>x.z<0).length,su=S.length-sh;if(!confirm(`Дутуу ${sh} орцыг ЗАРЛАГАД, илүү ${su} орцыг ОРЛОГОД бүртгэж, эцсийн үлдэгдлийг тоолсонтой тааруулах уу?`))return;
+ if(!URL_)return toast('Холболт тохируулаагүй');const d=$('#d2').value;let n=0;toast('Бүртгэж байна...');
+ for(const x of S){try{const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify({act:'add',t:'adj',row:[d,x.n,x.z,x.z<0?'Зарлага (дутуу)':'Орлого (илүү)','Тооллого']})))).json();if(j.ok)n++;else{alert('Алдаа: '+j.error+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');break}}catch(e){break}}
+ toast(n+'/'+S.length+' бүртгэгдлээ ✅');if(n==S.length)CI=[];await load()};
+{const _r3=render;render=function(){_r3();cntR()}}
+$('#d1').addEventListener('change',cntR);$('#d2').addEventListener('change',cntR);
+obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
 $('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
 </script></body></html>
