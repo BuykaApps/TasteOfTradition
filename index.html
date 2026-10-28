@@ -86,7 +86,7 @@ $('#d1').value=ym(today.getFullYear(),today.getMonth()+1)+'-01';$('#d2').value=i
 const mm=today.getFullYear()+'-'+pad(today.getMonth()+1);
 const DEMO={purchases:[],sales:[[mm+'-03','Аарц крем','Бурэлт',3,3000],[mm+'-04','Аарцтай боов','Нарын боов',27,0],[mm+'-17','Аарц крем','Бурэлт',3,3000]],
 recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боов','Аарц','','гр'],['Аарцтай боов','Гурил',42.3,'гр']],stock:[['Аарц','гр',8500,1000],['Гурил','гр',20000,5000]],costs:[],expenses:[]};
-let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||LS.bmUrl||'';
+let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=LS.bmUrl||WEB_APP_URL||'';
 const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
 const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
 const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
