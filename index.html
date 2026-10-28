@@ -318,10 +318,32 @@ function enh(){obs.disconnect();SECS.forEach(id=>{const s=$('#p-'+id);if(!s)retu
  if(SRCH.includes(id)&&!s.querySelector('.sx')){const d=document.createElement('div');d.className='card tool sx';d.innerHTML=`<input placeholder="🔍 Нэрээр хайх..." value="${(sq[id]||'').replace(/"/g,'&quot;')}" style="max-width:260px">`;d.firstChild.oninput=e=>{sq[id]=e.target.value;filt(id)};s.prepend(d)}
  filt(id)});obs.observe($('main'),{childList:true,subtree:true})}
 let CI=[];
-function cntR(){const B=bm(),A=AJ().slice().sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
+let CM='';
+function cntT(){const c=ICOST(),A=AJ().slice().sort((x,y)=>String(y[1]).localeCompare(String(x[1]))),U={},bi={},bmo={};(RAW().stock||[]).forEach(r=>U[k(r[1])]=r[2]);
+ A.forEach(r=>{const m=day(r[1]).slice(0,7),n=k(r[2]),q=+r[3]||0,i=bi[n]=bi[n]||{},o=bmo[m]=bmo[m]||{};i[m]=(i[m]||0)+q;o[n]=(o[n]||0)+q});
+ const ms=Object.keys(bmo).sort(),
+ mon=ms.slice().reverse().map(m=>{let s=0,u=0,vs=0,vu=0;for(const[n,q]of Object.entries(bmo[m])){const v=Math.abs(q)*(c[n]||0);if(q<0){s++;vs+=v}else if(q>0){u++;vu+=v}}return[m,s,vs,u,vu,vu-vs]}),
+ ing=Object.keys(bi).map(n=>{let sm=0,um=0,sQ=0,uQ=0;for(const q of Object.values(bi[n])){if(q<0){sm++;sQ-=q}else if(q>0){um++;uQ+=q}}return[n,U[n]||'',sm,um,sQ,uQ,uQ-sQ,(uQ-sQ)*(c[n]||0)]}).sort((x,y)=>y[2]-x[2]||y[4]-x[4]),
+ M=ms.slice(-12),mat=Object.keys(bi).sort().map(n=>[n,...M.map(m=>bi[n][m]===undefined?'':+bi[n][m].toFixed(3))]),
+ list=A.map(r=>[day(r[1]),r[2],U[k(r[2])]||'',+r[3]||0,Math.abs(+r[3]||0)*(c[k(r[2])]||0),r[4],r[5]||'',r[0]]);
+ return{ms,M,mon,ing,mat,list}}
+function cntR(){const B=bm(),t=cntT(),L=CM?t.list.filter(r=>r[0].slice(0,7)==CM):t.list;
  $('#p-cnt').innerHTML=`<div class="card tool"><button class="btn pri" onclick="cntX()">⬇ Тооллогын Excel татах</button><label class="btn">⬆ Тооллогын файл оруулах<input type="file" accept=".xlsx,.xls" hidden onchange="cntI(this.files[0]);this.value=''"></label><span class="sp"></span><span class="sub">Үлдэгдэл: ${$('#d2').value} байдлаар (БМ тайлангийн хугацааны төгсгөл)</span></div><div id="cres"></div>
- <div class="card"><h3>Системийн эцсийн үлдэгдэл</h3><div class="sc"><table><thead><tr><th>Орц</th><th>Нэгж</th><th class="n">Эцсийн үлдэгдэл</th></tr></thead><tbody>${B.map(b=>`<tr><td>${b.n}</td><td>${b.u}</td><td class="n">${fmt(b.c)}</td></tr>`).join('')}</tbody></table></div></div>
- <div class="card"><h3>Тооллогоор хийсэн засвар</h3><div class="sc"><table><thead><tr><th>Огноо</th><th>Орц</th><th class="n">Тоо</th><th>Төрөл</th><th></th></tr></thead><tbody>${A.map(r=>`<tr><td>${day(r[1])}</td><td>${r[2]}</td><td class="n">${fmt(r[3])}</td><td>${r[4]}</td><td><a class="l" onclick="cntD('${r[0]}')">🗑</a></td></tr>`).join('')}</tbody></table></div></div>`;if(CI.length)cntV()}
+ ${SC('Сар бүрийн тооллогын үр дүн (сар дарж жагсаалтыг шүүнэ)',['Сар','Дутсан орц','Дутууны дүн ₮','Илүү орц','Илүүгийн дүн ₮','Цэвэр ₮'],t.mon.map(r=>[`<a class="l" onclick="CM='${r[0]}';cntR()">${r[0]}</a>`,...r.slice(1)]))}
+ ${SC('Орцоор — аль нь сар бүр дутаж/илүү гардаг вэ (дутсан сараар эрэмбэлсэн)',['Орц','Нэгж','Дутсан сар','Илүү гарсан сар','Нийт дутуу','Нийт илүү','Цэвэр','Цэвэр дүн ₮'],t.ing)}
+ ${SC('Сар бүрийн зөрүү орцоор (− дутуу, + илүү)',['Орц',...t.M],t.mat)}
+ <div class="card"><div class="tool"><h3 style="margin:0">Тооллогоор хийсэн засвар</h3><span class="sp"></span><select onchange="CM=this.value;cntR()" style="max-width:150px"><option value="">Бүх сар</option>${[...t.ms].reverse().map(m=>`<option ${m==CM?'selected':''}>${m}</option>`).join('')}</select><button class="btn" onclick="cntE()">＋ Нэмэх</button><button class="btn" onclick="cntXR()">⬇ Тайлан (Excel)</button></div><div class="sc"><table><thead><tr><th>Огноо</th><th>Орц</th><th>Нэгж</th><th class="n">Тоо</th><th class="n">Дүн ₮</th><th>Төрөл</th><th>Тэмдэглэл</th><th></th></tr></thead><tbody>${L.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="n">${fmt(r[3])}</td><td class="n">${fmt(r[4])}</td><td>${r[5]}</td><td>${r[6]}</td><td style="white-space:nowrap"><a class="l" onclick="cntE('${r[7]}')">✏️</a> <a class="l" onclick="cntD('${r[7]}')">🗑</a></td></tr>`).join('')||'<tr><td>Засвар алга</td></tr>'}</tbody></table></div></div>
+ <div class="card"><h3>Системийн эцсийн үлдэгдэл</h3><div class="sc"><table><thead><tr><th>Орц</th><th>Нэгж</th><th class="n">Эцсийн үлдэгдэл</th></tr></thead><tbody>${B.map(b=>`<tr><td>${b.n}</td><td>${b.u}</td><td class="n">${fmt(b.c)}</td></tr>`).join('')}</tbody></table></div></div>`;if(CI.length)cntV()}
+window.cntE=id=>{const r=id?AJ().find(x=>x[0]==id):null;
+ $('#dc').innerHTML=`<h3>${r?'Засах':'Нэмэх'}: Тооллогын засвар</h3><label>Огноо</label><input type="date" id="g0" value="${r?day(r[1]):$('#d2').value}"><label>Орц</label><input id="g1" list="dl-g" value="${r?r[2]:''}"><datalist id="dl-g">${nm(RAW().stock,1).map(o=>`<option>${o}</option>`).join('')}</datalist><label>Тоо (дутуу бол сөрөг, илүү бол эерэг)</label><input type="number" step="any" id="g2" value="${r?r[3]:''}"><label>Тэмдэглэл</label><input id="g3" value="${r?String(r[5]||'').replace(/"/g,'&quot;'):''}"><p><button class="btn pri" onclick="cntS('${id||''}')">Хадгалах</button></p>`;dlg.showModal()};
+window.cntS=async id=>{const q=+$('#g2').value,n=$('#g1').value.trim(),d=$('#g0').value;if(!n||!d||!q)return toast('Огноо, орц, тоо (0-ээс өөр) оруулна уу');if(!nm(RAW().stock,1).includes(n))return toast('Орцын нэр олдсонгүй');
+ if(await api({act:id?'upd':'add',t:'adj',id,row:[d,n,q,q<0?'Зарлага (дутуу)':'Орлого (илүү)',$('#g3').value.trim()]}))dlg.close()};
+window.cntXR=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдсангүй');const t=cntT(),wb=XLSX.utils.book_new(),add=(n,h,rows)=>XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([h,...rows]),n);
+ add('Сар бүр',['Сар','Дутсан орц','Дутууны дүн ₮','Илүү орц','Илүүгийн дүн ₮','Цэвэр ₮'],t.mon);
+ add('Орцоор',['Орц','Нэгж','Дутсан сар','Илүү гарсан сар','Нийт дутуу','Нийт илүү','Цэвэр','Цэвэр дүн ₮'],t.ing);
+ add('Орц x Сар',['Орц',...t.M],t.mat);
+ add('Жагсаалт',['Огноо','Орц','Нэгж','Тоо','Дүн ₮','Төрөл','Тэмдэглэл'],t.list.map(r=>r.slice(0,7)));
+ XLSX.writeFile(wb,'Тооллогын_тайлан_'+tl()+'.xlsx')};
 window.cntD=id=>{if(confirm('Устгах уу?'))api({act:'del',t:'adj',id})};
 window.cntX=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдсангүй (интернэтээ шалгана уу)');const d=$('#d2').value,A=[['Төрөл','Нэр','Нэгж','Системийн үлдэгдэл ('+d+')','Тоолсон үлдэгдэл','Тайлбар']];
  bm().forEach(b=>A.push(['Орц',b.n,b.u,+(+b.c).toFixed(3),'','']));nm(RAW().products,1).forEach(p=>A.push(['Бүтээгдэхүүн',p,'ш','','','']));
