@@ -64,19 +64,21 @@ dialog::backdrop{background:#030a1277;backdrop-filter:blur(5px)}@keyframes pp{fr
 .pop label{display:flex;gap:8px;align-items:center;margin:6px 0;color:var(--t);font-size:13px}.pop input{width:auto}
 svg text{fill:var(--m);font-size:10px}
 @media(max-width:860px){aside{transform:translateX(-100%)}body.open aside{transform:none}.wrap{margin-left:0}#burger{display:inline-block}main{padding:14px}}
+#pa{display:none}
+@media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
 <div class="aurora"><i></i><i></i><i></i></div>
 <aside id="side"><div class="brand"><span>🍽</span><div><b>Taste of Tradition</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
 <div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
 <div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
-<button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="cfg">⚙ Холболт</button><button id="ui" title="Харагдац">🎨</button>
+<button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
 <div class="pop" id="pop" hidden></div></header>
 <main>
 <section id="p-dash"></section>
 <section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн энэ хугацаанд орлого/зарлагатай орц</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
 <section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
 </main></div>
-<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div>
+<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><div id="msg"></div><div id="pa"></div>
 <script>
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
@@ -86,7 +88,7 @@ $('#d1').value=ym(today.getFullYear(),today.getMonth()+1)+'-01';$('#d2').value=i
 const mm=today.getFullYear()+'-'+pad(today.getMonth()+1);
 const DEMO={purchases:[],sales:[[mm+'-03','Аарц крем','Бурэлт',3,3000],[mm+'-04','Аарцтай боов','Нарын боов',27,0],[mm+'-17','Аарц крем','Бурэлт',3,3000]],
 recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боов','Аарц','','гр'],['Аарцтай боов','Гурил',42.3,'гр']],stock:[['Аарц','гр',8500,1000],['Гурил','гр',20000,5000]],costs:[],expenses:[]};
-let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=LS.bmUrl||WEB_APP_URL||'';
+let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||'';
 const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
 const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
 const toast=t=>{const m=$('#msg');m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
@@ -108,7 +110,7 @@ async function save(sheet,row){
 function rows(ing,f=inR){const rec={};D.recipes.forEach(r=>{if(k(r[1])==k(ing))rec[k(r[0])]=(rec[k(r[0])]||0)+(+r[2]||0)});
  return D.sales.filter(s=>f(s[0])&&k(s[1])in rec).map(s=>({d:day(s[0]),p:s[1],q:+s[3]||0,a:rec[k(s[1])],e:(+s[3]||0)*rec[k(s[1])]}))}
 const ins=(ing,f=inR)=>D.purchases.filter(p=>f(p[0])&&k(p[1])==k(ing));
-function bm(){const d1=$('#d1').value,ms=d1.slice(0,7)+'-01',pre=d=>day(d)>=ms&&day(d)<d1;return D.stock.map(s=>{const i0=ins(s[0],pre).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],pre,1),o0=rows(s[0],pre).reduce((a,r)=>a+r.e,0)+adj(s[0],pre,0),op=(+s[2]||0)+i0-o0,i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],inR,1),o=rows(s[0]).reduce((a,r)=>a+r.e,0)+adj(s[0],inR,0),c=op+i-o,mn=+s[3]||0;
+function bm(){const d1=$('#d1').value,ms=d1.slice(0,7)+'-01',pre=d=>day(d)>=ms&&day(d)<d1;return D.stock.map(s=>{const i0=ins(s[0],pre).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],pre,1),o0=rows(s[0],pre).reduce((a,r)=>a+r.e,0)+adj(s[0],pre,0)+mvq(s[0],pre),op=(+s[2]||0)+i0-o0,i=ins(s[0]).reduce((a,p)=>a+(+p[2]||0),0)+adj(s[0],inR,1),o=rows(s[0]).reduce((a,r)=>a+r.e,0)+adj(s[0],inR,0)+mvq(s[0],inR),c=op+i-o,mn=+s[3]||0;
  const st=c<=0?['Дуссан','w']:c<=mn?['Доод хязгаараас доош','w']:c<=mn*1.3?['Анхааруулга','y']:['Хангалттай','ok'];
  return{n:s[0],u:s[1],open:op,i,o,c,mn,st}})}
 // ---- Dashboard тооцоо (Excel-ийн Дашбоард-тай ижил)
@@ -148,7 +150,7 @@ function dash(){const M=mon(sel.y,sel.m),days=new Date(sel.y,sel.m,0).getDate(),
  ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
  $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
 // ---- харагдац
-const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Тайлан'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['prod','🍰','Бүтээгдэхүүн']];
+const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['warn','🚨','Анхааруулга'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Тайлан'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['mv','🔁','Хөдөлгөөн'],['prod','🍰','Бүтээгдэхүүн'],['org','🏢','Байгууллага']];
 $('#nav').innerHTML=TABS.map(t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`).join('');
 function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);[...$('#nav').children].forEach(b=>b.classList.toggle('on',b.dataset.t==t));
  const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
@@ -161,13 +163,15 @@ const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['
  exp:['expenses','Зардал',[['Огноо','date'],['Ангилал','cat'],['Тоо','number'],['Дүн','number'],['Тэмдэглэл','text']]],
  set:['settle','Тооцоо (авлага/өглөг)',[['Огноо','date'],['Харилцагч','text'],['Төрөл','text'],['Тайлбар','text'],['Авлага','number'],['Өглөг','number'],['Дуусах','date'],['Барагдуулалт','number']]],
  sale:['sales','Борлуулалт',[['Огноо','date'],['Бүтээгдэхүүн','pr'],['Ангилал','cat'],['Тоо','number'],['Нийт дүн','number']]],
- prod:['products','Бүтээгдэхүүн',[['Бүтээгдэхүүн','text'],['Үнэ','number'],['Ангилал','cat']]]};
-['day','pr','yr','cnt',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
+ prod:['products','Бүтээгдэхүүн',[['Бүтээгдэхүүн','text'],['Үнэ','number'],['Ангилал','cat']]],
+ acct:['acct','Нягтлан бодогч',[['Нэр','text'],['Албан тушаал','text'],['Утас','text'],['Имэйл','text']]],
+ branch:['branch','Салбар',[['Код','text'],['Нэр','text'],['Хаяг','text'],['Утас','text'],['Хариуцагч','text'],['Төрөл','own']]]};
+['day','pr','yr','cnt','warn','mv','org',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
 function crud(id){const [t,n,F]=DB[id],q=(cs[id]||'').toLowerCase(),rows=(RAW()[t]||[]).slice();
  if(F[0][1]=='date')rows.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
  const L=rows.filter(r=>!q||r.join(' ').toLowerCase().includes(q));
- $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span><button class="btn pri" onclick="ed('${id}')">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
-function ed(id,rid){const [t,n,F]=DB[id],r=rid?(RAW()[t]||[]).find(x=>x[0]==rid):null,R=RAW(),ls={pr:nm(R.products,1),ing:nm(R.stock,1),cat:[...new Set([...nm(R.sales,3),...nm(R.products,3),...nm(R.expenses,2)])]};
+ $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span>${id=='sale'||id=='buy'?`<button class="btn" onclick="prDlg('${id}')">🖨 Хэвлэх</button>`:''}<button class="btn pri" onclick="ed('${id}')">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
+function ed(id,rid){const [t,n,F]=DB[id],r=rid?(RAW()[t]||[]).find(x=>x[0]==rid):null,R=RAW(),ls={pr:nm(R.products,1),ing:nm(R.stock,1),cat:[...new Set([...nm(R.sales,3),...nm(R.products,3),...nm(R.expenses,2)])],own:['Өөрийн','Бусад']};
  $('#dc').innerHTML=`<h3>${rid?'Засах':'Нэмэх'}: ${n}</h3>`+F.map((f,i)=>{const v=r?r[i+1]:(f[1]=='date'?tl():'');return `<label>${f[0]}</label><input id="f${i}" type="${f[1]=='number'||f[1]=='date'?f[1]:'text'}" value="${String(v??'').replace(/"/g,'&quot;')}" ${ls[f[1]]?`list="dl-${f[1]}"`:''} ${f[1]=='number'?'step="any"':''}>`}).join('')+Object.keys(ls).map(x=>`<datalist id="dl-${x}">${ls[x].map(o=>`<option>${o}</option>`).join('')}</datalist>`).join('')+`<p><button class="btn pri" onclick="sv('${id}','${rid||''}')">Хадгалах</button></p>`;dlg.showModal()}
 async function sv(id,rid){const [t,,F]=DB[id],row=F.map((f,i)=>{const v=$('#f'+i).value.trim();return f[1]=='number'?(v===''?'':+v):v});
  if(row[0]==='')return toast('Эхний талбарыг бөглөнө үү');if(await api({act:rid?'upd':'add',t,id:rid,row}))dlg.close()}
@@ -205,6 +209,9 @@ function ddM(y,m){const key=ym(y,m),M=mon(y,m),c=D.costs||[],cm={},g={};c.forEac
 // ===== v2: Excel-ийн хажуугийн нэгтгэл хүснэгтүүд
 const SC=(t,hd,rows)=>`<div class="card"><h3>${t}</h3><div class="sc"><table><thead><tr>${hd.map((x,i)=>`<th class="${i?'n':''}">${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((v,i)=>`<td class="${i?'n':''}">${typeof v=='number'?fmt(v):v}</td>`).join('')}</tr>`).join('')||'<tr><td>Алга</td></tr>'}</tbody></table></div></div>`;
 const SUMM={
+ set:()=>{const S=RAW().settle||[],t=tl(),g={};S.forEach(r=>{const o=g[r[2]]=g[r[2]]||{a:0,p:0,b:0,d:''};o.a+=+r[5]||0;o.p+=+r[6]||0;o.b+=+r[8]||0;if(r[7]&&((+r[5]||0)+(+r[6]||0))>0&&(!o.d||day(r[7])<o.d))o.d=day(r[7])});
+  const G=Object.entries(g).map(([n,o])=>[n,o.a,o.p,o.b,o.a+o.p-o.b,o.d,o.d&&o.d<t&&o.a+o.p-o.b>0?'⚠ Хугацаа хэтэрсэн':'']).sort((x,y)=>y[4]-x[4]);
+  return SC('ТООЦООНЫ ТОЙМ',['Үзүүлэлт','Дүн'],[['Нийт авлага',sum(S,5)],['Нийт өглөг',sum(S,6)],['Барагдуулсан',sum(S,8)],['Хугацаа хэтэрсэн харилцагч',G.filter(x=>x[6]).length]])+SC('Харилцагчаар (үлдэгдэл = авлага + өглөг − барагдуулсан)',['Харилцагч','Авлага','Өглөг','Барагдуулсан','Үлдэгдэл','Хамгийн ойрын дуусах','Төлөв'],G)},
  rec:()=>{const cm={},pr={};(D.costs||[]).forEach(c=>cm[k(c[0])]=+c[1]||0);(RAW().products||[]).forEach(r=>pr[k(r[1])]=+r[2]||0);
   const ns=[...new Set([...Object.keys(cm),...Object.keys(pr)])].sort();
   return SC('БҮТЭЭГДЭХҮҮН ТУТМЫН ТОЙМ',['Бүтээгдэхүүн','Нэгжийн өртөг','Борлуулах үнэ','Ашиг/нэгж','Ашиг %'],ns.map(p=>{const c=cm[p]||0,v=pr[p]||0;return[p,c,v,v?v-c:0,v?(((v-c)/v*100).toFixed(1)+'%'):'-']}))},
@@ -258,6 +265,7 @@ function drw(){const b=bm()[cur.i],t=cur.t,i=cur.i,A=(tt,x)=>`<a class="l" oncli
   h+=`<p class="sub" style="margin:0 0 6px"><b>Бүтээгдэхүүнээр</b> — ямар бүтээгдэхүүн хэдийг зарцуулсан</p>`+tbl([['Бүтээгдэхүүн'],['Зарсан',1],['Орцын хэмжээ (1 ш)',1],['Зарлага',1]],gs.map(([p,o])=>R([p,fmt(o.q),o.a?fmt(o.a):'<span class="w">⚠ хоосон</span>',fmt(o.e)],o.e)),['Нийт','','',fmt(b.o)])+
   `<p class="sub" style="margin:12px 0 6px"><b>Мөр бүрээр</b></p><div class="tool">${F('all','Бүгд',all.length)}${F('pos','Зөвхөн 0-ээс их',pos.length)}${F('zero','Зөвхөн 0 / ⚠',zero.length)}</div><br>`+
   tbl([['Огноо'],['Бүтээгдэхүүн'],['Зарсан',1],['Орцын хэмжээ',1],['Зарлага',1]],(f=='pos'?pos:f=='zero'?zero:[...pos,...zero]).map(r=>R([r.d,r.p,fmt(r.q),r.a?fmt(r.a):'<span class="w">⚠ хоосон</span>',fmt(r.e)],r.e)),['Нийт','','','',fmt(b.o)]);}
+ if(t=='o'){const mv=MV().filter(r=>inR(r[1])&&k(r[4])==k(b.n)&&r[7]!='Цуцлагдсан');if(mv.length)h+=`<p class="sub" style="margin:12px 0 6px"><b>Салбарт шилжүүлсэн</b> (нийт зарлагад орсон)</p>`+tbl([['Огноо'],['Баримт'],['Салбар'],['Тоо',1]],mv.map(r=>R([day(r[1]),r[2],r[3],fmt(r[5])],+r[5]||0)),['Нийт','','',fmt(mv.reduce((a,r)=>a+(+r[5]||0),0))])}
  show(`${b.n}`,h)}
 window.kd=(n,c)=>{const M=LM,cm={},mn=`${MN[sel.m-1]} ${sel.y}`,sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);(D.costs||[]).forEach(x=>cm[k(x[0])]=+x[1]||0);
  const srt=a=>a.slice().sort((x,y)=>day(x[0]).localeCompare(day(y[0]))),L=(m,x)=>`<a class="l" onclick="kd('${m}')">${x}</a>`;
@@ -278,7 +286,6 @@ const v=id=>$('#'+id).value;
 window.fi=()=>{if(!(+v('a3')>0))return toast('Тоо оруулна уу');const s=D.stock.find(x=>x[0]==v('a2'));save('purchases',[v('a1'),v('a2'),+v('a3'),s?s[1]:'',+v('a4')||0,v('a5')])};
 window.fs=()=>{if(!(+v('b3')>0))return toast('Тоо оруулна уу');save('sales',[v('b1'),v('b2'),v('b5'),+v('b3'),+v('b4')||0])};
 window.fr=()=>{if(!v('c1'))return toast('Бүтээгдэхүүн оруулна уу');if(!(+v('c3')>0)&&!confirm('Хэмжээ хоосон/0 байна. Ингэж хадгалбал зарлага 0 гарна. Үргэлжлүүлэх үү?'))return;save('recipes',[v('c1'),v('c2'),+v('c3')||'',v('c4')])};
-$('#cfg').onclick=()=>{const u=prompt('Apps Script Web App URL (хоосон = туршилтын горим):',URL_);if(u!==null){URL_=u.trim();LS.bmUrl=URL_;load()}};
 
 // ---- харагдац тохиргоо (buyka.html шиг)
 let UI=Object.assign({theme:'auto',accent:'#1f6f8b',aurora:true,col:false},JSON.parse(LS.bmUi||'{}'));
@@ -301,7 +308,7 @@ document.addEventListener('pointerdown',e=>{const b=e.target.closest('.btn,.top 
 // ===== v3: хөл дүн, нэрээр хайх, тооллого
 const AJ=()=>RAW().adj||[];
 function adj(ing,f,pos){return AJ().filter(r=>f(r[1])&&k(r[2])==k(ing)).reduce((a,r)=>{const q=+r[3]||0;return a+(pos?(q>0?q:0):(q<0?-q:0))},0)}
-const sq={},NOSUM=/%|Нэгж|1 ш|Доод|Дундаж|үнэ|Үнэ/,SECS=['bm','day','pr','yr','cnt',...Object.keys(DB)],SRCH=['day','pr','yr','cnt'];
+const sq={},NOSUM=/%|дуусах|Төлөв|Нэгж|1 ш|Доод|Дундаж|үнэ|Үнэ/,SECS=['bm','day','pr','yr','cnt',...Object.keys(DB)],SRCH=['day','pr','yr','cnt'];
 const num=t=>{t=t.replace(/[,\s₮]/g,'');return /^-?\d*\.?\d+$/.test(t)?+t:0};
 function foot(t){if(!t.tHead||!t.tBodies[0])return;let f=t.tFoot;if(f&&!f.dataset.auto)return;if(f)f.remove();
  const hs=[...t.tHead.rows[0].cells],rs=[...t.tBodies[0].rows].filter(r=>r.style.display!='none'&&r.cells.length==hs.length);
@@ -365,6 +372,58 @@ window.cntA=async()=>{const S=CI.filter((x,i)=>{const c=$('#ck'+i);return c&&c.c
  toast(n+'/'+S.length+' бүртгэгдлээ ✅');if(n==S.length)CI=[];await load()};
 {const _r3=render;render=function(){_r3();cntR()}}
 $('#d1').addEventListener('change',cntR);$('#d2').addEventListener('change',cntR);
+
+// ===== v4: байгууллага, хөдөлгөөн, хэвлэх, анхааруулга
+const OG=()=>(RAW().org||[])[0]||[],AC=()=>(RAW().acct||[])[0]||[],BR=()=>RAW().branch||[],MV=()=>RAW().moves||[];
+const own=()=>BR().find(b=>k(b[6])=='Өөрийн')||[],esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function mvq(ing,f){return MV().filter(r=>f(r[1])&&k(r[4])==k(ing)&&r[7]!='Цуцлагдсан').reduce((a,r)=>a+(+r[5]||0),0)}
+async function bulk(A){if(!URL_)return toast('Холболт тохируулаагүй');toast('Хадгалж байна...');
+ try{for(const d of A){const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify(d)))).json();if(!j.ok)throw new Error(j.error||'?')}}
+ catch(e){alert('Алдаа: '+e.message+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');await load();return false}
+ await load();toast('Хадгаллаа ✅');return true}
+// ---- хэвлэх баримт
+function pdoc(title,meta,head,rows,foot,vat,signs){const o=OG(),a=AC(),sg=[...(signs||[]),'Нягтлан бодогч: '+esc(a[1]||'')];
+ $('#pa').innerHTML=`<div style="border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px"><b style="font-size:17px">${esc(o[1]||'Байгууллагын нэр')}</b><br>${o[2]?'Регистр: '+esc(o[2])+' · ':''}${esc(o[3]||'')}${o[4]?' · Утас: '+esc(o[4]):''}</div><h2 style="text-align:center;margin:8px 0">${title}</h2><p>${meta.join('<br>')}</p>
+ <table><thead><tr>${head.map(h=>`<th${h[1]?' class="n"':''}>${h[0]}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${head[i][1]?' class="n"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody><tfoot><tr>${foot.map((c,i)=>`<th${head[i][1]?' class="n"':''}>${c}</th>`).join('')}</tr></tfoot></table>
+ ${vat?`<p style="text-align:right">Үүнд багтсан НӨАТ (${+o[6]}%): <b>${fmt(vat)} ₮</b></p>`:''}
+ <div style="display:flex;gap:30px;margin-top:40px">${sg.map(s=>`<div style="flex:1;border-top:1px solid #000;padding-top:4px">${s}<br><small>Гарын үсэг / тамга</small></div>`).join('')}</div>`;
+ setTimeout(()=>window.print(),200)}
+window.prDlg=id=>{const sp=[...new Set(D.purchases.map(p=>k(p[5])).filter(Boolean))];
+ $('#dc').innerHTML=`<h3>🖨 ${id=='sale'?'Борлуулалтын':'Худалдан авалтын'} баримт хэвлэх</h3><label>Эхлэх</label><input type="date" id="pr1" value="${tl().slice(0,8)}01"><label>Дуусах</label><input type="date" id="pr2" value="${tl()}">`+(id=='buy'?`<label>Нийлүүлэгч</label><select id="pr3"><option value="">Бүгд</option>${sp.map(s=>`<option>${esc(s)}</option>`).join('')}</select>`:`<label>Харилцагч / тайлбар (заавал биш)</label><input id="pr3">`)+`<p><button class="btn pri" onclick="prRun('${id}')">🖨 Хэвлэх</button></p>`;dlg.showModal()};
+window.prRun=id=>{const a=v('pr1'),b=v('pr2'),x=v('pr3').trim(),tx=+OG()[6]||0,sd=(p,q)=>day(p[0]).localeCompare(day(q[0]));dlg.close();
+ if(id=='sale'){const S=D.sales.filter(s=>rg(s[0],a,b)).sort(sd),t=sum(S,4);
+  pdoc('БОРЛУУЛАЛТЫН БАРИМТ',[`Хугацаа: ${a} → ${b}`,x?'Харилцагч: '+esc(x):''].filter(Boolean),[['№'],['Огноо'],['Бүтээгдэхүүн'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],S.map((s,i)=>[i+1,day(s[0]),esc(s[1]),fmt(s[3]),fmt((+s[3]||0)?(+s[4]||0)/(+s[3]):0),fmt(s[4])]),['','','Нийт',fmt(sum(S,3)),'',fmt(t)],tx?t*tx/(100+tx):0)}
+ else{const P=D.purchases.filter(p=>rg(p[0],a,b)&&(!x||k(p[5])==x)).sort(sd),t=P.reduce((s,p)=>s+(+p[2]||0)*(+p[4]||0),0);
+  pdoc('ХУДАЛДАН АВАЛТЫН БАРИМТ',[`Хугацаа: ${a} → ${b}`,x?'Нийлүүлэгч: '+esc(x):''].filter(Boolean),[['№'],['Огноо'],['Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1],['Нийлүүлэгч']],P.map((p,i)=>[i+1,day(p[0]),esc(p[1]),fmt(p[2]),fmt(p[4]),fmt((+p[2]||0)*(+p[4]||0)),esc(p[5]||'')]),['','','Нийт','','',fmt(t),''],tx?t*tx/(100+tx):0)}};
+// ---- байгууллага
+const OF=[['Нэр',1],['Регистр',2],['Хаяг',3],['Утас',4],['Имэйл',5],['Татвар % (НӨАТ)',6],['Үйлчилгээний %',7],['Нээлт/Хаалт',8],['Банк',9],['Дансны дугаар',10]];
+function orgR(){const o=OG();$('#orgf').innerHTML=`<div class="card"><h3>🏢 Байгууллагын мэдээлэл</h3><div class="grid">${OF.map(([n,i])=>`<div><label>${n}</label><input id="o${i}" value="${esc(o[i]??'')}"></div>`).join('')}</div><p><button class="btn pri" onclick="orgS()">Хадгалах</button> <span class="sub">Хэвлэсэн баримтын толгойд ашиглагдана</span></p></div>`}
+window.orgS=async()=>{const o=OG(),row=OF.map(([n,i])=>v('o'+i).trim());if(!row[0])return toast('Байгууллагын нэр оруулна уу');await api({act:o[0]?'upd':'add',t:'org',id:o[0],row})};
+{const po=$('#p-org');po.innerHTML='<div id="orgf"></div><h3 class="sub" style="margin:6px 4px">👤 НЯГТЛАН БОДОГЧ</h3>';po.appendChild($('#p-acct'));po.insertAdjacentHTML('beforeend','<h3 class="sub" style="margin:14px 4px 6px">🏬 САЛБАРУУД (Төрөл: "Өөрийн" = таны салбар)</h3>');po.appendChild($('#p-branch'));$('#p-acct').hidden=$('#p-branch').hidden=false}
+// ---- хөдөлгөөн
+function mvR(){const g={},c=ICOST();MV().forEach(r=>{const o=g[r[2]]=g[r[2]]||{d:r[1],b:r[3],st:r[7],L:[]};o.L.push(r)});
+ const docs=Object.entries(g).sort((a,b)=>String(b[1].d).localeCompare(String(a[1].d))||b[0].localeCompare(a[0]));
+ $('#p-mv').innerHTML=`<div class="card tool"><span>🔁 Салбар хоорондын хөдөлгөөн${own()[2]?' — '+esc(own()[2])+' салбараас':''}</span><span class="sp"></span><button class="btn pri" onclick="mvN()">＋ Шинэ шилжүүлэг</button></div>
+ <div class="card"><div class="sc"><table><thead><tr><th>Огноо</th><th>Баримт №</th><th>Хүлээн авагч салбар</th><th class="n">Мөр</th><th class="n">Өртөг ₮</th><th>Төлөв</th><th></th></tr></thead><tbody>${docs.map(([n,o])=>`<tr><td>${day(o.d)}</td><td><b>${esc(n)}</b></td><td>${esc(o.b)}</td><td class="n">${o.L.length}</td><td class="n">${fmt(o.L.reduce((a,r)=>a+(+r[5]||0)*(c[k(r[4])]||0),0))}</td><td><select onchange="mvS('${esc(n)}',this.value)" style="width:auto">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==o.st?'selected':''}>${s}</option>`).join('')}</select></td><td style="white-space:nowrap"><a class="l" onclick="mvP('${esc(n)}')">🖨</a> <a class="l" onclick="mvD('${esc(n)}')">🗑</a></td></tr>`).join('')||'<tr><td colspan="7">Шилжүүлэг алга</td></tr>'}</tbody></table></div></div>`}
+window.mvS=(doc,st)=>bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'upd',t:'moves',id:r[0],row:[r[1],r[2],r[3],r[4],r[5],r[6],st]})));
+window.mvD=doc=>{if(confirm(doc+' баримтыг устгах уу? (Цуцлах бол төлөвийг "Цуцлагдсан" болгоно)'))bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'del',t:'moves',id:r[0]})))};
+window.mvN=()=>{const br=BR().filter(b=>k(b[6])!='Өөрийн');if(!br.length)return alert('Эхлээд "Байгууллага" цэсэнд хүлээн авагч салбараа бүртгэнэ үү');
+ $('#dc').innerHTML=`<h3>🔁 Шинэ шилжүүлэг</h3><label>Огноо</label><input type="date" id="m0" value="${tl()}"><label>Хүлээн авагч салбар</label><select id="m1">${br.map(b=>`<option>${esc(b[2])}</option>`).join('')}</select><label>Тэмдэглэл</label><input id="m2"><datalist id="dl-m">${nm(RAW().stock,1).map(o=>`<option>${esc(o)}</option>`).join('')}</datalist><h4 style="margin:12px 0 4px">Шилжүүлэх орц</h4><div id="ml"></div><p><button class="btn" onclick="mvL()">＋ Мөр нэмэх</button> <button class="btn pri" onclick="mvV()">💾 Хадгалаад хэвлэх</button></p>`;mvL();dlg.showModal()};
+window.mvL=()=>$('#ml').insertAdjacentHTML('beforeend','<div class="tool ml" style="margin-bottom:6px"><input list="dl-m" placeholder="Орц" style="flex:2"><input type="number" step="any" placeholder="Тоо" style="flex:1"><a class="l" onclick="this.parentNode.remove()">✖</a></div>');
+window.mvV=async()=>{const L=[...document.querySelectorAll('#ml .ml')].map(d=>[k(d.children[0].value),+d.children[1].value]).filter(x=>x[0]&&x[1]>0),B={};bm().forEach(b=>B[k(b.n)]=b);
+ if(!L.length)return toast('Орц, тоо оруулна уу');const bad=L.find(x=>!B[x[0]]);if(bad)return toast('Орц олдсонгүй: '+bad[0]);
+ const lo=L.filter(x=>x[1]>B[x[0]].c).map(x=>x[0]);if(lo.length&&!confirm('Үлдэгдэл хүрэлцэхгүй: '+lo.join(', ')+'. Үргэлжлүүлэх үү?'))return;
+ const y=v('m0').slice(0,4),n=new Set(MV().filter(r=>String(r[2]).startsWith('MV-'+y)).map(r=>r[2])).size+1,doc='MV-'+y+'-'+String(n).padStart(4,'0');
+ if(await bulk(L.map(x=>({act:'add',t:'moves',row:[v('m0'),doc,v('m1'),x[0],x[1],v('m2'),'Илгээсэн']}))))dlg.close(),mvP(doc)};
+window.mvP=doc=>{const L=MV().filter(r=>r[2]==doc);if(!L.length)return;const r0=L[0],to=BR().find(b=>k(b[2])==k(r0[3]))||[],fr=own(),c=ICOST(),U={};(RAW().stock||[]).forEach(r=>U[k(r[1])]=r[2]);
+ const t=L.reduce((a,r)=>a+(+r[5]||0)*(c[k(r[4])]||0),0);
+ pdoc('БАРАА ШИЛЖҮҮЛГИЙН БАРИМТ',[`Баримт №: <b>${esc(doc)}</b> · Огноо: ${day(r0[1])}`,`Илгээгч салбар: <b>${esc(fr[2]||'—')}</b>${fr[3]?' ('+esc(fr[3])+')':''}`,`Хүлээн авагч салбар: <b>${esc(r0[3])}</b>${to[3]?' ('+esc(to[3])+')':''}${to[5]?' · Хариуцагч: '+esc(to[5]):''}`,r0[6]?'Тэмдэглэл: '+esc(r0[6]):''].filter(Boolean),
+ [['№'],['Орц'],['Нэгж'],['Тоо',1],['Нэгж өртөг',1],['Өртөг ₮',1]],L.map((r,i)=>[i+1,esc(r[4]),esc(U[k(r[4])]||''),fmt(r[5]),fmt(c[k(r[4])]||0),fmt((+r[5]||0)*(c[k(r[4])]||0))]),['','Нийт','','','',fmt(t)],0,[`Шилжүүлсэн: ${esc(fr[5]||'')}`,`Хүлээн авсан: ${esc(to[5]||'')}`])};
+// ---- анхааруулга (Excel-ийн Анхааруулга хуудас)
+function warnR(){const B=bm().map((b,i)=>[b,i]),W=B.filter(([b])=>b.st[1]!='ok'),cnt=n=>B.filter(([b])=>b.st[0]==n).length,K=(l,n,c)=>`<div class="kpi" style="--k:${c}"><span>${l}</span><b>${n}</b></div>`;
+ $('#p-warn').innerHTML=`<div class="kpis">${K('🔴 ДУССАН',cnt('Дуссан'),'#c0392b')}${K('🔴 ДООД ХЯЗГААРААС ДООШ',cnt('Доод хязгаараас доош'),'#c0392b')}${K('🟡 АНХААРУУЛГА',cnt('Анхааруулга'),'#d68910')}${K('✅ ХАНГАЛТТАЙ',cnt('Хангалттай'),'#1e8449')}</div>`+
+ SC('Анхаарах орцууд (БМ тайлангийн хугацааны төгсгөл байдлаар)',['Орц','Нэгж','Эцсийн','Доод хязгаар','Дутагдал','Статус'],W.map(([b,i])=>[`<a class="l" onclick="dr(${i},'sum')">${esc(b.n)}</a>`,b.u,b.c,b.mn,Math.max(0,b.mn-b.c),`<span class="chip ${b.st[1]}">${b.st[0]}</span>`]))}
+{const _r4=render;render=function(){_r4();warnR();mvR();orgR()}}
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
 $('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
