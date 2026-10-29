@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><title>Taste of Tradition — Түүхий эдийн систем</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><title>Mozart baker — Түүхий эдийн систем</title>
 <style>
 :root{--bg:#e9eff5;--c:rgba(255,255,255,.74);--cd:rgba(255,255,255,.9);--t:#17232d;--m:#64748b;--b:rgba(15,42,67,.1);--a:#1f6f8b;--p:#0f2a43;--r:#c0392b;--y:#d68910;--g:#1e8449;--sh:0 1px 2px #0b1f3012,0 8px 24px #0b1f3012;--sw:250px}
 html[data-theme=dark]{--bg:#091017;--c:rgba(24,36,47,.62);--cd:rgba(18,28,37,.92);--t:#e6edf1;--m:#8fa1ad;--b:rgba(255,255,255,.09);--p:#0a1c2d;--sh:0 1px 2px #0006,0 8px 28px #0005}
@@ -115,7 +115,7 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
 <div class="aurora"><i></i><i></i><i></i></div>
-<aside id="side"><div class="brand"><span>🍽</span><div><b>Taste of Tradition</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
+<aside id="side"><div class="brand"><span>🍽</span><div><b>Mozart bakery</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
 <div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
 <div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
 <button id="kb" title="Хайлт (Ctrl+K)">🔍 Хайх<span class="kbd">Ctrl K</span></button><button id="bellb" title="Мэдэгдэл">🔔<span id="bdg"></span></button><button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
@@ -222,7 +222,7 @@ const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['ref','�
 const nb=t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`;
 $('#nav').innerHTML=nb(tb('dash'))+nb(tb('docs'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
 function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));document.querySelectorAll('#bt button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
- const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
+ const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Mozart bakery</small>';LS.bmTab2=t;document.body.classList.remove('open')}
 
 // ===== v2: бүртгэл (нэмэх/засах/устгах) + тайлангууд
 const tl=()=>new Date().toLocaleDateString('sv'),cs={},RAW=()=>D.raw||{},nm=(a,i)=>[...new Set((a||[]).map(r=>k(r[i])))].filter(Boolean);
