@@ -48,7 +48,7 @@ th{background:color-mix(in srgb,var(--a) 62%,#0a1c2d);color:#fff;font-weight:600
 tbody tr{transition:background .15s,transform .15s}tbody tr:nth-child(even){background:#8aa0b30f}tbody tr:hover{background:color-mix(in srgb,var(--a) 16%,transparent)}
 td.n,th.n{text-align:right}.sc{overflow:auto;max-height:68vh;border-radius:10px}.bm table{table-layout:fixed;width:1040px}.bm td,.bm th{overflow:hidden;text-overflow:ellipsis}
 .z{opacity:.5}.p{background:#1e84491a}.p td{font-weight:600}.sub{color:var(--m);font-size:12px}
-a.l{color:var(--a);cursor:pointer;font-weight:600;border-bottom:1px dashed var(--a);transition:.15s}a.l:hover{background:color-mix(in srgb,var(--a) 18%,transparent);border-bottom-style:solid}
+a.l{color:var(--a);cursor:pointer;font-weight:600;border-bottom:1px solid transparent;transition:.15s}a.l:hover{background:color-mix(in srgb,var(--a) 18%,transparent);border-bottom-color:var(--a)}
 .bar{height:12px;background:var(--b);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),color-mix(in srgb,var(--a) 50%,#fff));border-radius:6px;animation:gw .8s ease both;transform-origin:left}@keyframes gw{from{transform:scaleX(0)}}
 .hb{display:grid;grid-template-columns:130px 1fr 100px;gap:8px;align-items:center;margin:4px -6px;padding:4px 6px;border-radius:8px;font-size:13px;transition:background .15s,transform .15s}.hb:hover{background:color-mix(in srgb,var(--a) 12%,transparent);transform:translateX(3px)}.hb u{text-decoration:none;text-align:right;color:var(--m)}
 .chip{padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#8aa0b322;display:inline-block;transition:transform .15s}a.l:hover .chip{transform:scale(1.08)}.chip.w{background:#c0392b24;color:var(--r)}.chip.y{background:#d6891024;color:var(--y)}.chip.ok{background:#1e844924;color:var(--g)}
@@ -364,12 +364,12 @@ function applyUi(){document.documentElement.dataset.theme=UI.theme=='auto'?(mq.m
  document.documentElement.style.setProperty('--a',UI.accent);document.body.classList.toggle('noaur',!UI.aurora);document.body.classList.toggle('col',UI.col);
  $('#colb').textContent=UI.col?'»':'«';LS.bmUi=JSON.stringify(UI)}
 mq.onchange=applyUi;
-function pop(){const C=['#1f6f8b','#2563eb','#7c3aed','#db2777','#ea580c','#16a34a'];
+function pop(){const C=['#1f6f8b','#0ea5e9','#2563eb','#4f46e5','#7c3aed','#a21caf','#db2777','#e11d48','#dc2626','#ea580c','#d97706','#ca8a04','#65a30d','#16a34a','#059669','#0d9488','#0891b2','#475569','#78350f','#8b2252','#0f766e','#1d4ed8','#6d28d9','#be123c'];
  $('#pop').innerHTML=`<h4>Горим</h4><div class="row">${[['auto','Авто'],['light','☀ Өдөр'],['dark','🌙 Шөнө']].map(x=>`<button class="${UI.theme==x[0]?'btn pri':''}" data-th="${x[0]}">${x[1]}</button>`).join('')}</div>
- <h4>Өнгө</h4><div class="row">${C.map(c=>`<button class="sw ${UI.accent==c?'on':''}" style="background:${c}" data-ac="${c}"></button>`).join('')}</div>
+ <h4>Өнгө</h4><div class="row">${C.map(c=>`<button class="sw ${UI.accent==c?'on':''}" style="background:${c}" data-ac="${c}"></button>`).join('')}<label title="Өөрийн өнгө сонгох" style="display:flex;align-items:center;gap:6px;margin:0"><input type="color" id="oco" value="${/^#[0-9a-f]{6}$/i.test(UI.accent)?UI.accent:'#1f6f8b'}" style="width:34px;height:28px;padding:0;border:0;background:none;cursor:pointer"><span class="sub">Өөр өнгө</span></label></div>
  <label><input type="checkbox" id="oa" ${UI.aurora?'checked':''}> Aurora анимаци</label><label><input type="checkbox" id="oc" ${UI.col?'checked':''}> Жижиг цэс</label>`;
  $('#pop').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.th)UI.theme=b.dataset.th;if(b.dataset.ac)UI.accent=b.dataset.ac;applyUi();pop()};
- $('#oa').onchange=e=>{UI.aurora=e.target.checked;applyUi()};$('#oc').onchange=e=>{UI.col=e.target.checked;applyUi()}}
+ $('#oco').oninput=e=>{UI.accent=e.target.value;applyUi()};$('#oa').onchange=e=>{UI.aurora=e.target.checked;applyUi()};$('#oc').onchange=e=>{UI.col=e.target.checked;applyUi()}}
 $('#ui').onclick=e=>{e.stopPropagation();const p=$('#pop');p.hidden=!p.hidden;if(!p.hidden)pop()};
 document.addEventListener('click',e=>{if(!e.target.closest('#pop'))$('#pop').hidden=true});
 $('#colb').onclick=()=>{UI.col=!UI.col;applyUi()};$('#burger').onclick=e=>{e.stopPropagation();document.body.classList.toggle('open')};
