@@ -226,7 +226,7 @@ function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySele
 
 // ===== v2: бүртгэл (нэмэх/засах/устгах) + тайлангууд
 const tl=()=>new Date().toLocaleDateString('sv'),cs={},RAW=()=>D.raw||{},nm=(a,i)=>[...new Set((a||[]).map(r=>k(r[i])))].filter(Boolean);
-const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['Орц','ing'],['Хэмжээ','number']]],
+const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['Орц','ing'],['Хэмжээ','number'],['Нэгж','text']]],
  buy:['purchases','Худалдан авалт',[['Огноо','date'],['Орц','ing'],['Тоо','number'],['Нэгж үнэ','number'],['Нийлүүлэгч','text'],['Тэмдэглэл','text']]],
  stock:['stock','Түүхий эд / Орц үнэ',[['Орц','text'],['Нэгж','text'],['Нэгж өртөг','number'],['Эхний үлдэгдэл','number'],['Доод хязгаар','number']]],
  exp:['expenses','Зардал',[['Огноо','date'],['Ангилал','ecat'],['Тоо','number'],['Дүн','number'],['Тэмдэглэл','text']]],
@@ -311,7 +311,7 @@ function render(){dash();bmTable();
  const ings=[...new Set(D.stock.map(s=>s[0]))],prods=[...new Set(D.recipes.map(r=>k(r[0])))],opt=a=>a.map(x=>`<option>${x}</option>`).join('');
  $('#p-in').innerHTML=`<div class="card f"><h3>Орлого бүртгэх</h3><label>Огноо</label><input type="date" id="a1" value="${iso(today)}"><label>Орц</label><select id="a2">${opt(ings)}</select><label>Авсан тоо</label><input type="number" id="a3"><label>Нэгж үнэ</label><input type="number" id="a4"><label>Нийлүүлэгч</label><input id="a5"><p><button class="btn pri" onclick="fi()">Хадгалах</button></p></div>`;
  $('#p-sale').innerHTML=`<div class="card f"><h3>Өдрийн борлуулалт</h3><label>Огноо</label><input type="date" id="b1" value="${iso(today)}"><label>Бүтээгдэхүүн</label><select id="b2">${opt(prods)}</select><label>Ангилал</label><input id="b5" placeholder="жишээ: Нарын боов"><label>Тоо</label><input type="number" id="b3"><label>Нийт дүн</label><input type="number" id="b4"><p><button class="btn pri" onclick="fs()">Хадгалах</button></p></div>`;
- $('#p-rec').innerHTML=`<div class="card f"><h3>Жорд орц нэмэх</h3><label>Бүтээгдэхүүн</label><input id="c1" list="pl"><datalist id="pl">${opt(prods)}</datalist><label>Орц</label><select id="c2">${opt(ings)}</select><label>1 ширхэгт орох хэмжээ</label><input type="number" id="c3"><label>Нэгж</label><input id="c4" value="гр"><p><button class="btn pri" onclick="fr()">Хадгалах</button></p></div>`}
+ $('#p-rec').innerHTML=`<div class="card f"><h3>Жорд орц нэмэх</h3><label>Бүтээгдэхүүн</label><input id="c1" list="pl"><datalist id="pl">${opt(prods)}</datalist><label>Орц</label><select id="c2" onchange="const s=D.stock.find(x=>x[0]==this.value);$('#c4').value=s&&s[1]||'гр'">${opt(ings)}</select><label>1 ширхэгт орох хэмжээ</label><input type="number" id="c3"><label>Нэгж</label><input id="c4" value="гр"><p><button class="btn pri" onclick="fr()">Хадгалах</button></p></div>`}
 let LM,LC,cur={i:0,t:'sum',f:'all'};
 const R=(c,v)=>{c.v=v;return c},rng=()=>`${$('#d1').value} → ${$('#d2').value}`;
 const tbl=(hd,rs,ft)=>`<div class="sc" style="max-height:46vh"><table><thead><tr>${hd.map(x=>`<th class="${x[1]?'n':''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${rs.map(r=>`<tr class="${r.v===0?'z':r.v>0?'p':''}">${r.map((c,i)=>`<td class="${hd[i][1]?'n':''}">${c}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${hd.length}" class="sub">Мөр алга</td></tr>`}</tbody>${ft?`<tfoot><tr>${ft.map((c,i)=>`<th class="${hd[i][1]?'n':''}">${c}</th>`).join('')}</tr></tfoot>`:''}</table></div>`;
@@ -674,7 +674,7 @@ const sid=n=>((RAW().stock||[]).find(r=>k(r[1])==k(n))||[])[0];
 window.nE=id=>id?ed('stock',id):toast('Орц олдсонгүй');
 window.nDue=i=>{const e=NL[i];dwC();DS.t='set';DS.q=e[0];DS.a='2000-01-01';DS.b='2100-01-01';go('docs');docsR()};
 window.nR=i=>{ed('rec');$('#f0').value=NL[i];$('#f1').focus()};
-window.rqS=(id,v)=>{const r=(RAW().recipes||[]).find(x=>x[0]==id);if(!r||!(+v>0))return toast('Хэмжээг 0-ээс их тоогоор оруулна уу');bulk([{act:'upd',t:'recipes',id,row:[r[1],r[2],+v]}])};
+window.rqS=(id,v)=>{const r=(RAW().recipes||[]).find(x=>x[0]==id);if(!r||!(+v>0))return toast('Хэмжээг 0-ээс их тоогоор оруулна уу');bulk([{act:'upd',t:'recipes',id,row:[r[1],r[2],+v,r[4]||'']}])};
 window.rqD=async id=>{if(await uiConfirm('Энэ орцыг жороос хасах уу?'))bulk([{act:'del',t:'recipes',id}])};
 function ntR(){const el=$('#dw'),m=NK[NT];NL=m?nlists()[NT]:null;if(!NL){NT=null;el.classList.remove('on');$('#dwo').classList.remove('on');return}
  const tb=(h,r)=>`<div class="dwc t"><table><thead><tr>${h.map(x=>`<th class="${x[1]?'n':''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${r.join('')||`<tr><td colspan="${h.length}" class="sub" style="padding:18px">Бүгд зассан ✅</td></tr>`}</tbody></table></div>`,
