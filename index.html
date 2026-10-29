@@ -107,6 +107,10 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 @media(max-width:860px){#bt{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--cd);backdrop-filter:blur(18px);border-top:1px solid var(--b);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
  #bt button{flex:1;background:none;border:0;color:var(--m);font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:10px;cursor:pointer}#bt button span{font-size:20px}#bt button.on{color:var(--a);font-weight:700}
  main{padding-bottom:90px}#fab{bottom:82px;right:14px}#bell{right:10px;width:calc(100vw - 20px)}.kbd{display:none}}
+.dr{cursor:pointer}.dx>td{background:color-mix(in srgb,var(--a) 6%,transparent);padding:10px 16px!important}.dx table{width:auto;min-width:60%}
+.tc{display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:700;color:#fff;white-space:nowrap}
+.dt{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;font-size:13px}.dt span{background:color-mix(in srgb,var(--a) 10%,transparent);padding:4px 12px;border-radius:12px}
+.dch{display:flex;gap:8px;flex-wrap:wrap}.dch small{opacity:.7;margin-left:4px}
 #pa{display:none}
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
@@ -124,12 +128,12 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 <dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><dialog id="kp"><input id="kq" placeholder="🔍 Хайх: цэс, орц, бүтээгдэхүүн, баримт, үйлдэл..."><div id="kl"></div></dialog>
 <dialog id="posd"><div id="posc"></div></dialog>
 <div id="fab"><div class="fm"><button onclick="fq(0)">🍰 POS борлуулалт</button><button onclick="fq(1)">🧾 Борлуулалт (баримт)</button><button onclick="fq(2)">📥 Худалдан авалт</button><button onclick="fq(3)">💸 Зардал</button><button onclick="fq(4)">🔁 Шилжүүлэг</button></div><button class="fb" onclick="this.parentNode.classList.toggle('open')" title="Шинээр бүртгэх">＋</button></div>
-<nav id="bt"><button data-t="dash"><span>📊</span>Dashboard</button><button data-t="sale"><span>🧾</span>Борлуулалт</button><button data-t="bm"><span>📋</span>БМ тайлан</button><button data-t="warn"><span>🚨</span>Анхааруулга</button><button id="btm"><span>☰</span>Бусад</button></nav>
+<nav id="bt"><button data-t="dash"><span>📊</span>Dashboard</button><button data-t="docs"><span>🧾</span>Баримт</button><button data-t="bm"><span>📋</span>БМ тайлан</button><button data-t="warn"><span>🚨</span>Анхааруулга</button><button id="btm"><span>☰</span>Бусад</button></nav>
 <dialog id="cdlg"><div id="cdc"></div></dialog><div id="msg"></div><div id="pa"></div>
 <script>
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
-const today=new Date(),iso=d=>d.toISOString().slice(0,10),pad=n=>String(n).padStart(2,'0');
+const today=new Date(),iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),pad=n=>String(n).padStart(2,'0');
 const ym=(y,m)=>y+'-'+pad(m);
 $('#d1').value=ym(today.getFullYear(),today.getMonth()+1)+'-01';$('#d2').value=iso(new Date(today.getFullYear(),today.getMonth()+1,0)).slice(0,10);
 const mm=today.getFullYear()+'-'+pad(today.getMonth()+1);
@@ -213,10 +217,10 @@ function dash(){const M=mm2(sel.y,sel.m),B=bm(),ys=[...Array(12)].map((_,i)=>mm2
  ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
  $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
 // ---- харагдац
-const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['warn','🚨','Анхааруулга'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Ашиг алдагдал'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['mv','🔁','Хөдөлгөөн'],['prod','🍰','Бүтээгдэхүүн'],['org','🏢','Байгууллага']];
-const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['doc','🧾','Баримт бүртгэх',['sale','buy','exp','cnt','mv','set']],['ref','📚','Лавлах',['rec','stock','prod']],['cfg','⚙️','Тохиргоо',['org']]],NO=JSON.parse(LS.navOpen||'{}'),tb=id=>TABS.find(x=>x[0]==id);
+const TABS=[['dash','📊','Dashboard'],['docs','🧾','Баримт'],['bm','📋','БМ тайлан'],['warn','🚨','Анхааруулга'],['cnt','🧮','Тооллого'],['day','🗓','Өдрийн тайлан'],['pr','🏆','Бүтээгдэхүүн тайлан'],['yr','📈','Ашиг алдагдал'],['rec','🍽','Жор меню'],['buy','📥','Худалдан авалт'],['stock','📦','Түүхий эд / Орц үнэ'],['exp','💸','Зардал'],['set','💳','Тооцоо'],['sale','🧾','Борлуулалт'],['mv','🔁','Хөдөлгөөн'],['prod','🍰','Бүтээгдэхүүн'],['org','🏢','Байгууллага']];
+const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['ref','📚','Лавлах',['rec','stock','prod']],['cfg','⚙️','Тохиргоо',['org']]],NO=JSON.parse(LS.navOpen||'{}'),tb=id=>TABS.find(x=>x[0]==id);
 const nb=t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`;
-$('#nav').innerHTML=nb(tb('dash'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
+$('#nav').innerHTML=nb(tb('dash'))+nb(tb('docs'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
 function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));document.querySelectorAll('#bt button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
  const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
 
@@ -229,9 +233,10 @@ const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['
  set:['settle','Тооцоо (авлага/өглөг)',[['Огноо','date'],['Харилцагч','text'],['Төрөл','text'],['Тайлбар','text'],['Авлага','number'],['Өглөг','number'],['Дуусах','date'],['Барагдуулалт','number']]],
  sale:['sales','Борлуулалт',[['Огноо','date'],['Бүтээгдэхүүн','pr'],['Ангилал','cat'],['Тоо','number'],['Нийт дүн','number']]],
  prod:['products','Бүтээгдэхүүн',[['Бүтээгдэхүүн','text'],['Үнэ','number'],['Ангилал','cat']]],
+ adj:['adj','Тооллогын засвар',[['Огноо','date'],['Орц','ing'],['Тоо','number'],['Төрөл','text'],['Тэмдэглэл','text']]],
  acct:['acct','Нягтлан бодогч',[['Нэр','text'],['Албан тушаал','text'],['Утас','text'],['Имэйл','text']]],
  branch:['branch','Салбар',[['Код','text'],['Нэр','text'],['Хаяг','text'],['Утас','text'],['Хариуцагч','text'],['Төрөл','own']]]};
-['day','pr','yr','cnt','warn','mv','org',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
+['day','pr','yr','cnt','warn','mv','org','docs',...Object.keys(DB)].forEach(id=>{if(!$('#p-'+id)){const s=document.createElement('section');s.id='p-'+id;s.hidden=true;$('main').appendChild(s)}});
 function crud(id){const [t,n,F]=DB[id],q=(cs[id]||'').toLowerCase(),rows=(RAW()[t]||[]).slice();
  if(F[0][1]=='date')rows.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
  const L=rows.filter(r=>!q||r.join(' ').toLowerCase().includes(q));
@@ -447,12 +452,12 @@ async function bulk(A){if(!URL_)return toast('Холболт тохируула�
  catch(e){alert('Алдаа: '+e.message+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');await load();return false}
  await load();toast('Хадгаллаа ✅');return true}
 // ---- хэвлэх баримт
-function pdoc(title,meta,head,rows,foot,vat,signs){const o=OG(),a=AC(),sg=[...(signs||[]),'Нягтлан бодогч: '+esc(a[1]||'')];
- $('#pa').innerHTML=`<div style="border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px"><b style="font-size:17px">${esc(o[1]||'Байгууллагын нэр')}</b><br>${o[2]?'Регистр: '+esc(o[2])+' · ':''}${esc(o[3]||'')}${o[4]?' · Утас: '+esc(o[4]):''}</div><h2 style="text-align:center;margin:8px 0">${title}</h2><p>${meta.join('<br>')}</p>
+function pdoc(...A){$('#pa').innerHTML=pdh(...A);setTimeout(()=>window.print(),200)}
+function pdh(title,meta,head,rows,foot,vat,signs){const o=OG(),a=AC(),sg=[...(signs||[]),'Нягтлан бодогч: '+esc(a[1]||'')];
+ return `<div style="border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px"><b style="font-size:17px">${esc(o[1]||'Байгууллагын нэр')}</b><br>${o[2]?'Регистр: '+esc(o[2])+' · ':''}${esc(o[3]||'')}${o[4]?' · Утас: '+esc(o[4]):''}</div><h2 style="text-align:center;margin:8px 0">${title}</h2><p>${meta.join('<br>')}</p>
  <table><thead><tr>${head.map(h=>`<th${h[1]?' class="n"':''}>${h[0]}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${head[i][1]?' class="n"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody><tfoot><tr>${foot.map((c,i)=>`<th${head[i][1]?' class="n"':''}>${c}</th>`).join('')}</tr></tfoot></table>
  ${vat?`<p style="text-align:right">Үүнд багтсан НӨАТ (${+o[6]}%): <b>${fmt(vat)} ₮</b></p>`:''}
- <div style="display:flex;gap:30px;margin-top:40px">${sg.map(s=>`<div style="flex:1;border-top:1px solid #000;padding-top:4px">${s}<br><small>Гарын үсэг / тамга</small></div>`).join('')}</div>`;
- setTimeout(()=>window.print(),200)}
+ <div style="display:flex;gap:30px;margin-top:40px">${sg.map(s=>`<div style="flex:1;border-top:1px solid #000;padding-top:4px">${s}<br><small>Гарын үсэг / тамга</small></div>`).join('')}</div>`;}
 window.prDlg=id=>{const sp=[...new Set(D.purchases.map(p=>k(p[5])).filter(Boolean))];
  $('#dc').innerHTML=`<h3>🖨 ${id=='sale'?'Борлуулалтын':'Худалдан авалтын'} баримт хэвлэх</h3><label>Эхлэх</label><input type="date" id="pr1" value="${tl().slice(0,8)}01"><label>Дуусах</label><input type="date" id="pr2" value="${tl()}">`+(id=='buy'?`<label>Нийлүүлэгч</label><select id="pr3"><option value="">Бүгд</option>${sp.map(s=>`<option>${esc(s)}</option>`).join('')}</select>`:`<label>Харилцагч / тайлбар (заавал биш)</label><input id="pr3">`)+`<p><button class="btn pri" onclick="prRun('${id}')">🖨 Хэвлэх</button></p>`;dlg.showModal()};
 window.prRun=id=>{const a=v('pr1'),b=v('pr2'),x=v('pr3').trim(),tx=+OG()[6]||0,sd=(p,q)=>day(p[0]).localeCompare(day(q[0]));dlg.close();
@@ -472,18 +477,19 @@ function mvR(){const g={},c=ICOST();MV().forEach(r=>{const o=g[r[2]]=g[r[2]]||{d
  <div class="card"><div class="sc"><table><thead><tr><th>Огноо</th><th>Баримт №</th><th>Хүлээн авагч салбар</th><th class="n">Мөр</th><th class="n">Өртөг ₮</th><th>Төлөв</th><th></th></tr></thead><tbody>${docs.map(([n,o])=>`<tr><td>${day(o.d)}</td><td><b>${esc(n)}</b></td><td>${esc(o.b)}</td><td class="n">${o.L.length}</td><td class="n">${fmt(o.L.reduce((a,r)=>a+(+r[5]||0)*(c[k(r[4])]||0),0))}</td><td><select onchange="mvS('${esc(n)}',this.value)" style="width:auto">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==o.st?'selected':''}>${s}</option>`).join('')}</select></td><td style="white-space:nowrap"><a class="l" onclick="mvP('${esc(n)}')">🖨</a> <a class="l" onclick="mvD('${esc(n)}')">🗑</a></td></tr>`).join('')||'<tr><td colspan="7">Шилжүүлэг алга</td></tr>'}</tbody></table></div></div>`}
 window.mvS=(doc,st)=>bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'upd',t:'moves',id:r[0],row:[r[1],r[2],r[3],r[4],r[5],r[6],st]})));
 window.mvD=async doc=>{if(await uiConfirm(doc+' баримтыг устгах уу? (Цуцлах бол төлөвийг "Цуцлагдсан" болгоно)'))bulk(MV().filter(r=>r[2]==doc).map(r=>({act:'del',t:'moves',id:r[0]})))};
-window.mvN=()=>{const br=BR().filter(b=>k(b[6])!='Өөрийн');if(!br.length)return alert('Эхлээд "Байгууллага" цэсэнд хүлээн авагч салбараа бүртгэнэ үү');
- $('#dc').innerHTML=`<h3>🔁 Шинэ шилжүүлэг</h3><label>Огноо</label><input type="date" id="m0" value="${tl()}"><label>Хүлээн авагч салбар</label><select id="m1">${br.map(b=>`<option>${esc(b[2])}</option>`).join('')}</select><label>Тэмдэглэл</label><input id="m2"><datalist id="dl-m">${nm(RAW().stock,1).map(o=>`<option>${esc(o)}</option>`).join('')}</datalist><h4 style="margin:12px 0 4px">Шилжүүлэх орц</h4><div id="ml"></div><p><button class="btn" onclick="mvL()">＋ Мөр нэмэх</button> <button class="btn pri" onclick="mvV()">💾 Хадгалаад хэвлэх</button></p>`;mvL();dlg.showModal()};
+window.mvN=d=>{EMV=d&&d.L?d:null;const br=BR().filter(b=>k(b[6])!='Өөрийн');if(!br.length)return alert('Эхлээд "Байгууллага" цэсэнд хүлээн авагч салбараа бүртгэнэ үү');
+ $('#dc').innerHTML=`<h3>🔁 Шинэ шилжүүлэг</h3><label>Огноо</label><input type="date" id="m0" value="${tl()}"><label>Хүлээн авагч салбар</label><select id="m1">${br.map(b=>`<option>${esc(b[2])}</option>`).join('')}</select><label>Тэмдэглэл</label><input id="m2"><datalist id="dl-m">${nm(RAW().stock,1).map(o=>`<option>${esc(o)}</option>`).join('')}</datalist><h4 style="margin:12px 0 4px">Шилжүүлэх орц</h4><div id="ml"></div><p><button class="btn" onclick="mvL()">＋ Мөр нэмэх</button> <button class="btn pri" onclick="mvV()">💾 Хадгалаад хэвлэх</button></p>`;mvL();dlg.showModal();if(EMV){$('#m1').value=EMV.party;$('#m0').value=EMV.date;$('#m2').value=EMV.L[0][6]||'';$('#ml').innerHTML='';EMV.L.forEach(r=>{mvL();const c=$('#ml').lastElementChild.children;c[0].value=r[4];c[1].value=r[5]});$('#dc h3').textContent='🔁 Шилжүүлэг засах — '+EMV.no}};
 window.mvL=()=>$('#ml').insertAdjacentHTML('beforeend','<div class="tool ml" style="margin-bottom:6px"><input list="dl-m" placeholder="Орц" style="flex:2"><input type="number" step="any" placeholder="Тоо" style="flex:1"><a class="l" onclick="this.parentNode.remove()">✖</a></div>');
 window.mvV=async()=>{const L=[...document.querySelectorAll('#ml .ml')].map(d=>[k(d.children[0].value),+d.children[1].value]).filter(x=>x[0]&&x[1]>0),B={};bm().forEach(b=>B[k(b.n)]=b);
  if(!L.length)return toast('Орц, тоо оруулна уу');const bad=L.find(x=>!B[x[0]]);if(bad)return toast('Орц олдсонгүй: '+bad[0]);
  const lo=L.filter(x=>x[1]>B[x[0]].c).map(x=>x[0]);if(lo.length&&!await uiConfirm('Үлдэгдэл хүрэлцэхгүй: '+lo.join(', ')+'. Үргэлжлүүлэх үү?'))return;
  const y=v('m0').slice(0,4),n=new Set(MV().filter(r=>String(r[2]).startsWith('MV-'+y)).map(r=>r[2])).size+1,doc='MV-'+y+'-'+String(n).padStart(4,'0');
- if(await bulk(L.map(x=>({act:'add',t:'moves',row:[v('m0'),doc,v('m1'),x[0],x[1],v('m2'),'Илгээсэн']}))))dlg.close(),mvP(doc)};
-window.mvP=doc=>{const L=MV().filter(r=>r[2]==doc);if(!L.length)return;const r0=L[0],to=BR().find(b=>k(b[2])==k(r0[3]))||[],fr=own(),c=ICOST(),U={};(RAW().stock||[]).forEach(r=>U[k(r[1])]=r[2]);
+ const E0=EMV,dc=E0?E0.no:doc;if(await bulk([...(E0?E0.L.map(r=>({act:'del',t:'moves',id:r[0]})):[]),...L.map(x=>({act:'add',t:'moves',row:[v('m0'),dc,v('m1'),x[0],x[1],v('m2'),E0?E0.st:'Илгээсэн']}))])){dlg.close();EMV=null;if(!E0)mvP(dc)}};
+function mvA(doc){const L=MV().filter(r=>r[2]==doc),r0=L[0],to=BR().find(b=>k(b[2])==k(r0[3]))||[],fr=own(),c=ICOST(),U={};(RAW().stock||[]).forEach(r=>U[k(r[1])]=r[2]);
  const t=L.reduce((a,r)=>a+(+r[5]||0)*(c[k(r[4])]||0),0);
- pdoc('БАРАА ШИЛЖҮҮЛГИЙН БАРИМТ',[`Баримт №: <b>${esc(doc)}</b> · Огноо: ${day(r0[1])}`,`Илгээгч салбар: <b>${esc(fr[2]||'—')}</b>${fr[3]?' ('+esc(fr[3])+')':''}`,`Хүлээн авагч салбар: <b>${esc(r0[3])}</b>${to[3]?' ('+esc(to[3])+')':''}${to[5]?' · Хариуцагч: '+esc(to[5]):''}`,r0[6]?'Тэмдэглэл: '+esc(r0[6]):''].filter(Boolean),
- [['№'],['Орц'],['Нэгж'],['Тоо',1],['Нэгж өртөг',1],['Өртөг ₮',1]],L.map((r,i)=>[i+1,esc(r[4]),esc(U[k(r[4])]||''),fmt(r[5]),fmt(c[k(r[4])]||0),fmt((+r[5]||0)*(c[k(r[4])]||0))]),['','Нийт','','','',fmt(t)],0,[`Шилжүүлсэн: ${esc(fr[5]||'')}`,`Хүлээн авсан: ${esc(to[5]||'')}`])};
+ return ['БАРАА ШИЛЖҮҮЛГИЙН БАРИМТ',[`Баримт №: <b>${esc(doc)}</b> · Огноо: ${day(r0[1])}`,`Илгээгч салбар: <b>${esc(fr[2]||'—')}</b>${fr[3]?' ('+esc(fr[3])+')':''}`,`Хүлээн авагч салбар: <b>${esc(r0[3])}</b>${to[3]?' ('+esc(to[3])+')':''}${to[5]?' · Хариуцагч: '+esc(to[5]):''}`,r0[6]?'Тэмдэглэл: '+esc(r0[6]):''].filter(Boolean),
+ [['№'],['Орц'],['Нэгж'],['Тоо',1],['Нэгж өртөг',1],['Өртөг ₮',1]],L.map((r,i)=>[i+1,esc(r[4]),esc(U[k(r[4])]||''),fmt(r[5]),fmt(c[k(r[4])]||0),fmt((+r[5]||0)*(c[k(r[4])]||0))]),['','Нийт','','','',fmt(t)],0,[`Шилжүүлсэн: ${esc(fr[5]||'')}`,`Хүлээн авсан: ${esc(to[5]||'')}`]]}
+window.mvP=doc=>{if(MV().some(r=>r[2]==doc))pdoc(...mvA(doc))};
 // ---- анхааруулга (Excel-ийн Анхааруулга хуудас)
 function warnR(){const B=bm().map((b,i)=>[b,i]),W=B.filter(([b])=>b.st[1]!='ok'),cnt=n=>B.filter(([b])=>b.st[0]==n).length,K=(l,n,c)=>`<div class="kpi" style="--k:${c}"><span>${l}</span><b>${n}</b></div>`;
  $('#p-warn').innerHTML=`<div class="kpis">${K('🔴 ДУССАН',cnt('Дуссан'),'#c0392b')}${K('🔴 ДООД ХЯЗГААРААС ДООШ',cnt('Доод хязгаараас доош'),'#c0392b')}${K('🟡 АНХААРУУЛГА',cnt('Анхааруулга'),'#d68910')}${K('✅ ХАНГАЛТТАЙ',cnt('Хангалттай'),'#1e8449')}</div>`+
@@ -527,11 +533,11 @@ function uiMsg(t,c){return new Promise(r=>{const d=$('#cdlg');$('#cdc').innerHTM
 const uiConfirm=t=>uiMsg(String(t),1);window.alert=t=>{uiMsg(String(t))};
 // ---- борлуулалт / худалдан авалт: баримтаар бүртгэх + хэвлэх
 const PP=()=>{const m={};(RAW().products||[]).forEach(r=>m[k(r[1])]=+r[2]||0);return m},CT=()=>{const m={};(RAW().products||[]).forEach(r=>m[k(r[1])]=r[3]||'');return m};
-window.docN=id=>{const S=id=='sale',sp=[...new Set(D.purchases.map(p=>k(p[5])).filter(Boolean))],op=a=>a.map(x=>`<option value="${esc(x)}"></option>`).join('');
+window.docN=(id,ed0)=>{EDOC=ed0||null;const S=id=='sale',sp=[...new Set(D.purchases.map(p=>k(p[5])).filter(Boolean))],op=a=>a.map(x=>`<option value="${esc(x)}"></option>`).join('');
  $('#dc').innerHTML=`<h3>${S?'🧾 Борлуулалт бүртгэх':'📥 Худалдан авалт бүртгэх'}</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label>Огноо</label><input type="date" id="x0" value="${tl()}"></div><div><label>${S?'Харилцагч (хэвлэхэд, заавал биш)':'Нийлүүлэгч'}</label><input id="x1" ${S?'':'list="dl-xs"'}></div></div>
  <datalist id="dl-xs">${op(sp)}</datalist><datalist id="dl-xn">${op(S?nm(RAW().products,1):nm(RAW().stock,1))}</datalist>
  <h4 style="margin:14px 0 6px">${S?'Бүтээгдэхүүн':'Орц'} <span class="sub">· ${S?'Нэр · Тоо · Дүн (үнээс автоматаар)':'Нэр · Тоо · Нэгж үнэ · Дүн'}</span></h4><div id="xl" data-t="${id}"></div>
- <p><button class="btn" onclick="xL()">＋ Мөр нэмэх</button> <b id="xt" style="float:right;font-size:16px"></b></p><p><button class="btn pri" onclick="xS('${id}',0)">💾 Хадгалах</button> <button class="btn pri" onclick="xS('${id}',1)">💾🖨 Хадгалаад хэвлэх</button></p>`;xL();dlg.showModal()};
+ <p><button class="btn" onclick="xL()">＋ Мөр нэмэх</button> <b id="xt" style="float:right;font-size:16px"></b></p><p><button class="btn pri" onclick="xS('${id}',0)">💾 Хадгалах</button> <button class="btn pri" onclick="xS('${id}',1)">💾🖨 Хадгалаад хэвлэх</button></p>`;xL();dlg.showModal();if(EDOC){$('#x0').value=EDOC.date;$('#x1').value=EDOC.party||'';$('#xl').innerHTML='';EDOC.L.forEach(r=>{xL();const c=$('#xl').lastElementChild.querySelectorAll('input');if(S){c[0].value=r[2];c[1].value=r[4];c[2].value=r[5];c[2].dataset.man=1}else{c[0].value=r[2];c[1].value=r[3];c[2].value=r[4];xC(c[2])}});xT();$('#dc h3').textContent=(S?'🧾 Борлуулалт':'📥 Худалдан авалт')+' засах'+(EDOC.no?' — '+EDOC.no:'')}};
 window.xL=()=>{const S=$('#xl').dataset.t=='sale';$('#xl').insertAdjacentHTML('beforeend',`<div class="tool xl" style="margin-bottom:6px"><input list="dl-xn" placeholder="${S?'Бүтээгдэхүүн':'Орц'}" style="flex:3;min-width:140px" oninput="xC(this)"><input type="number" step="any" placeholder="Тоо" style="flex:1;min-width:70px" oninput="xC(this)"><input type="number" step="any" placeholder="${S?'Дүн ₮':'Нэгж үнэ'}" style="flex:1.4;min-width:90px" oninput="${S?'xM(this)':'xC(this)'}">${S?'':'<b class="am" style="min-width:80px;text-align:right">0</b>'}<a class="l" onclick="this.parentNode.remove();xT()">✖</a></div>`)};
 window.xC=el=>{const S=$('#xl').dataset.t=='sale',d=el.parentNode,c=d.querySelectorAll('input'),q=+c[1].value||0,n=k(c[0].value);
  if(S){if(!c[2].dataset.man){const pr=PP()[n]||0;c[2].value=pr&&q?+(pr*q).toFixed(2):''}}
@@ -541,25 +547,26 @@ function xT(){const S=$('#xl').dataset.t=='sale';let t=0;document.querySelectorA
 window.xS=async(id,pr)=>{const S=id=='sale',d=v('x0'),w=k(v('x1')),P=PP(),C=CT(),
  L=[...document.querySelectorAll('#xl .xl')].map(e=>{const c=e.querySelectorAll('input'),n=k(c[0].value),q=+c[1].value||0,a=+c[2].value||0;return{n,q,a:S?(a||(P[n]||0)*q):a}}).filter(x=>x.n&&x.q>0);
  if(!d||!L.length)return toast('Огноо, мөр (нэр, тоо) оруулна уу');if(!S&&!w)return toast('Нийлүүлэгч оруулна уу');
- if(!await bulk(L.map(x=>S?{act:'add',t:'sales',row:[d,x.n,C[x.n]||'',x.q,x.a]}:{act:'add',t:'purchases',row:[d,x.n,x.q,x.a,w,'']})))return;dlg.close();
+ const E1=EDOC,no=(E1&&E1.no)||newNo(id,d),old=E1?E1.L.map(r=>({act:'del',t:S?'sales':'purchases',id:r[0]})):[];
+ if(!await bulk([...old,...L.map(x=>S?{act:'add',t:'sales',row:[d,x.n,C[x.n]||'',x.q,x.a,no,w]}:{act:'add',t:'purchases',row:[d,x.n,x.q,x.a,w,'',no]})]))return;EDOC=null;dlg.close();
  if(!pr)return;const tx=+OG()[6]||0,tot=S?L.reduce((a,x)=>a+x.a,0):L.reduce((a,x)=>a+x.q*x.a,0),H=[['№'],[S?'Бүтээгдэхүүн':'Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]];
- pdoc(S?'БОРЛУУЛАЛТЫН БАРИМТ':'ХУДАЛДАН АВАЛТЫН БАРИМТ',[`Огноо: ${d}`,S?(w?'Харилцагч: '+esc(w):''):'Нийлүүлэгч: '+esc(w)].filter(Boolean),H,
+ pdoc(S?'БОРЛУУЛАЛТЫН БАРИМТ':'ХУДАЛДАН АВАЛТЫН БАРИМТ',[`Баримт №: <b>${no}</b> · Огноо: ${d}`,S?(w?'Харилцагч: '+esc(w):''):'Нийлүүлэгч: '+esc(w)].filter(Boolean),H,
   L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(S?x.a/x.q:x.a),fmt(S?x.a:x.q*x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(tot)],tx?tot*tx/(100+tx):0,S?['Борлуулсан:','Хүлээн авсан:']:['Нийлүүлсэн: '+esc(w),'Хүлээн авсан:'])};
 
 // ===== v6: Ctrl+K хайлт, хөвөх ＋, POS, мэдэгдэл, утасны доод цэс
 function odue(){const S=RAW().settle||[],g={},t=tl();S.forEach(r=>{const o=g[r[2]]=g[r[2]]||{a:0,p:0,b:0,d:''};o.a+=+r[5]||0;o.p+=+r[6]||0;o.b+=+r[8]||0;if(r[7]&&((+r[5]||0)+(+r[6]||0))>0&&(!o.d||day(r[7])<o.d))o.d=day(r[7])});return Object.entries(g).filter(([n,o])=>o.d&&o.d<t&&o.a+o.p-o.b>0)}
 function notes(){const B=bm(),N=[],o=B.filter(b=>b.st[1]=='w').length,fc=fcast().filter(x=>x.days<3).length,od=odue().length,mv=new Set(MV().filter(r=>r[7]=='Илгээсэн').map(r=>r[2])).size,bad=new Set(D.recipes.filter(r=>!+r[2]).map(r=>k(r[0]))).size;
- if(o)N.push(['🔴',o+' орц дууссан / доод хязгаараас доош','warn']);if(fc)N.push(['⏳',fc+' орц 3 өдрөөс бага хэвтэнэ','warn']);if(od)N.push(['💳',od+' харилцагчийн төлбөр хугацаа хэтэрсэн','set']);
- if(mv)N.push(['🔁',mv+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','mv']);if(bad)N.push(['⚠️',bad+' бүтээгдэхүүний жорд хэмжээ хоосон','rec']);return N}
-function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="go('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
+ if(o)N.push(['🔴',o+' орц дууссан / доод хязгаараас доош','warn']);if(fc)N.push(['⏳',fc+' орц 3 өдрөөс бага хэвтэнэ','warn']);if(od)N.push(['💳',od+' харилцагчийн төлбөр хугацаа хэтэрсэн','docs:set']);
+ if(mv)N.push(['🔁',mv+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','docs:mv']);if(bad)N.push(['⚠️',bad+' бүтээгдэхүүний жорд хэмжээ хоосон','rec']);return N}
+function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="gt('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
 $('#bellb').onclick=e=>{e.stopPropagation();const p=$('#bell');$('#pop').hidden=true;p.hidden=!p.hidden};
 document.addEventListener('click',e=>{if(!e.target.closest('#bell,#bellb'))$('#bell').hidden=true;if(!e.target.closest('#fab'))$('#fab').classList.remove('open')});
 // ---- Ctrl+K
-function kitems(){const I=[];TABS.forEach(t=>I.push({k:'Цэс',i:t[1],t:t[2],run:()=>go(t[0])}));
+function kitems(){const I=[];TABS.filter(t=>!HID.includes(t[0])).forEach(t=>I.push({k:'Цэс',i:t[1],t:t[2],run:()=>go(t[0])}));
  [['Шинэ борлуулалт (баримт)','🧾',()=>docN('sale')],['POS борлуулалт','🍰',()=>pos()],['Шинэ худалдан авалт','📥',()=>docN('buy')],['Шинэ зардал','💸',()=>ed('exp')],['Шинэ шилжүүлэг','🔁',()=>mvN()]].forEach(a=>I.push({k:'Үйлдэл',i:a[1],t:a[0],run:a[2]}));
  bm().forEach((b,i)=>I.push({k:'Орц',i:'📦',t:b.n+' — '+fmt(b.c)+' '+b.u,run:()=>{go('bm');dr(i,'sum')}}));
  nm(RAW().products,1).forEach(p=>I.push({k:'Бүтээгдэхүүн',i:'🍰',t:p,run:()=>ddP(E(p),sel.y+'-01-01',tl())}));
- [...new Set(MV().map(r=>r[2]))].forEach(d=>I.push({k:'Баримт',i:'🔁',t:d+' — шилжүүлэг',run:()=>mvP(d)}));return I}
+ docList().slice(0,400).forEach(d=>I.push({k:'Баримт',i:'🧾',t:TY[d.t][0]+' '+(d.no||'')+' · '+d.date+(d.party?' · '+d.party:''),run:()=>{DS.t=d.t;DS.q=d.no||'';DS.a=d.date;DS.b=d.date;DS.open=new Set([d.key]);go('docs');docsR()}}));return I}
 let KI=[];
 function kR(){const q=k($('#kq').value).toLowerCase().split(/\s+/).filter(Boolean);KI=kitems().filter(x=>q.every(w=>(x.k+' '+x.t).toLowerCase().includes(w))).slice(0,14);
  $('#kl').innerHTML=KI.map((x,i)=>`<div class="ki${i?'':' on'}" data-i="${i}"><span style="font-size:18px">${x.i}</span><span>${esc(x.t)}</span><small>${x.k}</small></div>`).join('')||'<p class="sub" style="padding:10px">Илэрц олдсонгүй</p>'}
@@ -588,10 +595,61 @@ function posG(){$('#pch').innerHTML=PK.map((c,i)=>`<button class="btn ${PF==c?'p
  const n=Object.values(PC).reduce((a,x)=>a+x,0),t=Object.entries(PC).reduce((a,[i,q])=>a+q*PL[i].p,0);
  $('#pf').innerHTML=`<b style="font-size:18px">Нийт: ${fmt(t)} ₮</b><span class="sub">${n} ширхэг</span><span class="sp"></span><button class="btn" onclick="PC={};posG()">🗑 Цэвэрлэх</button><button class="btn pri" onclick="posS(0)">💾 Хадгалах</button><button class="btn pri" onclick="posS(1)">💾🖨 Хадгалаад хэвлэх</button>`}
 window.posS=async pr=>{const d=v('pd'),w=v('pw').trim(),L=Object.entries(PC).map(([i,q])=>({n:PL[i].n,c:PL[i].c,q,a:q*PL[i].p}));if(!L.length)return toast('Бүтээгдэхүүн сонгоно уу');
- if(!await bulk(L.map(x=>({act:'add',t:'sales',row:[d,x.n,x.c,x.q,x.a]}))))return;$('#posd').close();if(!pr)return;
- const tx=+OG()[6]||0,t=L.reduce((a,x)=>a+x.a,0);pdoc('БОРЛУУЛАЛТЫН БАРИМТ',[`Огноо: ${d}`,w?'Харилцагч: '+esc(w):''].filter(Boolean),[['№'],['Бүтээгдэхүүн'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(x.a/x.q),fmt(x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(t)],tx?t*tx/(100+tx):0,['Борлуулсан:','Хүлээн авсан:'])};
+ const no=newNo('sale',d);if(!await bulk(L.map(x=>({act:'add',t:'sales',row:[d,x.n,x.c,x.q,x.a,no,w]}))))return;$('#posd').close();if(!pr)return;
+ const tx=+OG()[6]||0,t=L.reduce((a,x)=>a+x.a,0);pdoc('БОРЛУУЛАЛТЫН БАРИМТ',[`Баримт №: <b>${no}</b> · Огноо: ${d}`,w?'Харилцагч: '+esc(w):''].filter(Boolean),[['№'],['Бүтээгдэхүүн'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(x.a/x.q),fmt(x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(t)],tx?t*tx/(100+tx):0,['Борлуулсан:','Хүлээн авсан:'])};
 $('#posd').addEventListener('close',()=>document.body.appendChild($('#msg')));$('#kp').addEventListener('close',()=>document.body.appendChild($('#msg')));
 {const _r5=render;render=function(){_r5();$('#p-warn').insertAdjacentHTML('beforeend','<div class="card"><h3>⏳ Нөөц хэдэн өдөрт хүрэх вэ</h3>'+fcHTML(60)+'</div>');bellR()}}
+
+// ===== v7: нэгдсэн баримтын жагсаалт (Баримт цэс)
+const TY={sale:['Борлуулалт','#1f6f8b'],buy:['Худалдан авалт','#16a34a'],exp:['Зардал','#c0392b'],adj:['Тооллого','#7c3aed'],mv:['Хөдөлгөөн','#ea580c'],set:['Тооцоо','#0891b2']},
+ TT={sale:'sales',buy:'purchases',exp:'expenses',adj:'adj',mv:'moves',set:'settle'},HID=['sale','buy','exp','cnt','mv','set'],sm=(R,i)=>R.reduce((a,r)=>a+(+r[i]||0),0);
+let EDOC=null,EMV=null,DLV=[],DS={t:'all',q:'',sel:new Set(),open:new Set(),a:iso(new Date(today.getFullYear(),today.getMonth(),1)),b:iso(new Date(today.getFullYear(),today.getMonth()+1,0))};
+dlg.addEventListener('close',()=>{EDOC=null;EMV=null});
+function newNo(id,d){const p=(id=='sale'?'BS':'BP')+'-'+d.slice(0,4)+'-',rs=(id=='sale'?RAW().sales:RAW().purchases)||[],ix=id=='sale'?6:7;let m=0;rs.forEach(r=>{const s=String(r[ix]||'');if(s.startsWith(p))m=Math.max(m,+s.slice(p.length)||0)});return p+String(m+1).padStart(4,'0')}
+function docList(){const R=RAW(),L=[],G={},cst={};(R.stock||[]).forEach(r=>cst[k(r[1])]=+r[3]||0);
+ const P=(t,key,o)=>{const kk=t+'|'+key;if(!G[kk]){G[kk]=Object.assign({t,key:kk,L:[],amt:0,no:'',party:'',st:'',legacy:false},o);L.push(G[kk])}return G[kk]};
+ (R.sales||[]).forEach(r=>{const no=r[6]||'',d=P('sale',no||'L-'+day(r[1]),{no,date:day(r[1]),legacy:!no});d.L.push(r);d.amt+=+r[5]||0;if(r[7]&&!d.party)d.party=r[7]});
+ (R.purchases||[]).forEach(r=>{const no=r[7]||'',d=P('buy',no||'L-'+day(r[1])+'-'+k(r[5]),{no,date:day(r[1]),legacy:!no,party:r[5]||''});d.L.push(r);d.amt+=(+r[3]||0)*(+r[4]||0)});
+ (R.expenses||[]).forEach(r=>{const d=P('exp',r[0],{date:day(r[1]),party:r[2]||'',st:r[5]||''});d.L.push(r);d.amt=+r[4]||0});
+ (R.adj||[]).forEach(r=>{const d=P('adj',r[0],{date:day(r[1]),party:r[2]||'',st:(+r[3]||0)>0?'Илүү':'Дутуу'});d.L.push(r);d.qty=+r[3]||0});
+ (R.moves||[]).forEach(r=>{const d=P('mv',r[2],{no:r[2],date:day(r[1]),party:r[3]||'',st:r[7]||''});d.L.push(r);d.amt+=(+r[5]||0)*(cst[k(r[4])]||0)});
+ (R.settle||[]).forEach(r=>{const d=P('set',r[0],{date:day(r[1]),party:r[2]||'',st:r[3]||''});d.L.push(r);d.amt=(+r[5]||0)+(+r[6]||0)});
+ return L.sort((a,b)=>b.date.localeCompare(a.date)||String(b.no).localeCompare(String(a.no)))}
+function lnH(d){const f=(h,r)=>`<table><thead><tr>${h.map(x=>`<th class="${x[1]?'n':''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${r.map(c=>`<tr>${c.map((x,i)=>`<td class="${h[i][1]?'n':''}">${x}</td>`).join('')}</tr>`).join('')}</tbody></table>`,L=d.L;
+ if(d.t=='sale')return f([['Бүтээгдэхүүн'],['Ангилал'],['Тоо',1],['Дүн',1]],L.map(r=>[esc(r[2]),esc(r[3]||''),fmt(r[4]),T(r[5])]));
+ if(d.t=='buy')return f([['Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн',1]],L.map(r=>[esc(r[2]),fmt(r[3]),fmt(r[4]),T((+r[3]||0)*(+r[4]||0))]));
+ if(d.t=='mv')return f([['Орц'],['Тоо',1],['Тэмдэглэл']],L.map(r=>[esc(r[4]),fmt(r[5]),esc(r[6]||'')]));
+ if(d.t=='exp')return f([['Ангилал'],['Тоо',1],['Дүн',1],['Тэмдэглэл']],L.map(r=>[esc(r[2]),fmt(r[3]),T(r[4]),esc(r[5]||'')]));
+ if(d.t=='adj')return f([['Орц'],['Тоо',1],['Төрөл'],['Тэмдэглэл']],L.map(r=>[esc(r[2]),fmt(r[3]),esc(r[4]||''),esc(r[5]||'')]));
+ return f([['Харилцагч'],['Төрөл'],['Тайлбар'],['Авлага',1],['Өглөг',1],['Дуусах'],['Барагдуулалт',1]],L.map(r=>[esc(r[2]),esc(r[3]||''),esc(r[4]||''),fmt(r[5]),fmt(r[6]),day(r[7]||''),fmt(r[8])]))}
+function dhtml(d){const tx=+OG()[6]||0,L=d.L,no=d.no?'Баримт №: <b>'+esc(d.no)+'</b> · ':'',ds=no+'Огноо: '+d.date,pd=(...A)=>'<div>'+pdh(...A)+'</div>';
+ if(d.t=='sale')return pd('БОРЛУУЛАЛТЫН БАРИМТ',[ds,d.party?'Харилцагч: '+esc(d.party):''].filter(Boolean),[['№'],['Бүтээгдэхүүн'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],L.map((r,i)=>[i+1,esc(r[2]),fmt(r[4]),fmt((+r[4]||0)?(+r[5]||0)/(+r[4]):0),fmt(r[5])]),['','Нийт',fmt(sm(L,4)),'',fmt(d.amt)],tx?d.amt*tx/(100+tx):0,['Борлуулсан:','Хүлээн авсан:']);
+ if(d.t=='buy')return pd('ХУДАЛДАН АВАЛТЫН БАРИМТ',[ds,'Нийлүүлэгч: '+esc(d.party)],[['№'],['Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],L.map((r,i)=>[i+1,esc(r[2]),fmt(r[3]),fmt(r[4]),fmt((+r[3]||0)*(+r[4]||0))]),['','Нийт','','',fmt(d.amt)],tx?d.amt*tx/(100+tx):0,['Нийлүүлсэн: '+esc(d.party),'Хүлээн авсан:']);
+ if(d.t=='mv')return pd(...mvA(d.no));
+ if(d.t=='exp')return pd('ЗАРДЛЫН БАРИМТ',[ds],[['№'],['Ангилал'],['Тоо',1],['Дүн ₮',1],['Тэмдэглэл']],L.map((r,i)=>[i+1,esc(r[2]),fmt(r[3]),fmt(r[4]),esc(r[5]||'')]),['','Нийт','',fmt(d.amt),''],0,['Хариуцагч:']);
+ if(d.t=='adj')return pd('ТООЛЛОГЫН АКТ',[ds],[['№'],['Орц'],['Тоо (±)',1],['Төрөл'],['Тэмдэглэл']],L.map((r,i)=>[i+1,esc(r[2]),fmt(r[3]),esc(r[4]||''),esc(r[5]||'')]),['','Нийт',fmt(sm(L,3)),'',''],0,['Тооллого хийсэн:']);
+ return pd('ТООЦООНЫ БАРИМТ',[ds],[['№'],['Харилцагч'],['Төрөл'],['Тайлбар'],['Авлага ₮',1],['Өглөг ₮',1],['Дуусах'],['Барагдуулалт ₮',1]],L.map((r,i)=>[i+1,esc(r[2]),esc(r[3]||''),esc(r[4]||''),fmt(r[5]),fmt(r[6]),day(r[7]||''),fmt(r[8])]),['','Нийт','','',fmt(sm(L,5)),fmt(sm(L,6)),'',fmt(sm(L,8))],0,[])}
+function prn(A){if(!A.length)return toast('Баримт сонгоогүй байна');$('#pa').innerHTML=A.map(dhtml).join('<div style="page-break-after:always"></div>');setTimeout(()=>window.print(),200)}
+function docsR(){const all=docList(),q=DS.q.toLowerCase(),base=all.filter(d=>d.date>=DS.a&&d.date<=DS.b&&(!q||(TY[d.t][0]+' '+d.no+' '+d.party+' '+d.st+' '+d.L.map(r=>r.join(' ')).join(' ')).toLowerCase().includes(q))),cnt={};
+ base.forEach(d=>cnt[d.t]=(cnt[d.t]||0)+1);const L=DLV=base.filter(d=>DS.t=='all'||d.t==DS.t),tot={};L.forEach(d=>{if(d.amt)tot[d.t]=(tot[d.t]||0)+d.amt});
+ const ns=L.filter(d=>DS.sel.has(d.key)).length,ch=(t,n,c)=>`<button class="btn ${DS.t==t?'pri':''}" onclick="dtype('${t}')">${n}<small>${c}</small></button>`;
+ $('#p-docs').innerHTML=`<div class="card"><div class="dch">${ch('all','Бүгд',base.length)}${Object.keys(TY).map(t=>ch(t,TY[t][0],cnt[t]||0)).join('')}</div></div>
+ <div class="card tool"><input type="date" value="${DS.a}" onchange="DS.a=this.value;docsR()"><span>→</span><input type="date" value="${DS.b}" onchange="DS.b=this.value;docsR()"><input placeholder="🔍 Хайх (Enter)" value="${esc(DS.q)}" onchange="DS.q=this.value;docsR()" style="max-width:220px"><span class="sp"></span>
+ ${ns?`<button class="btn" onclick="dPs()">🖨 Сонгосон (${ns})</button><button class="btn" onclick="dDs()" style="color:var(--r)">🗑 Сонгосон (${ns})</button>`:''}<button class="btn pri" onclick="dNew(this)">＋ Шинэ ▾</button></div>
+ <div class="card">${Object.keys(tot).length?`<div class="dt">${Object.keys(tot).map(t=>`<span>${TY[t][0]}: <b>${T(tot[t])}</b></span>`).join('')}</div>`:''}<div class="sc"><table><thead><tr><th style="width:36px"><input type="checkbox" onchange="dAll(this.checked)" ${L.length&&ns==L.length?'checked':''}></th><th>Огноо</th><th>Төрөл</th><th>Баримт №</th><th>Харилцагч / тайлбар</th><th class="n">Мөр</th><th class="n">Дүн</th><th>Төлөв</th><th style="width:96px"></th></tr></thead><tbody>
+ ${L.slice(0,400).map((d,i)=>`<tr class="dr" onclick="dX(${i})"><td onclick="event.stopPropagation()"><input type="checkbox" ${DS.sel.has(d.key)?'checked':''} onchange="dS(${i},this.checked)"></td><td>${d.date}</td><td><span class="tc" style="background:${TY[d.t][1]}">${TY[d.t][0]}</span></td><td>${d.no?'<b>'+esc(d.no)+'</b>':'<span class="sub">'+(d.legacy?'(хуучин мөрүүд)':'—')+'</span>'}</td><td>${esc(d.party)}</td><td class="n">${d.L.length}</td><td class="n">${d.t=='adj'?(d.qty>0?'+':'')+fmt(d.qty):T(d.amt)}</td>
+ <td>${d.t=='mv'?`<span onclick="event.stopPropagation()"><select onchange="mvS('${esc(d.no)}',this.value)" style="width:auto;padding:5px 28px 5px 8px">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==d.st?'selected':''}>${s}</option>`).join('')}</select></span>`:d.t=='sale'||d.t=='buy'?'':`<span class="chip">${esc(d.st)}</span>`}</td>
+ <td style="white-space:nowrap" onclick="event.stopPropagation()"><a class="l" title="Засах" onclick="dE(${i})">✏️</a> <a class="l" title="Хэвлэх" onclick="dP(${i})">🖨</a> <a class="l" title="Устгах" onclick="dD(${i})">🗑</a></td></tr>
+ ${DS.open.has(d.key)?`<tr class="dx"><td colspan="9">${lnH(d)}</td></tr>`:''}`).join('')||'<tr><td colspan="9" class="sub" style="padding:18px">Энэ хугацаанд баримт олдсонгүй</td></tr>'}</tbody></table></div>${L.length>400?'<p class="sub">Эхний 400 баримтыг харуулав — хугацаагаа нарийсгана уу</p>':''}</div>`}
+window.dtype=t=>{DS.t=t;docsR()};window.dX=i=>{const d=DLV[i];DS.open.has(d.key)?DS.open.delete(d.key):DS.open.add(d.key);docsR()};
+window.dS=(i,c)=>{const d=DLV[i];c?DS.sel.add(d.key):DS.sel.delete(d.key);docsR()};window.dAll=c=>{DLV.forEach(d=>c?DS.sel.add(d.key):DS.sel.delete(d.key));docsR()};
+window.dE=i=>{const d=DLV[i];if(d.t=='sale'||d.t=='buy')docN(d.t,d);else if(d.t=='mv')mvN(d);else ed(d.t,d.L[0][0])};
+window.dP=i=>prn([DLV[i]]);window.dPs=()=>prn(DLV.filter(d=>DS.sel.has(d.key)));
+async function dDel(A){if(!A.length)return;if(!await uiConfirm(A.length+' баримтыг (нийт '+A.reduce((a,d)=>a+d.L.length,0)+' мөр) устгах уу?'))return;A.forEach(d=>DS.sel.delete(d.key));await bulk(A.flatMap(d=>d.L.map(r=>({act:'del',t:TT[d.t],id:r[0]}))))}
+window.dD=i=>dDel([DLV[i]]);window.dDs=()=>dDel(DLV.filter(d=>DS.sel.has(d.key)));
+window.dNew=el=>ddShow(el,[['pos','🍰 POS борлуулалт'],['sale','🧾 Борлуулалтын баримт'],['buy','📥 Худалдан авалт'],['exp','💸 Зардал'],['mv','🔁 Хөдөлгөөн (шилжүүлэг)'],['set','💳 Тооцоо'],['adj','🧮 Тооллого']],x=>({pos:()=>pos(),sale:()=>docN('sale'),buy:()=>docN('buy'),exp:()=>ed('exp'),mv:()=>mvN(),set:()=>ed('set'),adj:()=>go('cnt')})[x](),'');
+window.gt=s=>{const[p,t]=s.split(':');go(p);if(t){DS.t=t;DS.a='2000-01-01';DS.b='2100-01-01';docsR()}};
+{const _r6=render;render=function(){_r6();docsR()}}
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
 $('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
