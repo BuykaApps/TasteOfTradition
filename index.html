@@ -76,6 +76,37 @@ select{appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:32px
 .ng.open>.ngh .chv{transform:rotate(90deg)}.ng.open>.ngh{color:#fff}.gi{display:none;flex-direction:column;gap:2px;margin:2px 0 8px 20px;padding-left:8px;border-left:1px solid #ffffff24}.ng.open>.gi{display:flex}
 aside nav .gi button{padding:9px 12px;font-size:13.5px}
 body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:0;border:0}
+
+.kbd{font-size:11px;opacity:.65;border:1px solid var(--b);border-radius:6px;padding:1px 6px;margin-left:8px}
+#bdg{position:absolute;top:1px;right:1px;background:var(--r);color:#fff;border-radius:10px;font-size:10px;padding:0 5px;min-width:16px;line-height:16px}#bdg:empty{display:none}
+#bell{width:340px;right:60px}.bi{display:flex;gap:10px;align-items:center;padding:9px 10px;border-radius:10px;cursor:pointer;transition:background .15s}.bi:hover{background:color-mix(in srgb,var(--a) 14%,transparent)}
+#fab{position:fixed;right:24px;bottom:24px;z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+#fab .fb{width:56px;height:56px;border-radius:50%;background:var(--a);color:#fff;border:0;font-size:30px;line-height:1;cursor:pointer;box-shadow:0 10px 28px color-mix(in srgb,var(--a) 55%,transparent);transition:transform .25s,box-shadow .2s}
+#fab .fb:hover{box-shadow:0 14px 34px color-mix(in srgb,var(--a) 70%,transparent)}#fab.open .fb{transform:rotate(45deg)}
+#fab .fm{display:none;flex-direction:column;gap:8px;align-items:flex-end}#fab.open .fm{display:flex}
+#fab .fm button{background:var(--cd);backdrop-filter:blur(14px);color:var(--t);border:1px solid var(--b);border-radius:24px;padding:9px 16px;cursor:pointer;font:inherit;box-shadow:var(--sh);animation:in .2s both;transition:transform .15s}#fab .fm button:hover{transform:translateX(-4px);border-color:var(--a)}
+#kp{border:1px solid var(--b);border-radius:16px;background:var(--cd);backdrop-filter:blur(22px);color:var(--t);width:92%;max-width:620px;margin:12vh auto auto;padding:12px;box-shadow:0 24px 70px #0008;animation:pp .15s}#kp::backdrop{background:#030a1288;backdrop-filter:blur(5px)}
+#kq{font-size:16px;padding:12px 14px}#kl{max-height:52vh;overflow:auto;margin-top:8px}#kl .ki{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;cursor:pointer}
+#kl .ki.on,#kl .ki:hover{background:color-mix(in srgb,var(--a) 20%,transparent)}#kl .ki small{margin-left:auto;color:var(--m);font-size:11px}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-bottom:14px}.bento>.card{margin:0}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}.s8{grid-column:span 8}
+@media(max-width:1100px){.s4,.s5,.s7,.s8{grid-column:span 12}}
+.spk{display:block;width:100%;height:34px;margin-top:6px}.dl{font-size:12px;font-weight:700;margin-top:3px;min-height:16px}.dl.up{color:var(--g)}.dl.dn{color:var(--r)}
+.hm{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.hm div{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;transition:transform .15s}.hm div:hover{transform:scale(1.18);box-shadow:var(--sh)}
+.donut{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.lg div{display:flex;gap:8px;align-items:center;margin:5px 0;cursor:pointer}.lg i{width:11px;height:11px;border-radius:3px;display:inline-block}.lg div:hover{color:var(--a)}
+.fc{display:grid;grid-template-columns:130px 1fr 74px;gap:8px;align-items:center;margin:6px -6px;padding:4px 6px;border-radius:8px;cursor:pointer;font-size:13px}.fc:hover{background:color-mix(in srgb,var(--a) 12%,transparent)}.fc u{text-decoration:none;text-align:right;font-weight:700}
+#posd{width:96vw;max-width:1120px;height:88vh;max-height:88vh;padding:18px;overflow:hidden;border:1px solid var(--b);border-radius:16px;background:var(--cd);backdrop-filter:blur(22px);color:var(--t);box-shadow:0 24px 70px #0008;animation:pp .2s}#posd::backdrop{background:#030a1288;backdrop-filter:blur(5px)}
+#posc{display:flex;flex-direction:column;height:100%}#pg{flex:1;overflow:auto;align-content:start}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:8px 0;padding:8px 4px 4px}
+.pt{position:relative;border:1px solid var(--b);border-radius:14px;padding:14px 12px;min-height:92px;cursor:pointer;background:var(--c);transition:transform .12s,box-shadow .2s,border-color .2s;display:flex;flex-direction:column;justify-content:space-between;user-select:none}
+.pt:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--a)}.pt:active{transform:scale(.97)}.pt.on{border-color:var(--a);background:color-mix(in srgb,var(--a) 14%,var(--c))}.pt small{color:var(--m)}
+.pb{position:absolute;top:-8px;right:-6px;background:var(--a);color:#fff;border-radius:14px;min-width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;padding:0 6px}
+.pm{position:absolute;bottom:8px;right:8px;width:28px;height:28px;border-radius:50%;background:#c0392b22;color:var(--r);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer}
+.pfoot{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--b)}
+#bt{display:none}
+@media(max-width:860px){#bt{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--cd);backdrop-filter:blur(18px);border-top:1px solid var(--b);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+ #bt button{flex:1;background:none;border:0;color:var(--m);font:inherit;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:10px;cursor:pointer}#bt button span{font-size:20px}#bt button.on{color:var(--a);font-weight:700}
+ main{padding-bottom:90px}#fab{bottom:82px;right:14px}#bell{right:10px;width:calc(100vw - 20px)}.kbd{display:none}}
 #pa{display:none}
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
@@ -83,14 +114,18 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 <aside id="side"><div class="brand"><span>🍽</span><div><b>Taste of Tradition</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
 <div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
 <div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
-<button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
-<div class="pop" id="pop" hidden></div></header>
+<button id="kb" title="Хайлт (Ctrl+K)">🔍 Хайх<span class="kbd">Ctrl K</span></button><button id="bellb" title="Мэдэгдэл">🔔<span id="bdg"></span></button><button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
+<div class="pop" id="pop" hidden></div><div class="pop" id="bell" hidden></div></header>
 <main>
 <section id="p-dash"></section>
 <section id="p-bm" hidden><div class="card tool"><b>Хугацаа:</b><input type="date" id="d1"><span>→</span><input type="date" id="d2"><span class="sp"></span><label style="white-space:nowrap;display:flex;gap:6px;align-items:center"><input type="checkbox" id="mv" checked style="width:auto"> Зөвхөн энэ хугацаанд орлого/зарлагатай орц</label><input id="q" placeholder="🔍 Орц хайх..." style="max-width:200px"></div><div class="card bm" id="bmt"></div></section>
 <section id="p-in" hidden></section><section id="p-sale" hidden></section><section id="p-rec" hidden></section>
 </main></div>
-<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><dialog id="cdlg"><div id="cdc"></div></dialog><div id="msg"></div><div id="pa"></div>
+<dialog id="dlg"><div id="dc"></div><p><button class="btn" onclick="dlg.close()">Хаах</button></p></dialog><dialog id="kp"><input id="kq" placeholder="🔍 Хайх: цэс, орц, бүтээгдэхүүн, баримт, үйлдэл..."><div id="kl"></div></dialog>
+<dialog id="posd"><div id="posc"></div></dialog>
+<div id="fab"><div class="fm"><button onclick="fq(0)">🍰 POS борлуулалт</button><button onclick="fq(1)">🧾 Борлуулалт (баримт)</button><button onclick="fq(2)">📥 Худалдан авалт</button><button onclick="fq(3)">💸 Зардал</button><button onclick="fq(4)">🔁 Шилжүүлэг</button></div><button class="fb" onclick="this.parentNode.classList.toggle('open')" title="Шинээр бүртгэх">＋</button></div>
+<nav id="bt"><button data-t="dash"><span>📊</span>Dashboard</button><button data-t="sale"><span>🧾</span>Борлуулалт</button><button data-t="bm"><span>📋</span>БМ тайлан</button><button data-t="warn"><span>🚨</span>Анхааруулга</button><button id="btm"><span>☰</span>Бусад</button></nav>
+<dialog id="cdlg"><div id="cdc"></div></dialog><div id="msg"></div><div id="pa"></div>
 <script>
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
@@ -103,7 +138,8 @@ recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боо�
 let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||'';
 const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
 const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
-const toast=t=>{const m=$('#msg');(dlg.open?dlg:document.body).appendChild(m);m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
+const OPD=()=>[...document.querySelectorAll('dialog[open]')].pop()||document.body;
+const toast=t=>{const m=$('#msg');OPD().appendChild(m);m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
 async function load(){
  if(!URL_){$('#src').textContent='Туршилтын горим';return render()}
  try{const j=await (await fetch(URL_)).json();if(j.error){alert(j.error);return render()}D=j;LS.bmData=JSON.stringify(D);$('#src').textContent='✅ Google Sheets'}
@@ -140,25 +176,40 @@ function lineChart(a,b){const W=420,H=200,P=34,all=[...a,...b],mx=Math.max(...al
  [...Array(12)].map((_,i)=>`<text x="${X(i)-4}" y="${H-8}">${i+1}</text>`).join('')+
  `<rect x="${W-130}" y="2" width="9" height="9" fill="#1f6f8b"/><text x="${W-118}" y="10">Орлого</text><rect x="${W-70}" y="2" width="9" height="9" fill="#0f2a43"/><text x="${W-58}" y="10">Цэвэр ашиг</text></svg>`}
 const MN=['1-р сар','2-р сар','3-р сар','4-р сар','5-р сар','6-р сар','7-р сар','8-р сар','9-р сар','10-р сар','11-р сар','12-р сар'];
-function dash(){const M=mon(sel.y,sel.m),days=new Date(sel.y,sel.m,0).getDate(),B=bm();
- const gp=M.rev-M.cost,pc=(a,b)=>b?(a/b*100).toFixed(1)+'%':'0.0%',cat={};
+const mm2=(y,m)=>Object.assign(mon(y,m),{d:new Date(y,m,0).getDate()}),PAL=['#1f6f8b','#7c3aed','#ea580c','#16a34a','#db2777','#2563eb','#ca8a04','#0891b2'];
+function spark(a,c,s){const W=200,H=34,mx=Math.max(...a,1),mn=Math.min(...a,0),X=i=>i*(W/(a.length-1||1)),Y=v=>H-3-(v-mn)/(mx-mn||1)*(H-8),p=a.map((v,i)=>X(i)+','+Y(v)).join(' ');
+ return `<svg class="spk" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polygon points="0,${H} ${p} ${W},${H}" fill="${c}" opacity=".14"/><polyline points="${p}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="${X(s)}" cy="${Y(a[s])}" r="3" fill="${c}"/></svg>`}
+const dlt=(c,p,bd)=>{if(!p)return '<div class="dl"></div>';const d=(c-p)/Math.abs(p)*100,up=d>=0;return `<div class="dl ${(bd?!up:up)?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(d).toFixed(1)}% өмнөх сараас</div>`};
+const MT=[['💰 НИЙТ ОРЛОГО',x=>x.rev,T,'#1f6f8b','rev',0],['🍽 ХООЛНЫ ӨРТӨГ (онол)',x=>x.cost,T,'#1e8449','cost',1],['💸 ҮЙЛ АЖИЛЛАГААНЫ ЗАРДАЛ',x=>x.exp,T,'#c0392b','exp',1],['💎 ЦЭВЭР АШИГ',x=>x.net,T,'#0f2a43','net',0],
+ ['🔢 ХООЛНЫ ӨРТГИЙН ХУВЬ',x=>x.rev?x.cost/x.rev*100:0,v=>v.toFixed(1)+'%','#1e8449','cost',1],['📈 НИЙЛСЭН АШИГ (GP)',x=>x.rev-x.cost,T,'#1f6f8b','gp',0],['📦 АВАЛТ VS ОНОЛ ӨРТӨГ %',x=>x.cost?x.buy/x.cost*100:0,v=>v.toFixed(1)+'%','#d68910','buy',1],['🛒 БОРЛУУЛАЛТЫН МӨР ТОО',x=>x.S.length,fmt,'#117a8b','rev',0],['📅 ӨДРИЙН ДУНДАЖ ОРЛОГО',x=>x.rev/x.d,T,'#0f2a43','avg',0]];
+function donut(cr,tot){const R=52,C=2*Math.PI*R;let off=0;return `<svg viewBox="0 0 140 140" width="150" height="150">`+cr.map(([n,o],i)=>{const f=tot?o.r/tot:0,len=f*C,s=`<circle r="${R}" cx="70" cy="70" fill="none" stroke="${PAL[i%8]}" stroke-width="24" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)" style="cursor:pointer" onclick="kd('cat',${i})"><title>${esc(n)}: ${T(o.r)} (${(f*100).toFixed(1)}%)</title></circle>`;off+=len;return s}).join('')+`<text x="70" y="66" text-anchor="middle" style="font-size:9px">Нийт</text><text x="70" y="82" text-anchor="middle" style="font-size:12px;font-weight:700;fill:var(--t)">${fmt(tot/1e6)}M</text></svg>`}
+function heat(){const Y=sel.y,Mo=sel.m,n=new Date(Y,Mo,0).getDate(),dv={};LM.S.forEach(s=>{const d=day(s[0]);dv[d]=(dv[d]||0)+(+s[4]||0)});const mx=Math.max(...Object.values(dv),1),off=(new Date(Y,Mo-1,1).getDay()+6)%7;
+ let q=['Да','Мя','Лх','Пү','Ба','Бя','Ня'].map(x=>`<small class="sub" style="text-align:center">${x}</small>`).join('')+'<div style="visibility:hidden"></div>'.repeat(off);
+ for(let d=1;d<=n;d++){const ds=ym(Y,Mo)+'-'+pad(d),v=dv[ds]||0,a=v?.15+.85*v/mx:0;q+=`<div title="${ds}: ${T(v)}" onclick="hmGo('${ds}')" style="background:${v?`color-mix(in srgb,var(--a) ${Math.round(a*100)}%,transparent)`:'#8aa0b31a'};${a>.55?'color:#fff':''}">${d}</div>`}
+ return `<div class="hm">${q}</div>`}
+window.hmGo=d=>{cs.d1=cs.d2=d;dayR();go('day')};
+function fcast(){const a=new Date(Date.now()-29*864e5).toLocaleDateString('sv'),b=tl(),f=d=>day(d)>=a&&day(d)<=b;
+ return bm().map((x,i)=>{const u=(rows(x.n,f).reduce((s,r)=>s+r.e,0)+adj(x.n,f,0)+mvq(x.n,f))/30;return{i,n:x.n,u:x.u,c:x.c,avg:u,days:u>0?Math.max(0,x.c/u):null}}).filter(x=>x.avg>0)}
+function fcHTML(n){const F=fcast().sort((x,y)=>x.days-y.days).slice(0,n);return (F.map(x=>{const c=x.days<3?'#c0392b':x.days<7?'#d68910':'#1e8449';return `<div class="fc" onclick="go('bm');dr(${x.i},'sum')" title="Өдрийн дундаж зарлага (сүүлийн 30 өдөр): ${fmt(x.avg)} ${x.u}"><span>${esc(x.n)}</span><div class="bar"><i style="width:${Math.min(100,x.days/14*100)}%;background:${c}"></i></div><u style="color:${c}">${x.days<1?'<1':Math.round(x.days)} өдөр</u></div>`}).join('')||'<p class="sub">Сүүлийн 30 өдөрт зарлагатай орц алга</p>')+'<p class="sub" style="margin:8px 0 0">Үлдэгдэл ÷ сүүлийн 30 хоногийн өдрийн дундаж зарлага. Үлдэгдэл нь БМ тайлангийн хугацааны төгсгөл байдлаар.</p>'}
+function dash(){const M=mm2(sel.y,sel.m),B=bm(),ys=[...Array(12)].map((_,i)=>mm2(sel.y,i+1)),PM=mm2(sel.m==1?sel.y-1:sel.y,sel.m==1?12:sel.m-1),pc=(a,b)=>b?(a/b*100).toFixed(1)+'%':'0.0%',cat={};
  M.S.forEach(s=>{const c=k(s[2])||'Бусад';(cat[c]=cat[c]||{r:0,q:0});cat[c].r+=+s[4]||0;cat[c].q+=+s[3]||0});
- const cr=Object.entries(cat).sort((a,b)=>b[1].r-a[1].r),cx=cr[0]?Math.max(cr[0][1].r,1):1;
- const ys=[...Array(12)].map((_,i)=>mon(sel.y,i+1)),low=B.filter(b=>b.st[1]=='w');
- const bad=new Set();D.recipes.forEach(r=>{if(!+r[2])bad.add(k(r[0])+' → '+k(r[1]))});
- const K=(l,v,c,n)=>`<div class="kpi" style="--k:${c};cursor:pointer" onclick="kd('${n}')" title="Дарж задлах"><span>${l}</span><b>${v}</b></div>`;
+ const cr=Object.entries(cat).sort((a,b)=>b[1].r-a[1].r);LM=M;LC=cr.map(c=>c[0]);
+ const low=B.filter(b=>b.st[1]=='w'),bad=new Set();D.recipes.forEach(r=>{if(!+r[2])bad.add(k(r[0])+' → '+k(r[1]))});
+ const K=([l,f,fm,c,n,bd])=>`<div class="kpi" style="--k:${c};cursor:pointer" onclick="kd('${n}')" title="Дарж задлах"><span>${l}</span><b>${fm(f(M))}</b>${dlt(f(M),f(PM),bd)}${spark(ys.map(f),c,sel.m-1)}</div>`;
  const yo=[...Array(5)].map((_,i)=>sel.y-2+i+1).filter(y=>y<=today.getFullYear()+1);
- LM=M;LC=cr.map(c=>c[0]);$('#p-dash').innerHTML=`<div class="card tool" style="background:linear-gradient(120deg,var(--p),#1f4f73);color:#fff"><b>📅 ЖИЛ & САР СОНГОХ →</b>
+ $('#p-dash').innerHTML=`<div class="card tool" style="background:linear-gradient(120deg,var(--p),#1f4f73);color:#fff"><b>📅 ЖИЛ & САР СОНГОХ →</b>
  <select id="sy" style="max-width:100px">${yo.map(y=>`<option ${y==sel.y?'selected':''}>${y}</option>`).join('')}</select>
  <select id="sm" style="max-width:130px">${MN.map((n,i)=>`<option value="${i+1}" ${i+1==sel.m?'selected':''}>${n}</option>`).join('')}</select>
  <span class="sp"></span><b style="color:#f3c969;font-size:16px">${MN[sel.m-1]} ${sel.y} он</b></div>
- <div class="kpis">${K('💰 НИЙТ ОРЛОГО',T(M.rev),'#1f6f8b','rev')}${K('🍽 ХООЛНЫ ӨРТӨГ (онол)',T(M.cost),'#1e8449','cost')}${K('💸 ҮЙЛ АЖИЛЛАГААНЫ ЗАРДАЛ',T(M.exp),'#c0392b','exp')}${K('💎 ЦЭВЭР АШИГ',T(M.net),M.net<0?'#c0392b':'#0f2a43','net')}</div>
- <div class="kpis">${K('🔢 ХООЛНЫ ӨРТГИЙН ХУВЬ',pc(M.cost,M.rev),'#1e8449','cost')}${K('📈 НИЙЛСЭН АШИГ (GP)',T(gp),'#1f6f8b','gp')}${K('📦 АВАЛТ VS ОНОЛ ӨРТӨГ %',pc(M.buy,M.cost),'#d68910','buy')}${K('🛒 БОРЛУУЛАЛТЫН МӨР ТОО',fmt(M.S.length),'#117a8b','rev')}${K('📅 ӨДРИЙН ДУНДАЖ ОРЛОГО',T(M.rev/days),'#0f2a43','avg')}</div>
- <div class="grid"><div class="card"><h3>Ангиллаар орлого</h3>${cr.map(c=>`<div class="hb" style="cursor:pointer" onclick="kd('cat',${cr.indexOf(c)})"><span>${c[0]}</span><div class="bar"><i style="width:${c[1].r/cx*100}%"></i></div><u>${T(c[1].r)}</u></div>`).join('')||'<p style="color:var(--m)">Өгөгдөл алга</p>'}</div>
- <div class="card"><h3>Сарын орлого & ашиг — ${sel.y}</h3>${lineChart(ys.map(x=>x.rev),ys.map(x=>x.net))}</div></div>
- <div class="grid"><div class="card"><h3>Ангиллаар орлого (хүснэгт)</h3><table><thead><tr><th>Ангилал</th><th class="n">Орлого</th><th class="n">Хувь</th><th class="n">Борлуулсан тоо</th></tr></thead><tbody>
- ${cr.map(c=>`<tr style="cursor:pointer" onclick="kd('cat',${cr.indexOf(c)})"><td>${c[0]}</td><td class="n">${T(c[1].r)}</td><td class="n">${pc(c[1].r,M.rev)}</td><td class="n">${fmt(c[1].q)}</td></tr>`).join('')||'<tr><td colspan="4">Өгөгдөл алга</td></tr>'}</tbody></table></div>
- <div class="card"><h3>📦 Анхаарах орцууд</h3><table><tbody>${low.slice(0,12).map(b=>`<tr style="cursor:pointer" onclick="dr(${B.indexOf(b)},'sum')"><td>${b.n}</td><td class="n">${fmt(b.c)} ${b.u}</td><td><span class="chip w">${b.st[0]}</span></td></tr>`).join('')||'<tr><td class="ok">Бүгд хэвийн ✅</td></tr>'}</tbody></table>
+ <div class="kpis">${MT.slice(0,4).map(K).join('')}</div><div class="kpis">${MT.slice(4).map(K).join('')}</div>
+ <div class="bento">
+ <div class="card s4"><h3>Ангиллын эзлэх хувь</h3><div class="donut">${cr.length?donut(cr,M.rev):''}<div class="lg">${cr.map(([n,o],i)=>`<div onclick="kd('cat',${i})"><i style="background:${PAL[i%8]}"></i>${esc(n)} <span class="sub">${pc(o.r,M.rev)}</span></div>`).join('')||'<p class="sub">Өгөгдөл алга</p>'}</div></div></div>
+ <div class="card s8"><h3>Сарын орлого & ашиг — ${sel.y}</h3>${lineChart(ys.map(x=>x.rev),ys.map(x=>x.net))}</div>
+ <div class="card s5"><h3>📅 Өдрийн орлого — календарь</h3>${heat()}<p class="sub" style="margin:8px 0 0">Өдөр дээр дарвал тухайн өдрийн тайлан нээгдэнэ</p></div>
+ <div class="card s7"><h3>⏳ Нөөц хэдэн өдөрт хүрэх вэ</h3>${fcHTML(8)}</div>
+ <div class="card s7"><h3>Ангиллаар орлого (хүснэгт)</h3><table><thead><tr><th>Ангилал</th><th class="n">Орлого</th><th class="n">Хувь</th><th class="n">Борлуулсан тоо</th></tr></thead><tbody>
+ ${cr.map((c,i)=>`<tr style="cursor:pointer" onclick="kd('cat',${i})"><td>${esc(c[0])}</td><td class="n">${T(c[1].r)}</td><td class="n">${pc(c[1].r,M.rev)}</td><td class="n">${fmt(c[1].q)}</td></tr>`).join('')||'<tr><td colspan="4">Өгөгдөл алга</td></tr>'}</tbody></table></div>
+ <div class="card s5"><h3>📦 Анхаарах орцууд</h3><table><tbody>${low.slice(0,12).map(b=>`<tr style="cursor:pointer" onclick="dr(${B.indexOf(b)},'sum')"><td>${esc(b.n)}</td><td class="n">${fmt(b.c)} ${b.u}</td><td><span class="chip w">${b.st[0]}</span></td></tr>`).join('')||'<tr><td class="ok">Бүгд хэвийн ✅</td></tr>'}</tbody></table>
  ${bad.size?`<p class="w">⚠ Жорд хэмжээ хоосон (${bad.size}): ${[...bad].slice(0,6).join(', ')}${bad.size>6?' …':''}</p>`:''}</div></div>`;
  $('#sy').onchange=e=>{sel.y=+e.target.value;dash()};$('#sm').onchange=e=>{sel.m=+e.target.value;dash()}}
 // ---- харагдац
@@ -166,7 +217,7 @@ const TABS=[['dash','📊','Dashboard'],['bm','📋','БМ тайлан'],['warn
 const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['doc','🧾','Баримт бүртгэх',['sale','buy','exp','cnt','mv','set']],['ref','📚','Лавлах',['rec','stock','prod']],['cfg','⚙️','Тохиргоо',['org']]],NO=JSON.parse(LS.navOpen||'{}'),tb=id=>TABS.find(x=>x[0]==id);
 const nb=t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`;
 $('#nav').innerHTML=nb(tb('dash'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
-function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
+function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));document.querySelectorAll('#bt button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
  const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
 
 // ===== v2: бүртгэл (нэмэх/засах/устгах) + тайлангууд
@@ -184,7 +235,7 @@ const DB={rec:['recipes','Жор меню',[['Бүтээгдэхүүн','pr'],['
 function crud(id){const [t,n,F]=DB[id],q=(cs[id]||'').toLowerCase(),rows=(RAW()[t]||[]).slice();
  if(F[0][1]=='date')rows.sort((a,b)=>String(b[1]).localeCompare(String(a[1])));
  const L=rows.filter(r=>!q||r.join(' ').toLowerCase().includes(q));
- $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span>${id=='sale'||id=='buy'?`<button class="btn" onclick="prDlg('${id}')">🖨 Хэвлэх</button>`:''}<button class="btn pri" onclick="${id=='sale'||id=='buy'?`docN('${id}')`:`ed('${id}')`}">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
+ $('#p-'+id).innerHTML=`<div class="card tool"><input placeholder="🔍 Хайх (Enter)" value="${cs[id]||''}" onchange="cs['${id}']=this.value;crud('${id}')" style="max-width:240px"><span class="sp"></span><span>${L.length} мөр</span>${id=='sale'?`<button class="btn" onclick="pos()">🍰 POS</button>`:''}${id=='sale'||id=='buy'?`<button class="btn" onclick="prDlg('${id}')">🖨 Хэвлэх</button>`:''}<button class="btn pri" onclick="${id=='sale'||id=='buy'?`docN('${id}')`:`ed('${id}')`}">＋ Нэмэх</button></div><div class="card"><div class="sc"><table><thead><tr>${F.map(f=>`<th>${f[0]}</th>`).join('')}<th></th></tr></thead><tbody>${L.slice(0,300).map(r=>`<tr>${F.map((f,i)=>`<td class="${f[1]=='number'?'n':''}">${f[1]=='number'?fmt(r[i+1]):(r[i+1]??'')}</td>`).join('')}<td style="white-space:nowrap"><a class="l" onclick="ed('${id}','${r[0]}')">✏️</a> <a class="l" onclick="del('${id}','${r[0]}')">🗑</a></td></tr>`).join('')||'<tr><td>Өгөгдөл алга</td></tr>'}</tbody></table></div></div>`}
 function ed(id,rid){const [t,n,F]=DB[id],r=rid?(RAW()[t]||[]).find(x=>x[0]==rid):null,R=RAW(),ls={pr:nm(R.products,1),ing:nm(R.stock,1),cat:[...new Set([...nm(R.sales,3),...nm(R.products,3),...nm(R.expenses,2)])],own:['Өөрийн','Бусад']};
  $('#dc').innerHTML=`<h3>${rid?'Засах':'Нэмэх'}: ${n}</h3>`+F.map((f,i)=>{const v=r?r[i+1]:(f[1]=='date'?tl():'');return `<label>${f[0]}</label><input id="f${i}" type="${f[1]=='number'||f[1]=='date'?f[1]:'text'}" value="${String(v??'').replace(/"/g,'&quot;')}" ${ls[f[1]]?`list="dl-${f[1]}"`:''} ${f[1]=='number'?'step="any"':''}>`}).join('')+Object.keys(ls).map(x=>`<datalist id="dl-${x}">${ls[x].map(o=>`<option>${o}</option>`).join('')}</datalist>`).join('')+`<p><button class="btn pri" onclick="sv('${id}','${rid||''}')">Хадгалах</button></p>`;dlg.showModal()}
 async function sv(id,rid){const [t,,F]=DB[id],row=F.map((f,i)=>{const v=$('#f'+i).value.trim();return f[1]=='number'?(v===''?'':+v):v});
@@ -266,9 +317,9 @@ function drw(){const b=bm()[cur.i],t=cur.t,i=cur.i,A=(tt,x)=>`<a class="l" oncli
  let h=`<div class="tool">${tabs}<span class="sub">${rng()} · ${b.u}</span></div><br>`;
  if(t=='sum')h+=tbl([['Үзүүлэлт'],['Дүн',1],['Тайлбар']],[
   R(['Эхний үлдэгдэл',fmt(b.open),'БМ тайлан хуудасны D багана (гараар оруулсан)']),
-  R(['Орлого',A('i',fmt(b.i)),'Түүхий эд хуудаснаас, сонгосон хугацаанд — дарж задлах']),
-  R(['Зарлага',A('o',fmt(b.o)),'Борлуулсан тоо × жор дахь орцын хэмжээ — дарж задлах']),
-  R(['Эцсийн үлдэгдэл','<b>'+fmt(b.c)+'</b>']),
+  R(['+ Орлого',A('i',fmt(b.i)),'Түүхий_эд хуудаснаас, сонгосон хугацаанд — дарж задлах']),
+  R(['− Зарлага',A('o',fmt(b.o)),'Борлуулсан тоо × жор дахь орцын хэмжээ — дарж задлах']),
+  R(['= Эцсийн үлдэгдэл','<b>'+fmt(b.c)+'</b>','Эхний + Орлого − Зарлага']),
   R(['Доод хязгаар',fmt(b.mn),'Анхааруулга: эцсийн ≤ '+fmt(b.mn*1.3)+' (хязгаар × 1.3)']),
   R(['Статус','<span class="chip '+b.st[1]+'">'+b.st[0]+'</span>',b.c<=0?'Эцсийн үлдэгдэл 0 эсвэл сөрөг':b.c<=b.mn?'Эцсийн ≤ доод хязгаар':b.c<=b.mn*1.3?'Хязгаарт ойрхон':'Хэвийн'])]);
  else if(t=='i'){const r=ins(b.n).sort((x,y)=>day(x[0]).localeCompare(day(y[0])));
@@ -443,11 +494,11 @@ function warnR(){const B=bm().map((b,i)=>[b,i]),W=B.filter(([b])=>b.st[1]!='ok')
 const pm=document.createElement('div');pm.id='cdd';pm.hidden=true;document.body.appendChild(pm);
 let DT=null,ddBusy=false,lastOpen=0;
 {const sm=HTMLDialogElement.prototype.showModal;HTMLDialogElement.prototype.showModal=function(){lastOpen=Date.now();return sm.call(this)}}
-function ddShow(el,items,pick,sel){DT=el;const host=dlg.open?dlg:document.body;if(pm.parentNode!==host)host.appendChild(pm);
+function ddShow(el,items,pick,sel){DT=el;const host=OPD();if(pm.parentNode!==host)host.appendChild(pm);
  pm.innerHTML=items.map(([x,t],i)=>`<div data-i="${i}" class="${x==sel?'sel':''}">${esc(t)}</div>`).join('')||'<div style="opacity:.6;cursor:default">Илэрц алга</div>';
  pm._p=i=>pick(items[i][0]);pm.hidden=false;const r=el.getBoundingClientRect(),h=Math.min(pm.scrollHeight,240);pm.style.minWidth=r.width+'px';
  let x=r.left,y=r.bottom+4;if(y+h>innerHeight&&r.top>h)y=r.top-h-4;
- if(host===dlg){const c=dlg.getBoundingClientRect();pm.style.position='absolute';pm.style.left=(x-c.left+dlg.scrollLeft)+'px';pm.style.top=(y-c.top+dlg.scrollTop)+'px'}
+ if(host!==document.body){const c=host.getBoundingClientRect();pm.style.position='absolute';pm.style.left=(x-c.left+host.scrollLeft)+'px';pm.style.top=(y-c.top+host.scrollTop)+'px'}
  else{pm.style.position='fixed';pm.style.left=x+'px';pm.style.top=y+'px'}
  const s=pm.querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
 function ddHide(){pm.hidden=true;DT=null}
@@ -494,6 +545,53 @@ window.xS=async(id,pr)=>{const S=id=='sale',d=v('x0'),w=k(v('x1')),P=PP(),C=CT()
  if(!pr)return;const tx=+OG()[6]||0,tot=S?L.reduce((a,x)=>a+x.a,0):L.reduce((a,x)=>a+x.q*x.a,0),H=[['№'],[S?'Бүтээгдэхүүн':'Орц'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]];
  pdoc(S?'БОРЛУУЛАЛТЫН БАРИМТ':'ХУДАЛДАН АВАЛТЫН БАРИМТ',[`Огноо: ${d}`,S?(w?'Харилцагч: '+esc(w):''):'Нийлүүлэгч: '+esc(w)].filter(Boolean),H,
   L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(S?x.a/x.q:x.a),fmt(S?x.a:x.q*x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(tot)],tx?tot*tx/(100+tx):0,S?['Борлуулсан:','Хүлээн авсан:']:['Нийлүүлсэн: '+esc(w),'Хүлээн авсан:'])};
+
+// ===== v6: Ctrl+K хайлт, хөвөх ＋, POS, мэдэгдэл, утасны доод цэс
+function odue(){const S=RAW().settle||[],g={},t=tl();S.forEach(r=>{const o=g[r[2]]=g[r[2]]||{a:0,p:0,b:0,d:''};o.a+=+r[5]||0;o.p+=+r[6]||0;o.b+=+r[8]||0;if(r[7]&&((+r[5]||0)+(+r[6]||0))>0&&(!o.d||day(r[7])<o.d))o.d=day(r[7])});return Object.entries(g).filter(([n,o])=>o.d&&o.d<t&&o.a+o.p-o.b>0)}
+function notes(){const B=bm(),N=[],o=B.filter(b=>b.st[1]=='w').length,fc=fcast().filter(x=>x.days<3).length,od=odue().length,mv=new Set(MV().filter(r=>r[7]=='Илгээсэн').map(r=>r[2])).size,bad=new Set(D.recipes.filter(r=>!+r[2]).map(r=>k(r[0]))).size;
+ if(o)N.push(['🔴',o+' орц дууссан / доод хязгаараас доош','warn']);if(fc)N.push(['⏳',fc+' орц 3 өдрөөс бага хэвтэнэ','warn']);if(od)N.push(['💳',od+' харилцагчийн төлбөр хугацаа хэтэрсэн','set']);
+ if(mv)N.push(['🔁',mv+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','mv']);if(bad)N.push(['⚠️',bad+' бүтээгдэхүүний жорд хэмжээ хоосон','rec']);return N}
+function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="go('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
+$('#bellb').onclick=e=>{e.stopPropagation();const p=$('#bell');$('#pop').hidden=true;p.hidden=!p.hidden};
+document.addEventListener('click',e=>{if(!e.target.closest('#bell,#bellb'))$('#bell').hidden=true;if(!e.target.closest('#fab'))$('#fab').classList.remove('open')});
+// ---- Ctrl+K
+function kitems(){const I=[];TABS.forEach(t=>I.push({k:'Цэс',i:t[1],t:t[2],run:()=>go(t[0])}));
+ [['Шинэ борлуулалт (баримт)','🧾',()=>docN('sale')],['POS борлуулалт','🍰',()=>pos()],['Шинэ худалдан авалт','📥',()=>docN('buy')],['Шинэ зардал','💸',()=>ed('exp')],['Шинэ шилжүүлэг','🔁',()=>mvN()]].forEach(a=>I.push({k:'Үйлдэл',i:a[1],t:a[0],run:a[2]}));
+ bm().forEach((b,i)=>I.push({k:'Орц',i:'📦',t:b.n+' — '+fmt(b.c)+' '+b.u,run:()=>{go('bm');dr(i,'sum')}}));
+ nm(RAW().products,1).forEach(p=>I.push({k:'Бүтээгдэхүүн',i:'🍰',t:p,run:()=>ddP(E(p),sel.y+'-01-01',tl())}));
+ [...new Set(MV().map(r=>r[2]))].forEach(d=>I.push({k:'Баримт',i:'🔁',t:d+' — шилжүүлэг',run:()=>mvP(d)}));return I}
+let KI=[];
+function kR(){const q=k($('#kq').value).toLowerCase().split(/\s+/).filter(Boolean);KI=kitems().filter(x=>q.every(w=>(x.k+' '+x.t).toLowerCase().includes(w))).slice(0,14);
+ $('#kl').innerHTML=KI.map((x,i)=>`<div class="ki${i?'':' on'}" data-i="${i}"><span style="font-size:18px">${x.i}</span><span>${esc(x.t)}</span><small>${x.k}</small></div>`).join('')||'<p class="sub" style="padding:10px">Илэрц олдсонгүй</p>'}
+function kGo(i){const x=KI[i];if(!x)return;$('#kp').close();setTimeout(x.run,0)}
+function kOpen(){$('#kq').value='';kR();$('#kp').showModal();$('#kq').focus()}
+$('#kb').onclick=kOpen;$('#kq').oninput=kR;
+$('#kl').onclick=e=>{const t=e.target.closest('.ki');if(t)kGo(+t.dataset.i)};
+$('#kq').addEventListener('keydown',e=>{const L=[...$('#kl').children];let i=L.findIndex(x=>x.classList.contains('on'));
+ if(e.key=='ArrowDown'||e.key=='ArrowUp'){e.preventDefault();L.forEach(x=>x.classList.remove('on'));i=e.key=='ArrowDown'?Math.min(L.length-1,i+1):Math.max(0,i-1);if(L[i]){L[i].classList.add('on');L[i].scrollIntoView({block:'nearest'})}}
+ else if(e.key=='Enter'){e.preventDefault();kGo(Math.max(0,i))}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=='k'){e.preventDefault();$('#kp').open?$('#kp').close():kOpen()}});
+// ---- хөвөх ＋
+window.fq=i=>{$('#fab').classList.remove('open');[pos,()=>docN('sale'),()=>docN('buy'),()=>ed('exp'),mvN][i]()};
+// ---- утасны доод цэс
+$('#bt').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.id=='btm')document.body.classList.toggle('open');else go(b.dataset.t)};
+// ---- POS
+let PL=[],PC={},PF='',PQ='',PK=[];
+window.pos=()=>{PL=(RAW().products||[]).map(r=>({n:k(r[1]),p:+r[2]||0,c:k(r[3])||'Бусад'})).filter(x=>x.n);if(!PL.length)return toast('Эхлээд "Бүтээгдэхүүн" цэсэнд бүтээгдэхүүн бүртгэнэ үү');
+ PC={};PF='';PQ='';PK=['',...new Set(PL.map(x=>x.c))];
+ $('#posc').innerHTML=`<div class="tool"><h3 style="margin:0;font-size:17px;text-transform:none;color:var(--t)">🍰 POS борлуулалт</h3><span class="sp"></span><input type="date" id="pd" value="${tl()}" style="max-width:160px"><input id="pw" placeholder="Харилцагч (заавал биш)" style="max-width:200px"><button class="btn" onclick="$('#posd').close()">✖ Хаах</button></div>
+ <div class="tool" style="margin:10px 0"><input id="pq" placeholder="🔍 Бүтээгдэхүүн хайх" style="max-width:240px" oninput="PQ=this.value;posG()"><div id="pch" class="tool"></div></div><div id="pg" class="pg"></div><div id="pf" class="pfoot"></div>`;$('#posd').showModal();posG()};
+window.posC=i=>{PF=PK[i];posG()};
+window.pa=(i,d)=>{PC[i]=Math.max(0,(PC[i]||0)+d);if(!PC[i])delete PC[i];posG()};
+function posG(){$('#pch').innerHTML=PK.map((c,i)=>`<button class="btn ${PF==c?'pri':''}" onclick="posC(${i})">${esc(c)||'Бүгд'}</button>`).join('');
+ const q=PQ.toLowerCase();$('#pg').innerHTML=PL.map((x,i)=>[x,i]).filter(([x])=>(!PF||x.c==PF)&&(!q||x.n.toLowerCase().includes(q))).map(([x,i])=>`<div class="pt ${PC[i]?'on':''}" onclick="pa(${i},1)"><b>${esc(x.n)}</b><small>${fmt(x.p)} ₮</small>${PC[i]?`<span class="pb">${PC[i]}</span><a class="pm" onclick="event.stopPropagation();pa(${i},-1)">−</a>`:''}</div>`).join('')||'<p class="sub">Бүтээгдэхүүн олдсонгүй</p>';
+ const n=Object.values(PC).reduce((a,x)=>a+x,0),t=Object.entries(PC).reduce((a,[i,q])=>a+q*PL[i].p,0);
+ $('#pf').innerHTML=`<b style="font-size:18px">Нийт: ${fmt(t)} ₮</b><span class="sub">${n} ширхэг</span><span class="sp"></span><button class="btn" onclick="PC={};posG()">🗑 Цэвэрлэх</button><button class="btn pri" onclick="posS(0)">💾 Хадгалах</button><button class="btn pri" onclick="posS(1)">💾🖨 Хадгалаад хэвлэх</button>`}
+window.posS=async pr=>{const d=v('pd'),w=v('pw').trim(),L=Object.entries(PC).map(([i,q])=>({n:PL[i].n,c:PL[i].c,q,a:q*PL[i].p}));if(!L.length)return toast('Бүтээгдэхүүн сонгоно уу');
+ if(!await bulk(L.map(x=>({act:'add',t:'sales',row:[d,x.n,x.c,x.q,x.a]}))))return;$('#posd').close();if(!pr)return;
+ const tx=+OG()[6]||0,t=L.reduce((a,x)=>a+x.a,0);pdoc('БОРЛУУЛАЛТЫН БАРИМТ',[`Огноо: ${d}`,w?'Харилцагч: '+esc(w):''].filter(Boolean),[['№'],['Бүтээгдэхүүн'],['Тоо',1],['Нэгж үнэ',1],['Дүн ₮',1]],L.map((x,i)=>[i+1,esc(x.n),fmt(x.q),fmt(x.a/x.q),fmt(x.a)]),['','Нийт',fmt(L.reduce((a,x)=>a+x.q,0)),'',fmt(t)],tx?t*tx/(100+tx):0,['Борлуулсан:','Хүлээн авсан:'])};
+$('#posd').addEventListener('close',()=>document.body.appendChild($('#msg')));$('#kp').addEventListener('close',()=>document.body.appendChild($('#msg')));
+{const _r5=render;render=function(){_r5();$('#p-warn').insertAdjacentHTML('beforeend','<div class="card"><h3>⏳ Нөөц хэдэн өдөрт хүрэх вэ</h3>'+fcHTML(60)+'</div>');bellR()}}
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
 $('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
