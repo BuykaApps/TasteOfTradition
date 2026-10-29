@@ -503,7 +503,7 @@ let DT=null,ddBusy=false,lastOpen=0;
 function ddShow(el,items,pick,sel){DT=el;const host=OPD();if(pm.parentNode!==host)host.appendChild(pm);
  pm.innerHTML=items.map(([x,t],i)=>`<div data-i="${i}" class="${x==sel?'sel':''}">${esc(t)}</div>`).join('')||'<div style="opacity:.6;cursor:default">Илэрц алга</div>';
  pm._p=i=>pick(items[i][0]);pm.hidden=false;const r=el.getBoundingClientRect(),h=Math.min(pm.scrollHeight,240);pm.style.minWidth=r.width+'px';
- let x=r.left,y=r.bottom+4;if(y+h>innerHeight&&r.top>h)y=r.top-h-4;
+ const pw=pm.offsetWidth;let x=Math.max(8,Math.min(r.left,innerWidth-pw-8)),y=r.bottom+4;if(y+h>innerHeight&&r.top>h)y=r.top-h-4;
  if(host!==document.body){const c=host.getBoundingClientRect();pm.style.position='absolute';pm.style.left=(x-c.left+host.scrollLeft)+'px';pm.style.top=(y-c.top+host.scrollTop)+'px'}
  else{pm.style.position='fixed';pm.style.left=x+'px';pm.style.top=y+'px'}
  const s=pm.querySelector('.sel');if(s)s.scrollIntoView({block:'nearest'})}
@@ -635,7 +635,7 @@ function docsR(){const all=docList(),q=DS.q.toLowerCase(),base=all.filter(d=>d.d
  const ns=L.filter(d=>DS.sel.has(d.key)).length,ch=(t,n,c)=>`<button class="btn ${DS.t==t?'pri':''}" onclick="dtype('${t}')">${n}<small>${c}</small></button>`;
  $('#p-docs').innerHTML=`<div class="card"><div class="dch">${ch('all','Бүгд',base.length)}${Object.keys(TY).map(t=>ch(t,TY[t][0],cnt[t]||0)).join('')}</div></div>
  <div class="card tool"><input type="date" value="${DS.a}" onchange="DS.a=this.value;docsR()"><span>→</span><input type="date" value="${DS.b}" onchange="DS.b=this.value;docsR()"><input placeholder="🔍 Хайх (Enter)" value="${esc(DS.q)}" onchange="DS.q=this.value;docsR()" style="max-width:220px"><span class="sp"></span>
- ${ns?`<button class="btn" onclick="dPs()">🖨 Сонгосон (${ns})</button><button class="btn" onclick="dDs()" style="color:var(--r)">🗑 Сонгосон (${ns})</button>`:''}<button class="btn pri" onclick="dNew(this)">＋ Шинэ ▾</button></div>
+ ${ns?`<button class="btn" onclick="dPs()">🖨 Сонгосон (${ns})</button><button class="btn" onclick="dDs()" style="color:var(--r)">🗑 Сонгосон (${ns})</button>`:''}${DS.t!='all'?`<button class="btn pri" onclick="dNew1()">＋ Шинэ ${TY[DS.t][0].toLowerCase()}</button>`:''}${DS.t=='sale'?`<button class="btn" onclick="pos()">🍰 POS</button>`:''}<button class="btn ${DS.t=='all'?'pri':''}" onclick="dNew(this)" title="Бусад төрлөөр шинээр бүртгэх">${DS.t=='all'?'＋ Шинэ ▾':'▾'}</button></div>
  <div class="card">${Object.keys(tot).length?`<div class="dt">${Object.keys(tot).map(t=>`<span>${TY[t][0]}: <b>${T(tot[t])}</b></span>`).join('')}</div>`:''}<div class="sc"><table><thead><tr><th style="width:36px"><input type="checkbox" onchange="dAll(this.checked)" ${L.length&&ns==L.length?'checked':''}></th><th>Огноо</th><th>Төрөл</th><th>Баримт №</th><th>Харилцагч / тайлбар</th><th class="n">Мөр</th><th class="n">Дүн</th><th>Төлөв</th><th style="width:96px"></th></tr></thead><tbody>
  ${L.slice(0,400).map((d,i)=>`<tr class="dr" onclick="dX(${i})"><td onclick="event.stopPropagation()"><input type="checkbox" ${DS.sel.has(d.key)?'checked':''} onchange="dS(${i},this.checked)"></td><td>${d.date}</td><td><span class="tc" style="background:${TY[d.t][1]}">${TY[d.t][0]}</span></td><td>${d.no?'<b>'+esc(d.no)+'</b>':'<span class="sub">'+(d.legacy?'(хуучин мөрүүд)':'—')+'</span>'}</td><td>${esc(d.party)}</td><td class="n">${d.L.length}</td><td class="n">${d.t=='adj'?(d.qty>0?'+':'')+fmt(d.qty):T(d.amt)}</td>
  <td>${d.t=='mv'?`<span onclick="event.stopPropagation()"><select onchange="mvS('${esc(d.no)}',this.value)" style="width:auto;padding:5px 28px 5px 8px">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==d.st?'selected':''}>${s}</option>`).join('')}</select></span>`:d.t=='sale'||d.t=='buy'?'':`<span class="chip">${esc(d.st)}</span>`}</td>
@@ -648,6 +648,7 @@ window.dP=i=>prn([DLV[i]]);window.dPs=()=>prn(DLV.filter(d=>DS.sel.has(d.key)));
 async function dDel(A){if(!A.length)return;if(!await uiConfirm(A.length+' баримтыг (нийт '+A.reduce((a,d)=>a+d.L.length,0)+' мөр) устгах уу?'))return;A.forEach(d=>DS.sel.delete(d.key));await bulk(A.flatMap(d=>d.L.map(r=>({act:'del',t:TT[d.t],id:r[0]}))))}
 window.dD=i=>dDel([DLV[i]]);window.dDs=()=>dDel(DLV.filter(d=>DS.sel.has(d.key)));
 window.dNew=el=>ddShow(el,[['pos','🍰 POS борлуулалт'],['sale','🧾 Борлуулалтын баримт'],['buy','📥 Худалдан авалт'],['exp','💸 Зардал'],['mv','🔁 Хөдөлгөөн (шилжүүлэг)'],['set','💳 Тооцоо'],['adj','🧮 Тооллого']],x=>({pos:()=>pos(),sale:()=>docN('sale'),buy:()=>docN('buy'),exp:()=>ed('exp'),mv:()=>mvN(),set:()=>ed('set'),adj:()=>go('cnt')})[x](),'');
+window.dNew1=()=>({sale:()=>docN('sale'),buy:()=>docN('buy'),exp:()=>ed('exp'),mv:()=>mvN(),set:()=>ed('set'),adj:()=>go('cnt')})[DS.t]();
 window.gt=s=>{const[p,t]=s.split(':');go(p);if(t){DS.t=t;DS.a='2000-01-01';DS.b='2100-01-01';docsR()}};
 {const _r6=render;render=function(){_r6();docsR()}}
 obs.observe($('main'),{childList:true,subtree:true});
