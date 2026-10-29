@@ -555,10 +555,13 @@ window.xS=async(id,pr)=>{const S=id=='sale',d=v('x0'),w=k(v('x1')),P=PP(),C=CT()
 
 // ===== v6: Ctrl+K хайлт, хөвөх ＋, POS, мэдэгдэл, утасны доод цэс
 function odue(){const S=RAW().settle||[],g={},t=tl();S.forEach(r=>{const o=g[r[2]]=g[r[2]]||{a:0,p:0,b:0,d:''};o.a+=+r[5]||0;o.p+=+r[6]||0;o.b+=+r[8]||0;if(r[7]&&((+r[5]||0)+(+r[6]||0))>0&&(!o.d||day(r[7])<o.d))o.d=day(r[7])});return Object.entries(g).filter(([n,o])=>o.d&&o.d<t&&o.a+o.p-o.b>0)}
-function notes(){const B=bm(),N=[],o=B.filter(b=>b.st[1]=='w').length,fc=fcast().filter(x=>x.days<3).length,od=odue().length,mv=new Set(MV().filter(r=>r[7]=='Илгээсэн').map(r=>r[2])).size,bad=new Set(D.recipes.filter(r=>!+r[2]).map(r=>k(r[0]))).size;
- if(o)N.push(['🔴',o+' орц дууссан / доод хязгаараас доош','warn']);if(fc)N.push(['⏳',fc+' орц 3 өдрөөс бага хэвтэнэ','warn']);if(od)N.push(['💳',od+' харилцагчийн төлбөр хугацаа хэтэрсэн','docs:set']);
- if(mv)N.push(['🔁',mv+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','docs:mv']);if(bad)N.push(['⚠️',bad+' бүтээгдэхүүний жорд хэмжээ хоосон','rec']);return N}
-function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="gt('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
+function nlists(){const R=RAW(),B=bm().map((b,i)=>[b,i]),rp=new Set((R.recipes||[]).map(r=>k(r[1]))),mvs={};
+ MV().filter(r=>r[7]=='Илгээсэн').forEach(r=>{const o=mvs[r[2]]=mvs[r[2]]||{no:r[2],d:day(r[1]),to:r[3],n:0};o.n++});
+ return{out:B.filter(([b])=>b.st[1]=='w'),low:fcast().filter(x=>x.days<3),due:odue(),mv:Object.values(mvs),rq:(R.recipes||[]).filter(r=>!+r[3]),nr:[...new Set([...nm(R.products,1),...nm(R.sales,2)])].filter(n=>!rp.has(n))}}
+function notes(){const L=nlists(),N=[],bp=new Set(L.rq.map(r=>k(r[1]))).size;
+ if(L.out.length)N.push(['🔴',L.out.length+' орц дууссан / доод хязгаараас доош','out']);if(L.low.length)N.push(['⏳',L.low.length+' орц 3 өдрөөс бага хэвтэнэ','low']);if(L.due.length)N.push(['💳',L.due.length+' харилцагчийн төлбөр хугацаа хэтэрсэн','due']);
+ if(L.mv.length)N.push(['🔁',L.mv.length+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','mv']);if(bp)N.push(['⚠️',bp+' бүтээгдэхүүний жорд хэмжээ хоосон','rq']);if(L.nr.length)N.push(['🍰',L.nr.length+' бүтээгдэхүүнд жор (орц) бүртгээгүй','nr']);return N}
+function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="nt('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
 $('#bellb').onclick=e=>{e.stopPropagation();const p=$('#bell');$('#pop').hidden=true;p.hidden=!p.hidden};
 document.addEventListener('click',e=>{if(!e.target.closest('#bell,#bellb'))$('#bell').hidden=true;if(!e.target.closest('#fab'))$('#fab').classList.remove('open')});
 // ---- Ctrl+K
@@ -566,7 +569,7 @@ function kitems(){const I=[];TABS.filter(t=>!HID.includes(t[0])).forEach(t=>I.pu
  [['Шинэ борлуулалт (баримт)','🧾',()=>docN('sale')],['Хялбар борлуулалт','🍰',()=>pos()],['Шинэ худалдан авалт','📥',()=>docN('buy')],['Шинэ зардал','💸',()=>ed('exp')],['Шинэ шилжүүлэг','🔁',()=>mvN()]].forEach(a=>I.push({k:'Үйлдэл',i:a[1],t:a[0],run:a[2]}));
  bm().forEach((b,i)=>I.push({k:'Орц',i:'📦',t:b.n+' — '+fmt(b.c)+' '+b.u,run:()=>{go('bm');dr(i,'sum')}}));
  nm(RAW().products,1).forEach(p=>I.push({k:'Бүтээгдэхүүн',i:'🍰',t:p,run:()=>ddP(E(p),sel.y+'-01-01',tl())}));
- docList().slice(0,400).forEach(d=>I.push({k:'Баримт',i:'🧾',t:TY[d.t][0]+' '+(d.no||'')+' · '+d.date+(d.party?' · '+d.party:''),run:()=>{DS.t=d.t;DS.q=d.no||'';DS.a=d.date;DS.b=d.date;DS.dw=d.key;go('docs');docsR()}}));return I}
+ docList().slice(0,400).forEach(d=>I.push({k:'Баримт',i:'🧾',t:TY[d.t][0]+' '+(d.no||'')+' · '+d.date+(d.party?' · '+d.party:''),run:()=>{DS.t=d.t;DS.q=d.no||'';DS.a=d.date;DS.b=d.date;NT=null;DS.dw=d.key;go('docs');docsR()}}));return I}
 let KI=[];
 function kR(){const q=k($('#kq').value).toLowerCase().split(/\s+/).filter(Boolean);KI=kitems().filter(x=>q.every(w=>(x.k+' '+x.t).toLowerCase().includes(w))).slice(0,14);
  $('#kl').innerHTML=KI.map((x,i)=>`<div class="ki${i?'':' on'}" data-i="${i}"><span style="font-size:18px">${x.i}</span><span>${esc(x.t)}</span><small>${x.k}</small></div>`).join('')||'<p class="sub" style="padding:10px">Илэрц олдсонгүй</p>'}
@@ -637,7 +640,7 @@ function iSum(d){const g={};d.M.forEach(x=>g[x.n]=(g[x.n]||0)+x.q);const e=Objec
 // ===== v9: баримтын дэлгэрэнгүй — баруун талын самбар
 document.head.insertAdjacentHTML('beforeend',`<style>
 #dwo{position:fixed;inset:0;background:#030a1255;backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:90}#dwo.on{opacity:1;pointer-events:auto}
-#dw{position:fixed;top:0;right:0;bottom:0;width:min(620px,100vw);background:var(--bg);color:var(--t);z-index:91;transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:-12px 0 50px #0006;border-radius:16px 0 0 16px}#dw.on{transform:none}
+#dw{visibility:hidden;position:fixed;top:0;right:0;bottom:0;width:min(620px,100vw);background:var(--bg);color:var(--t);z-index:91;transform:translateX(105%);transition:transform .25s,visibility .25s;display:flex;flex-direction:column;box-shadow:-12px 0 50px #0006;border-radius:16px 0 0 16px}#dw.on{transform:none;visibility:visible}
 .dwh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:18px 20px 6px}.dwt{font-size:18px;font-weight:800;margin-top:8px;word-break:break-all}.dwx{cursor:pointer;font-size:20px;padding:4px 12px;border-radius:10px;color:var(--m)}.dwx:hover{background:var(--b)}
 .dwb{flex:1;overflow:auto;padding:0 20px 16px}.dws{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--m);margin:16px 0 8px;text-transform:uppercase}
 .dwc{background:var(--cd);border:1px solid var(--b);border-radius:12px;padding:2px 14px;overflow:auto}.dwc.t{padding:0}
@@ -646,16 +649,38 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 #dw table{width:100%;min-width:0;margin:0}#dw th{background:color-mix(in srgb,var(--a) 8%,var(--cd));color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
 .dr.sel>td{background:color-mix(in srgb,var(--a) 10%,transparent)}
 </style>`);
-document.body.insertAdjacentHTML('beforeend','<div id="dwo" onclick="dwC()"></div><aside id="dw"></aside>');
-document.addEventListener('keydown',e=>{if(e.key=='Escape'&&DS.dw&&!document.querySelector('dialog[open]'))dwC()});
+document.body.insertAdjacentHTML('beforeend','<div id="dwo" onclick="dwC()"></div><div id="dw"></div>');
+document.addEventListener('keydown',e=>{if(e.key=='Escape'&&(DS.dw||NT)&&!document.querySelector('dialog[open]'))dwC()});
 function dwS(){document.querySelectorAll('#p-docs tr.dr').forEach((r,j)=>r.classList.toggle('sel',!!DLV[j]&&DLV[j].key==DS.dw))}
 function dwR(){const el=$('#dw'),d=DS.dw&&DLV.find(x=>x.key==DS.dw);
- if(!d){el.classList.remove('on');$('#dwo').classList.remove('on');DS.dw=null;return}
+ if(!d){if(NT){ntR();return}el.classList.remove('on');$('#dwo').classList.remove('on');DS.dw=null;return}
  const i=DLV.indexOf(d),kv=(a,b)=>b===''||b==null?'':`<div class="dkv"><span>${a}</span><b>${b}</b></div>`,tt=d.t=='adj'?(d.qty>0?'+':'')+fmt(d.qty):T(d.amt);
  el.innerHTML=`<div class="dwh"><div><span class="tc" style="background:${TY[d.t][1]}">${TY[d.t][0]}</span><div class="dwt">${d.no?esc(d.no):'(хуучин мөрүүд)'}</div></div><a class="dwx" title="Хаах (Esc)" onclick="dwC()">✕</a></div>
  <div class="dwb"><div class="dws">Ерөнхий мэдээлэл</div><div class="dwc">${kv('Огноо',d.date)}${kv('Харилцагч / тайлбар',esc(d.party||''))}${kv('Төлөв',esc(d.st||''))}${kv('Бараа × тоо',d.I.length?iSum(d):'')}${kv(d.t=='adj'?'Нийт тоо':'Нийт дүн','<span style="color:var(--t)">'+tt+'</span>')}</div>
  <div class="dws"><span>Гүйлгээний дэлгэрэнгүй</span><span>${d.L.length} мөр</span></div><div class="dwc t">${lnH(d)}</div></div>
  <div class="dwf"><button class="btn" onclick="dE(${i})">✏️ Засах</button><button class="btn" onclick="dP(${i})">🖨 Хэвлэх</button><button class="btn" style="color:var(--r);margin-left:auto" onclick="dD(${i})">🗑 Устгах</button></div>`;
+ el.classList.add('on');$('#dwo').classList.add('on')}
+
+// ===== v10: мэдэгдэл дээр дарахад зөвхөн тэр асуудлын жагсаалт баруун самбарт гарч, засах боломжтой
+var NT=null,NL=[];
+const NK={out:['🔴','Дууссан / доод хязгаараас доош орцууд','Үлдэгдэл нь БМ тайлангийн хугацааны төгсгөл байдлаар. ✏️ — доод хязгаар/эхний үлдэгдэл засах, 📥 — худалдан авалт бүртгэх.'],low:['⏳','3 өдрөөс бага хэвтэх орцууд','Сүүлийн 30 хоногийн дундаж зарлагаар тооцсон. 📥 — худалдан авалт бүртгэх.'],due:['💳','Хугацаа хэтэрсэн төлбөр','«Нээх» дарахад тухайн харилцагчийн тооцооны баримтууд шүүгдэж гарна.'],mv:['🔁','Хүлээн аваагүй шилжүүлгүүд','Төлвийг шууд сольж болно — «Хүлээн авсан» болгомогц жагсаалтаас гарна.'],rq:['⚠️','Жорд хэмжээ хоосон мөрүүд','Хэмжээг бичээд Enter дарвал автоматаар хадгална. ✏️ — бүтнээр засах, 🗑 — жороос хасах.'],nr:['🍰','Жор (орц) бүртгээгүй бүтээгдэхүүн','«Жор нэмэх» дарж орцоо нэмнэ. Жортой болмогц жагсаалтаас гарна.']};
+window.nt=kd=>{NT=kd;DS.dw=null;dwS();ntR()};
+const sid=n=>((RAW().stock||[]).find(r=>k(r[1])==k(n))||[])[0];
+window.nE=id=>id?ed('stock',id):toast('Орц олдсонгүй');
+window.nDue=i=>{const e=NL[i];dwC();DS.t='set';DS.q=e[0];DS.a='2000-01-01';DS.b='2100-01-01';go('docs');docsR()};
+window.nR=i=>{ed('rec');$('#f0').value=NL[i];$('#f1').focus()};
+window.rqS=(id,v)=>{const r=(RAW().recipes||[]).find(x=>x[0]==id);if(!r||!(+v>0))return toast('Хэмжээг 0-ээс их тоогоор оруулна уу');bulk([{act:'upd',t:'recipes',id,row:[r[1],r[2],+v]}])};
+window.rqD=async id=>{if(await uiConfirm('Энэ орцыг жороос хасах уу?'))bulk([{act:'del',t:'recipes',id}])};
+function ntR(){const el=$('#dw'),m=NK[NT];NL=m?nlists()[NT]:null;if(!NL){NT=null;el.classList.remove('on');$('#dwo').classList.remove('on');return}
+ const tb=(h,r)=>`<div class="dwc t"><table><thead><tr>${h.map(x=>`<th class="${x[1]?'n':''}">${x[0]}</th>`).join('')}</tr></thead><tbody>${r.join('')||`<tr><td colspan="${h.length}" class="sub" style="padding:18px">Бүгд зассан ✅</td></tr>`}</tbody></table></div>`,
+ act=n=>`<a class="l" title="Засах" onclick="nE('${sid(n)||''}')">✏️</a> <a class="l" title="Худалдан авалт бүртгэх" onclick="docN('buy')">📥</a>`;let h;
+ if(NT=='out')h=tb([['Орц'],['Үлдэгдэл',1],['Доод хязгаар',1],['Статус'],['']],NL.map(([b])=>`<tr><td><b>${esc(b.n)}</b></td><td class="n">${fmt(b.c)} ${esc(b.u)}</td><td class="n">${fmt(b.mn)}</td><td><span class="chip ${b.st[1]}">${b.st[0]}</span></td><td style="white-space:nowrap">${act(b.n)}</td></tr>`));
+ else if(NT=='low')h=tb([['Орц'],['Үлдэгдэл',1],['Хэвтэх хугацаа',1],['']],NL.map(x=>`<tr><td><b>${esc(x.n)}</b></td><td class="n">${fmt(x.c)} ${esc(x.u)}</td><td class="n" style="color:var(--r);font-weight:700">${x.days<1?'<1':Math.round(x.days)} өдөр</td><td style="white-space:nowrap">${act(x.n)}</td></tr>`));
+ else if(NT=='due')h=tb([['Харилцагч'],['Дуусах'],['Үлдэгдэл',1],['']],NL.map(([n,o],i)=>`<tr><td><b>${esc(n)}</b></td><td>${o.d}</td><td class="n">${T(o.a+o.p-o.b)}</td><td><a class="l" onclick="nDue(${i})">Нээх ›</a></td></tr>`));
+ else if(NT=='mv')h=tb([['Баримт'],['Огноо'],['Салбар'],['Мөр',1],['Төлөв'],['']],NL.map(x=>`<tr><td><b>${esc(x.no)}</b></td><td>${x.d}</td><td>${esc(x.to)}</td><td class="n">${x.n}</td><td><select onchange="mvS('${esc(x.no)}',this.value)" style="width:auto;padding:5px 26px 5px 8px">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(t=>`<option ${t=='Илгээсэн'?'selected':''}>${t}</option>`).join('')}</select></td><td><a class="l" title="Хэвлэх" onclick="mvP('${esc(x.no)}')">🖨</a></td></tr>`));
+ else if(NT=='rq')h=tb([['Бүтээгдэхүүн'],['Орц'],['Хэмжээ',1],['']],NL.map(r=>`<tr><td><b>${esc(r[1])}</b></td><td>${esc(r[2])}</td><td class="n"><input type="number" step="any" min="0" placeholder="0" style="width:90px" onchange="rqS('${r[0]}',this.value)"></td><td style="white-space:nowrap"><a class="l" title="Засах" onclick="ed('rec','${r[0]}')">✏️</a> <a class="l" title="Жороос хасах" onclick="rqD('${r[0]}')">🗑</a></td></tr>`));
+ else h=tb([['Бүтээгдэхүүн'],['']],NL.map((n,i)=>`<tr><td><b>${esc(n)}</b></td><td><a class="btn pri" style="padding:4px 12px" onclick="nR(${i})">＋ Жор нэмэх</a></td></tr>`));
+ el.innerHTML=`<div class="dwh"><div><div class="dwt" style="margin:0">${m[0]} ${m[1]}</div><div class="sub" style="margin-top:4px">${NL.length} мэдэгдэл</div></div><a class="dwx" title="Хаах (Esc)" onclick="dwC()">✕</a></div><div class="dwb"><p class="sub" style="margin:8px 0 12px">${m[2]}</p>${h}</div>`;
  el.classList.add('on');$('#dwo').classList.add('on')}
 function docsR(){const all=docList(),q=DS.q.toLowerCase(),it=(DS.item||'').trim().toLowerCase(),mi=x=>x.n.toLowerCase().includes(it),base=all.filter(d=>d.date>=DS.a&&d.date<=DS.b&&(!it||d.I.some(mi))&&(!q||(TY[d.t][0]+' '+d.no+' '+d.party+' '+d.st+' '+d.L.map(r=>r.join(' ')).join(' ')).toLowerCase().includes(q))),cnt={};
  base.forEach(d=>{cnt[d.t]=(cnt[d.t]||0)+1;d.M=it?d.I.filter(mi):d.I;d.mq=d.M.reduce((a,x)=>a+x.q,0);d.ma=d.M.reduce((a,x)=>a+x.a,0)});const L=DLV=base.filter(d=>DS.t=='all'||d.t==DS.t),tot={},tq={},IA={};all.filter(d=>d.date>=DS.a&&d.date<=DS.b&&(DS.t=='all'||d.t==DS.t)).forEach(d=>d.I.forEach(x=>IA[x.n]=1));L.forEach(d=>{const a=it?d.ma:d.amt;if(a)tot[d.t]=(tot[d.t]||0)+a;if(it)tq[d.t]=(tq[d.t]||0)+d.mq});const tk=Object.keys(TY).filter(t=>tot[t]||tq[t]);
@@ -667,7 +692,7 @@ function docsR(){const all=docList(),q=DS.q.toLowerCase(),it=(DS.item||'').trim(
  ${L.slice(0,400).map((d,i)=>`<tr class="dr ${d.key==DS.dw?'sel':''}" onclick="dX(${i})"><td onclick="event.stopPropagation()"><input type="checkbox" ${DS.sel.has(d.key)?'checked':''} onchange="dS(${i},this.checked)"></td><td>${d.date}</td><td><span class="tc" style="background:${TY[d.t][1]}">${TY[d.t][0]}</span></td><td>${d.no?'<b>'+esc(d.no)+'</b>':'<span class="sub">'+(d.legacy?'(хуучин мөрүүд)':'—')+'</span>'}</td><td>${esc(d.party)}</td><td style="min-width:200px;max-width:340px;white-space:normal;font-size:13px">${iSum(d)}</td><td class="n">${it?d.M.length:d.L.length}</td><td class="n">${d.t=='adj'?(()=>{const q=it?d.mq:d.qty;return(q>0?'+':'')+fmt(q)})():T(it?d.ma:d.amt)}</td>
  <td>${d.t=='mv'?`<span onclick="event.stopPropagation()"><select onchange="mvS('${esc(d.no)}',this.value)" style="width:auto;padding:5px 28px 5px 8px">${['Илгээсэн','Хүлээн авсан','Цуцлагдсан'].map(s=>`<option ${s==d.st?'selected':''}>${s}</option>`).join('')}</select></span>`:d.t=='sale'||d.t=='buy'?'':`<span class="chip">${esc(d.st)}</span>`}</td>
  <td style="white-space:nowrap" onclick="event.stopPropagation()"><a class="l" title="Засах" onclick="dE(${i})">✏️</a> <a class="l" title="Хэвлэх" onclick="dP(${i})">🖨</a> <a class="l" title="Устгах" onclick="dD(${i})">🗑</a></td></tr>`).join('')||'<tr><td colspan="10" class="sub" style="padding:18px">Энэ хугацаанд баримт олдсонгүй</td></tr>'}</tbody></table></div>${L.length>400?'<p class="sub">Эхний 400 баримтыг харуулав — хугацаагаа нарийсгана уу</p>':''}</div>`;dwR()}
-window.dtype=t=>{DS.t=t;docsR()};window.dX=i=>{const d=DLV[i];DS.dw=DS.dw==d.key?null:d.key;dwS();dwR()};window.dwC=()=>{DS.dw=null;dwS();dwR()};
+window.dtype=t=>{DS.t=t;docsR()};window.dX=i=>{const d=DLV[i];NT=null;DS.dw=DS.dw==d.key?null:d.key;dwS();dwR()};window.dwC=()=>{NT=null;DS.dw=null;dwS();dwR()};
 window.dS=(i,c)=>{const d=DLV[i];c?DS.sel.add(d.key):DS.sel.delete(d.key);docsR()};window.dAll=c=>{DLV.forEach(d=>c?DS.sel.add(d.key):DS.sel.delete(d.key));docsR()};
 window.dE=i=>{const d=DLV[i];if(d.t=='sale'||d.t=='buy')docN(d.t,d);else if(d.t=='mv')mvN(d);else ed(d.t,d.L[0][0])};
 window.dP=i=>prn([DLV[i]]);window.dPs=()=>prn(DLV.filter(d=>DS.sel.has(d.key)));
