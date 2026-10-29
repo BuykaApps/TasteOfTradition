@@ -564,7 +564,7 @@ function nlists(){const R=RAW(),B=bm().map((b,i)=>[b,i]),rp=new Set((R.recipes||
  MV().filter(r=>r[7]=='Илгээсэн').forEach(r=>{const o=mvs[r[2]]=mvs[r[2]]||{no:r[2],d:day(r[1]),to:r[3],n:0};o.n++});
  return{out:B.filter(([b])=>b.st[1]=='w'),low:fcast().filter(x=>x.days<3),due:odue(),mv:Object.values(mvs),rq:(R.recipes||[]).filter(r=>!+r[3]),nr:[...new Set([...nm(R.products,1),...nm(R.sales,2)])].filter(n=>!rp.has(n))}}
 function notes(){const L=nlists(),N=[],bp=new Set(L.rq.map(r=>k(r[1]))).size;
- if(L.out.length)N.push(['🔴',L.out.length+' орц дууссан / доод хязгаараас доош','out']);if(L.low.length)N.push(['⏳',L.low.length+' орц 3 өдрөөс бага хэвтэнэ','low']);if(L.due.length)N.push(['💳',L.due.length+' харилцагчийн төлбөр хугацаа хэтэрсэн','due']);
+ if(L.out.length)N.push(['🔴',L.out.length+' орц дууссан / доод хязгаараас доош','out']);if(L.low.length)N.push(['⏳',L.low.length+' орц 3 өдрөөс бага байна','low']);if(L.due.length)N.push(['💳',L.due.length+' харилцагчийн төлбөр хугацаа хэтэрсэн','due']);
  if(L.mv.length)N.push(['🔁',L.mv.length+' шилжүүлэг "Илгээсэн" төлөвтэй (хүлээн аваагүй)','mv']);if(bp)N.push(['⚠️',bp+' бүтээгдэхүүний жорд хэмжээ хоосон','rq']);if(L.nr.length)N.push(['🍰',L.nr.length+' бүтээгдэхүүнд жор (орц) бүртгээгүй','nr']);return N}
 function bellR(){const N=notes();$('#bdg').textContent=N.length||'';$('#bell').innerHTML='<h4 style="margin:0 0 6px">🔔 Мэдэгдэл</h4>'+(N.map(n=>`<div class="bi" onclick="nt('${n[2]}');$('#bell').hidden=true"><span style="font-size:20px">${n[0]}</span><span>${n[1]}</span></div>`).join('')||'<p class="sub" style="margin:8px 0">Шинэ мэдэгдэл алга ✅</p>')}
 $('#bellb').onclick=e=>{e.stopPropagation();const p=$('#bell');$('#pop').hidden=true;p.hidden=!p.hidden};
