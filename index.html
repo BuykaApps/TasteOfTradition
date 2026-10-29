@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="mn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><title>Mozart baker — Түүхий эдийн систем</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><title>Taste of Tradition — Түүхий эдийн систем</title>
 <style>
 :root{--bg:#e9eff5;--c:rgba(255,255,255,.74);--cd:rgba(255,255,255,.9);--t:#17232d;--m:#64748b;--b:rgba(15,42,67,.1);--a:#1f6f8b;--p:#0f2a43;--r:#c0392b;--y:#d68910;--g:#1e8449;--sh:0 1px 2px #0b1f3012,0 8px 24px #0b1f3012;--sw:250px}
 html[data-theme=dark]{--bg:#091017;--c:rgba(24,36,47,.62);--cd:rgba(18,28,37,.92);--t:#e6edf1;--m:#8fa1ad;--b:rgba(255,255,255,.09);--p:#0a1c2d;--sh:0 1px 2px #0006,0 8px 28px #0005}
@@ -115,7 +115,7 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
 </style></head><body>
 <div class="aurora"><i></i><i></i><i></i></div>
-<aside id="side"><div class="brand"><span>🍽</span><div><b>Mozart bakery</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
+<aside id="side"><div class="brand"><span>🍽</span><div><b>Taste of Tradition</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
 <div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
 <div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
 <button id="kb" title="Хайлт (Ctrl+K)">🔍 Хайх<span class="kbd">Ctrl K</span></button><button id="bellb" title="Мэдэгдэл">🔔<span id="bdg"></span></button><button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
@@ -222,7 +222,7 @@ const GR=[['rep','📑','Тайлан',['bm','day','pr','yr','warn']],['ref','�
 const nb=t=>`<button data-t="${t[0]}" title="${t[2]}"><span class="ic">${t[1]}</span><span class="lb">${t[2]}</span></button>`;
 $('#nav').innerHTML=nb(tb('dash'))+nb(tb('docs'))+GR.map(g=>`<div class="ng${NO[g[0]]?' open':''}" data-g="${g[0]}"><button class="ngh" data-g="${g[0]}"><span class="ic">${g[1]}</span><span class="lb">${g[2]}</span><span class="chv">›</span></button><div class="gi">${g[3].map(id=>nb(tb(id))).join('')}</div></div>`).join('');
 function go(t){TABS.forEach(x=>$('#p-'+x[0]).hidden=x[0]!=t);$('#nav').querySelectorAll('button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));document.querySelectorAll('#bt button[data-t]').forEach(b=>b.classList.toggle('on',b.dataset.t==t));{const g=GR.find(x=>x[3].includes(t));if(g){NO[g[0]]=1;LS.navOpen=JSON.stringify(NO);$('#nav').querySelector('.ng[data-g="'+g[0]+'"]').classList.add('open')}}
- const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Mozart bakery</small>';LS.bmTab2=t;document.body.classList.remove('open')}
+ const x=TABS.find(y=>y[0]==t);$('#ttl').innerHTML=x[1]+' '+x[2]+'<small>Taste of Tradition Mongolia</small>';LS.bmTab2=t;document.body.classList.remove('open')}
 
 // ===== v2: бүртгэл (нэмэх/засах/устгах) + тайлангууд
 const tl=()=>new Date().toLocaleDateString('sv'),cs={},RAW=()=>D.raw||{},nm=(a,i)=>[...new Set((a||[]).map(r=>k(r[i])))].filter(Boolean);
@@ -728,6 +728,35 @@ window.catN=kd=>{$('#dc').innerHTML=`<h3>Шинэ ${CTY[kd][1].toLowerCase()}</h
 window.catA=async kd=>{const n=k($('#cn').value);if(!n)return toast('Нэр бичнэ үү');if(CATL[kd].some(x=>x.n.toLowerCase()==n.toLowerCase()))return toast('Ийм ангилал байна');if(await bulk([{act:'add',t:'cats',row:[n,CTY[kd][0]]}]))dlg.close()};
 window.catX=async(kd,i)=>{const c=CATL[kd][i];if(c.s+c.p)return toast('Ашиглагдаж буй ангиллыг устгахгүй — нэрийг нь засаж өөр ангилалтай нэгтгэнэ үү');if(!c.ids.length)return;if(await uiConfirm(c.n+' ангиллыг устгах уу?'))bulk(c.ids.map(id=>({act:'del',t:'cats',id})))};
 {const _r7=render;render=function(){_r7();catR()}}
+// ===== v11: тайлан/жагсаалт бүр дээр 🖨 Хэвлэх ба 📊 Excel рүү хөрвүүлэх
+var XCUR='dash';
+document.head.insertAdjacentHTML('beforeend','<style>@media(max-width:760px){.top .xt{display:none}}@media print{#pa h4{break-after:avoid}#pa tr{break-inside:avoid}#pa thead{display:table-header-group}}</style>');
+$('#kb').insertAdjacentHTML('beforebegin','<button id="xpb" title="Энэ хуудсыг хэвлэх">🖨<span class="xt"> Хэвлэх</span></button><button id="xxb" title="Энэ хуудсын хүснэгтүүдийг Excel рүү хөрвүүлэх">📊<span class="xt"> Excel</span></button>');
+$('#xpb').onclick=()=>prnT();$('#xxb').onclick=()=>xlsT();
+{const _g=go;go=function(t){_g(t);XCUR=t;const h=['dash','org'].includes(t);$('#xpb').style.display=$('#xxb').style.display=h?'none':''}}
+const xclean=c=>c.textContent.replace(/[▸▾▴►▼▲]/g,'').replace(/\s+/g,' ').trim(),xv=t=>{const u=String(t).replace(/[,\s₮]/g,'');return /^-?(0|[1-9]\d*)(\.\d+)?$/.test(u)?+u:t};
+function xcol(t){const root=$('#p-'+t),out=[];if(!root)return out;
+ root.querySelectorAll('table').forEach(tb=>{if(tb.closest('[hidden]')||tb.parentElement.closest('table')||!tb.rows.length)return;
+  const hd=tb.tHead&&tb.tHead.rows[0],keep=hd?[...hd.cells].map((c,i)=>xclean(c)?i:-1).filter(i=>i>=0):null,
+  row=r=>{const cs=[...r.cells];return keep&&cs.length==hd.cells.length?keep.map(i=>xclean(cs[i])):cs.map(xclean)},
+  card=tb.closest('.card'),h=card&&card.querySelector('h3,h4');
+  out.push({title:h?xclean(h):'',head:tb.tHead?[...tb.tHead.rows].map(row):[],body:[...tb.tBodies].flatMap(b=>[...b.rows].map(row)),foot:tb.tFoot?[...tb.tFoot.rows].map(row):[]})});
+ return out}
+function xmeta(t){const d=[...$('#p-'+t).querySelectorAll('input[type=date]')].map(x=>x.value).filter(Boolean);return d.length?'Хугацаа: '+d.join(' → '):''}
+const xtitle=()=>(TABS.find(x=>x[0]==XCUR)||[0,'','Тайлан'])[2];
+window.xlsT=()=>{if(!window.XLSX)return alert('Excel сан ачаалагдсангүй (интернэтээ шалгана уу)');const T=xcol(XCUR);if(!T.length)return toast('Хөрвүүлэх хүснэгт алга');
+ const A=[[xtitle()]],m=xmeta(XCUR);if(m)A.push([m]);
+ T.forEach(x=>{A.push([]);if(x.title&&x.title!=xtitle())A.push([x.title]);[...x.head,...x.body,...x.foot].forEach(r=>A.push(r.map(xv)))});
+ const ws=XLSX.utils.aoa_to_sheet(A),w=[];A.slice(2).forEach(r=>{if(r.length>1)r.forEach((c,i)=>{w[i]=Math.min(46,Math.max(w[i]||8,String(c).length+2))})});ws['!cols']=w.map(x=>({wch:x||8}));
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,xtitle().replace(/[\[\]:*?\/\\]/g,'').slice(0,31)||'Тайлан');XLSX.writeFile(wb,xtitle().replace(/[\\\/:*?"<>|]/g,'')+'_'+tl()+'.xlsx')};
+window.prnT=()=>{const T=xcol(XCUR);if(!T.length)return toast('Хэвлэх хүснэгт алга');const o=OG(),a=AC(),m=xmeta(XCUR),wide=T.some(x=>((x.head[0]||x.body[0]||[]).length)>7),
+ cell=(c,tag)=>`<${tag}${typeof xv(c)=='number'?' class="n"':''}>${esc(c)}</${tag}>`;
+ $('#pa').innerHTML=`<div style="border-bottom:2px solid #000;padding-bottom:6px;margin-bottom:8px"><b style="font-size:17px">${esc(o[1]||'Байгууллагын нэр')}</b><br>${o[2]?'Регистр: '+esc(o[2])+' · ':''}${esc(o[3]||'')}${o[4]?' · Утас: '+esc(o[4]):''}</div><h2 style="text-align:center;margin:8px 0">${esc(xtitle()).toUpperCase()}</h2><p>${m?esc(m)+'<br>':''}Хэвлэсэн: ${tl()}</p>`+
+ T.map(x=>`${x.title&&x.title!=xtitle()?`<h4 style="margin:14px 0 4px">${esc(x.title)}</h4>`:''}<table>${x.head.length?`<thead>${x.head.map(r=>`<tr>${r.map(c=>cell(c,'th')).join('')}</tr>`).join('')}</thead>`:''}<tbody>${x.body.map(r=>`<tr>${r.map(c=>cell(c,'td')).join('')}</tr>`).join('')}</tbody>${x.foot.length?`<tfoot>${x.foot.map(r=>`<tr>${r.map(c=>cell(c,'th')).join('')}</tr>`).join('')}</tfoot>`:''}</table>`).join('')+
+ `<div style="margin-top:34px;width:260px;border-top:1px solid #000;padding-top:4px">Нягтлан бодогч: ${esc(a[1]||'')}<br><small>Гарын үсэг</small></div>`;
+ const st=document.createElement('style');st.textContent=`@page{size:A4 ${wide?'landscape':'portrait'};margin:12mm}`;document.head.appendChild(st);
+ window.addEventListener('afterprint',()=>st.remove(),{once:true});setTimeout(()=>window.print(),200)};
+
 
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
