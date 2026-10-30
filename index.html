@@ -113,12 +113,18 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 .dch{display:flex;gap:8px;flex-wrap:wrap}.dch small{opacity:.7;margin-left:4px}
 #pa{display:none}
 @media print{body>*:not(#pa){display:none!important}body{background:#fff!important}#pa{display:block!important;color:#000;font:12px/1.45 Arial,sans-serif}#pa table{width:100%;border-collapse:collapse}#pa th,#pa td{border:1px solid #555;padding:4px 6px;white-space:normal;color:#000!important;background:#fff!important;position:static}#pa th{background:#eee!important}#pa .n{text-align:right}@page{size:A4;margin:14mm}}
+
+#lg{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:16px}#lg[hidden]{display:none}
+#lg form{width:100%;max-width:360px;background:var(--cd);border:1px solid var(--b);border-radius:18px;padding:28px 24px;box-shadow:0 24px 70px #0004;text-align:center}
+#lg .lgb{font-size:42px;filter:drop-shadow(0 0 10px var(--a))}#lg h2{margin:6px 0 2px}#lg label{text-align:left}#lg #lge{color:var(--r);min-height:20px;margin:10px 0 4px;font-size:13px}#lg .btn{width:100%;padding:11px}
+body.lgon>*:not(#lg):not(script){visibility:hidden}body.ro #fab{display:none}#meb{white-space:nowrap}
+.ut{width:100%}.ut td,.ut th{padding:6px 8px;border-bottom:1px solid var(--b);text-align:left;font-size:13px}.off{opacity:.5}
 </style></head><body>
 <div class="aurora"><i></i><i></i><i></i></div>
 <aside id="side"><div class="brand"><span>🍽</span><div><b>Mozart Bakery</b><small>Түүхий эдийн систем</small></div></div><nav id="nav"></nav>
 <div class="sfoot"><span id="src"></span><button id="colb" title="Жижигрүүлэх">«</button></div></aside>
 <div class="wrap"><header class="top"><button id="burger">☰</button><h1 id="ttl"></h1><span class="sp"></span>
-<button id="kb" title="Хайлт (Ctrl+K)">🔍 Хайх<span class="kbd">Ctrl K</span></button><button id="bellb" title="Мэдэгдэл">🔔<span id="bdg"></span></button><button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="ui" title="Харагдац">🎨</button>
+<button id="kb" title="Хайлт (Ctrl+K)">🔍 Хайх<span class="kbd">Ctrl K</span></button><button id="bellb" title="Мэдэгдэл">🔔<span id="bdg"></span></button><button id="rl" title="Шинэчлэх">↻ Шинэчлэх</button><button id="meb" title="Миний бүртгэл" hidden>👤</button><button id="ui" title="Харагдац">🎨</button>
 <div class="pop" id="pop" hidden></div><div class="pop" id="bell" hidden></div></header>
 <main>
 <section id="p-dash"></section>
@@ -130,6 +136,10 @@ body.col .ngh{display:none}body.col .gi{display:flex!important;margin:0;padding:
 <div id="fab"><div class="fm"><button onclick="fq(0)">🍰 Хялбар борлуулалт</button><button onclick="fq(1)">🧾 Борлуулалт (баримт)</button><button onclick="fq(2)">📥 Худалдан авалт</button><button onclick="fq(3)">💸 Зардал</button><button onclick="fq(4)">🔁 Шилжүүлэг</button></div><button class="fb" onclick="this.parentNode.classList.toggle('open')" title="Шинээр бүртгэх">＋</button></div>
 <nav id="bt"><button data-t="dash"><span>📊</span>Dashboard</button><button data-t="docs"><span>🧾</span>Баримт</button><button data-t="bm"><span>📋</span>БМ тайлан</button><button data-t="warn"><span>🚨</span>Анхааруулга</button><button id="btm"><span>☰</span>Бусад</button></nav>
 <dialog id="cdlg"><div id="cdc"></div></dialog><div id="msg"></div><div id="pa"></div>
+<div id="lg" hidden><form id="lgf"><div class="lgb">🍰</div><h2>Mozart Bakery</h2><div class="sub">Түүхий эдийн систем — нэвтрэх</div>
+<label for="lgu">Хэрэглэгчийн нэр</label><input id="lgu" name="username" autocomplete="username" autocapitalize="none" required>
+<label for="lgp">Нууц үг</label><input id="lgp" name="password" type="password" autocomplete="current-password" required>
+<div id="lge" role="alert"></div><button class="btn pri" id="lgb" type="submit">Нэвтрэх</button></form></div>
 <script>
 const WEB_APP_URL='https://script.google.com/macros/s/AKfycbzM7EBTzUZ1o2qtZmTvbsUN3u0LCjJ3C27sqEnI10khoMUEdH6avvFSiPsvPZd8Mb2jcw/exec';
 const $=s=>document.querySelector(s),LS=localStorage,fmt=n=>(+n||0).toLocaleString('en',{maximumFractionDigits:2}),T=n=>fmt(Math.round(n))+' ₮';
@@ -139,21 +149,68 @@ $('#d1').value=ym(today.getFullYear(),today.getMonth()+1)+'-01';$('#d2').value=i
 const mm=today.getFullYear()+'-'+pad(today.getMonth()+1);
 const DEMO={purchases:[],sales:[[mm+'-03','Аарц крем','Бурэлт',3,3000],[mm+'-04','Аарцтай боов','Нарын боов',27,0],[mm+'-17','Аарц крем','Бурэлт',3,3000]],
 recipes:[['Аарц крем','Аарц',333.33,'гр'],['Аарцтай боов','Аарц','','гр'],['Аарцтай боов','Гурил',42.3,'гр']],stock:[['Аарц','гр',8500,1000],['Гурил','гр',20000,5000]],costs:[],expenses:[]};
+let SES=null;try{SES=JSON.parse(LS.bmSes||'null');if(SES&&SES.e<Date.now())SES=null}catch(e){}
+if(!SES&&WEB_APP_URL)delete LS.bmData;
 let D=JSON.parse(LS.bmData||'null')||DEMO,URL_=WEB_APP_URL||'';
 const day=v=>String(v).slice(0,10),k=s=>String(s).trim();
 const inR=d=>day(d)>=$('#d1').value&&day(d)<=$('#d2').value;
 const OPD=()=>[...document.querySelectorAll('dialog[open]')].pop()||document.body;
 const toast=t=>{const m=$('#msg');OPD().appendChild(m);m.textContent=t;m.style.display='block';setTimeout(()=>m.style.display='none',2500)};
+// ===== Нэвтрэлт: бүх хүсэлт call() -оор дамжиж token дагуулна =====
+const ROLE={admin:'Админ',user:'Ажилтан',viewer:'Үзэгч'};
+const clearSes=()=>{SES=null;delete LS.bmSes;delete LS.bmData};
+async function call(a,d){
+ if(!URL_)return{error:'Холболт тохируулаагүй'};
+ const j=await (await fetch(URL_,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a,d,tok:SES&&SES.t})})).json();
+ if(j.auth&&a!='login'){sessionStorage.lgm='Нэвтрэх хугацаа дууслаа. Дахин нэвтэрнэ үү.';clearSes();location.reload()}
+ if(j.mc&&a!='pw')setTimeout(()=>pwDlg(true),50);
+ return j}
+function showLg(m){document.body.classList.add('lgon');$('#lg').hidden=false;$('#lge').textContent=m||'';setTimeout(()=>$('#lgu').focus(),50)}
+$('#lgf').onsubmit=async e=>{e.preventDefault();const b=$('#lgb');b.disabled=true;b.textContent='Шалгаж байна...';$('#lge').textContent='';
+ try{const j=await call('login',{u:$('#lgu').value.trim(),p:$('#lgp').value});
+  if(j.ok){LS.bmSes=JSON.stringify({t:j.t,e:j.e,u:j.u,n:j.n,r:j.r,mc:j.mc});location.reload();return}
+  $('#lge').textContent=j.error||'Алдаа';$('#lgp').value=''}
+ catch(x){$('#lge').textContent='Холбогдож чадсангүй'}
+ b.disabled=false;b.textContent='Нэвтрэх'};
+function meUi(){if(!SES)return;const b=$('#meb');b.hidden=false;b.textContent='👤 '+(SES.n||SES.u);document.body.classList.toggle('ro',SES.r=='viewer');if(SES.mc)setTimeout(()=>pwDlg(true),300)}
+const oDlg=h=>{$('#dc').innerHTML=h;if(!dlg.open)dlg.showModal()};
+const eh=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function acctDlg(){oDlg(`<h3>👤 ${eh(SES.n||SES.u)}</h3><p class="sub">Нэвтрэх нэр: <b>${eh(SES.u)}</b> · Эрх: <b>${ROLE[SES.r]||eh(SES.r)}</b></p>
+<p><button class="btn" onclick="pwDlg()">🔑 Нууц үг солих</button> <button class="btn" onclick="outNow()">🚪 Гарах</button></p>
+${SES.r=='admin'?'<p><button class="btn" onclick="usersDlg()">👥 Хэрэглэгчид, эрх</button> <button class="btn" onclick="logDlg()">📜 Нэвтрэлт, үйлдлийн лог</button></p>':''}`)}
+window.outNow=async()=>{try{await call('logout')}catch(e){}clearSes();location.reload()};
+function pwDlg(force){oDlg(`<h3>🔑 Нууц үг солих</h3>${force?'<p class="sub">Анхны/түр нууц үгээ заавал солино уу.</p>':''}
+<label>Одоогийн нууц үг</label><input id="pw0" type="password" autocomplete="current-password"><label>Шинэ нууц үг (8+ тэмдэгт)</label><input id="pw1" type="password" autocomplete="new-password"><label>Шинэ нууц үг (давтах)</label><input id="pw2" type="password" autocomplete="new-password">
+<p><button class="btn pri" onclick="pwSave()">Хадгалах</button></p>`);if(force)dlg.oncancel=e=>e.preventDefault()}
+window.pwSave=async()=>{const a=$('#pw0').value,b=$('#pw1').value;if(b!=$('#pw2').value)return toast('Шинэ нууц үг таарахгүй байна');if(b.length<8)return toast('Хамгийн багадаа 8 тэмдэгт');
+ const j=await call('pw',{old:a,nw:b});if(!j.ok)return toast(j.error||'Алдаа');
+ SES={t:j.t,e:j.e,u:j.u,n:j.n,r:j.r,mc:false};LS.bmSes=JSON.stringify(SES);dlg.oncancel=null;dlg.close();toast('Нууц үг солигдлоо ✅');await load()};
+async function usersDlg(){const j=await call('users');if(!j.ok)return toast(j.error||'Алдаа');
+ oDlg(`<h3>👥 Хэрэглэгчид</h3><div class="sc"><table class="ut"><thead><tr><th>Нэр</th><th>Бүтэн нэр</th><th>Эрх</th><th>Төлөв</th><th>Сүүлд нэвтэрсэн</th><th></th></tr></thead><tbody>${j.users.map(u=>`<tr class="${u.on=='Тийм'?'':'off'}"><td>${eh(u.u)}</td><td>${eh(u.n)}</td><td>${ROLE[u.r]||eh(u.r)}</td><td>${u.on=='Тийм'?'Идэвхтэй':'Хаагдсан'}</td><td>${eh(u.last)}</td><td><button class="btn" onclick="userEd('${eh(u.u)}','${eh(u.n).replace(/'/g,'')}','${u.r}','${u.on}')">Засах</button></td></tr>`).join('')}</tbody></table></div>
+<p><button class="btn pri" onclick="userEd()">➕ Хэрэглэгч нэмэх</button></p>
+<p class="sub">Эрх: <b>Админ</b> — бүгд + хэрэглэгч, лог · <b>Ажилтан</b> — бүртгэх, засах, устгах · <b>Үзэгч</b> — зөвхөн харах</p>`)}
+window.userEd=(u,n,r,on)=>{const N=!u;oDlg(`<h3>${N?'➕ Шинэ хэрэглэгч':'✏️ '+eh(u)}</h3>
+<label>Нэвтрэх нэр (латин үсэг, тоо)</label><input id="ue0" value="${eh(u||'')}" ${N?'':'disabled'} autocapitalize="none"><label>Бүтэн нэр</label><input id="ue1" value="${eh(n||'')}">
+<label>Эрх</label><select id="ue2">${Object.keys(ROLE).map(k=>`<option value="${k}" ${k==(r||'user')?'selected':''}>${ROLE[k]}</option>`).join('')}</select>
+<label>${N?'Түр нууц үг (8+ тэмдэгт)':'Шинэ түр нууц үг (хоосон бол өөрчлөхгүй)'}</label><input id="ue3" type="text" autocomplete="off">
+<label style="display:flex;gap:8px;align-items:center"><input id="ue4" type="checkbox" style="width:auto" ${on=='Үгүй'?'':'checked'}> Идэвхтэй (нэвтэрч болно)</label>
+<p><button class="btn pri" onclick="userSv()">Хадгалах</button> <button class="btn" onclick="usersDlg()">Буцах</button></p><p class="sub">Түр нууц үгээр нэвтэрсний дараа хэрэглэгч заавал шинээр солино.</p>`)};
+window.userSv=async()=>{const j=await call('userSave',{u:$('#ue0').value,n:$('#ue1').value,r:$('#ue2').value,p:$('#ue3').value,on:$('#ue4').checked});if(!j.ok)return toast(j.error||'Алдаа');toast('Хадгаллаа ✅');usersDlg()};
+async function logDlg(q=''){const j=await call('logs',{n:400});if(!j.ok)return toast(j.error||'Алдаа');
+ const L=j.logs.filter(r=>!q||r.join(' ').toLowerCase().includes(q.toLowerCase()));
+ oDlg(`<h3>📜 Лог (сүүлийн ${j.logs.length})</h3><input placeholder="🔍 Хэрэглэгч, үйлдэл хайх (Enter)" value="${eh(q)}" onchange="logDlg(this.value)"><div class="sc" style="margin-top:8px"><table class="ut"><thead><tr><th>Огноо</th><th>Хэрэглэгч</th><th>Үйлдэл</th><th>Дэлгэрэнгүй</th><th>Үр дүн</th></tr></thead><tbody>${L.map(r=>`<tr class="${r[4]=='OK'?'':'off'}"><td style="white-space:nowrap">${eh(r[0])}</td><td>${eh(r[1])}</td><td>${eh(r[2])}</td><td style="max-width:320px;word-break:break-word">${eh(r[3])}</td><td>${eh(r[4])}</td></tr>`).join('')||'<tr><td colspan="5">Алга</td></tr>'}</tbody></table></div>
+<p><button class="btn" onclick="acctDlg()">Буцах</button></p>`)}
+$('#meb').onclick=acctDlg;
 async function load(){
  if(!URL_){$('#src').textContent='Туршилтын горим';return render()}
- try{const j=await (await fetch(URL_)).json();if(j.error){alert(j.error);return render()}D=j;LS.bmData=JSON.stringify(D);$('#src').textContent='✅ Google Sheets'}
+ try{const j=await call('data');if(j.error){alert(j.error);return render()}D=j;LS.bmData=JSON.stringify(D);$('#src').textContent='✅ Google Sheets'}
  catch(e){toast('Sheets-тэй холбогдож чадсангүй')}
  render()}
 async function save(sheet,row){
  (D[sheet]=D[sheet]||[]).push(row);LS.bmData=JSON.stringify(D);
  if(URL_)try{
   toast('Илгээж байна...');
-  const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify({sheet,row})))).json();
+  const j=await call('act',{sheet,row});
   if(j.ok)toast('Sheets-д хадгаллаа ✅');
   else{console.error(j);alert('Sheets алдаа: '+(j.error||JSON.stringify(j)));toast('Sheets алдаа: '+(j.error||'?'))}
  }catch(e){console.error(e);toast('Sheets-тэй холбогдож чадсангүй — Apps Script-ийг New version-оор Deploy хийсэн үү?')}
@@ -247,7 +304,7 @@ async function sv(id,rid){const [t,,F]=DB[id],row=F.map((f,i)=>{const v=$('#f'+i
  if(row[0]==='')return toast('Эхний талбарыг бөглөнө үү');if(await api({act:rid?'upd':'add',t,id:rid,row}))dlg.close()}
 async function del(id,rid){if(await uiConfirm('Устгах уу?'))api({act:'del',t:DB[id][0],id:rid})}
 async function api(d){if(!URL_){toast('Холболт тохируулаагүй');return false}
- try{toast('Хадгалж байна...');const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify(d)))).json();if(j.ok){toast('Хадгаллаа ✅');await load();return true}alert('Алдаа: '+j.error)}catch(e){toast('Холбогдож чадсангүй')}return false}
+ try{toast('Хадгалж байна...');const j=await call('act',d);if(j.ok){toast('Хадгаллаа ✅');await load();return true}alert('Алдаа: '+j.error)}catch(e){toast('Холбогдож чадсангүй')}return false}
 function dayR(){const d=cs.day=cs.day||tl(),S=D.sales.filter(s=>day(s[0])==d),rec={},use={},sm=(a,i)=>fmt(a.reduce((x,r)=>x+(+r[i]||0),0));
  D.recipes.forEach(r=>(rec[k(r[0])]=rec[k(r[0])]||[]).push([k(r[1]),+r[2]||0]));S.forEach(s=>(rec[k(s[1])]||[]).forEach(([i,a])=>use[i]=(use[i]||0)+a*(+s[3]||0)));
  const ex=D.expenses.filter(e=>day(e[0])==d),tb=(a,f)=>'<table>'+(a.map(f).join('')||'<tr><td>Алга</td></tr>')+'</table>';
@@ -448,7 +505,7 @@ function cntV(){const B={};bm().forEach(b=>B[k(b.n)]=b);
 window.cntA=async()=>{const S=CI.filter((x,i)=>{const c=$('#ck'+i);return c&&c.checked&&c.closest('tr').style.display!='none'});if(!S.length)return toast('Бүртгэх мөр сонгоогүй байна');
  const sh=S.filter(x=>x.z<0).length,su=S.length-sh;if(!await uiConfirm(`Дутуу ${sh} орцыг ЗАРЛАГАД, илүү ${su} орцыг ОРЛОГОД бүртгэж, эцсийн үлдэгдлийг тоолсонтой тааруулах уу?`))return;
  if(!URL_)return toast('Холболт тохируулаагүй');const d=$('#d2').value;let n=0;toast('Бүртгэж байна...');
- for(const x of S){try{const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify({act:'add',t:'adj',row:[d,x.n,x.z,x.z<0?'Зарлага (дутуу)':'Орлого (илүү)','Тооллого']})))).json();if(j.ok)n++;else{alert('Алдаа: '+j.error+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');break}}catch(e){break}}
+ for(const x of S){try{const j=await call('act',{act:'add',t:'adj',row:[d,x.n,x.z,x.z<0?'Зарлага (дутуу)':'Орлого (илүү)','Тооллого']});if(j.ok)n++;else{alert('Алдаа: '+j.error+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');break}}catch(e){break}}
  toast(n+'/'+S.length+' бүртгэгдлээ ✅');if(n==S.length)CI=[];await load()};
 {const _r3=render;render=function(){_r3();cntR()}}
 $('#d1').addEventListener('change',cntR);$('#d2').addEventListener('change',cntR);
@@ -461,7 +518,7 @@ function mvx(ing,f){const ik=k(ing),ms=MV().filter(r=>f(r[1])&&r[7]!='Цуцла
  ms.forEach(r=>{const n=k(r[4]);if(n==ik)o.push([r,+r[5]||0]);else if(!isI.has(n)&&rec[n])o.push([r,(+r[5]||0)*rec[n]])});return o}
 function mvq(ing,f){return mvx(ing,f).reduce((a,x)=>a+x[1],0)}
 async function bulk(A){if(!URL_)return toast('Холболт тохируулаагүй');toast('Хадгалж байна...');
- try{for(const d of A){const j=await (await fetch(URL_+'?d='+encodeURIComponent(JSON.stringify(d)))).json();if(!j.ok)throw new Error(j.error||'?')}}
+ try{for(const d of A){const j=await call('act',d);if(!j.ok)throw new Error(j.error||'?')}}
  catch(e){alert('Алдаа: '+e.message+' (Apps Script-ийг шинэ version-оор Deploy хийсэн үү?)');await load();return false}
  await load();toast('Хадгаллаа ✅');return true}
 // ---- хэвлэх баримт
@@ -781,5 +838,6 @@ window.prnT=()=>{const T=xcol(XCUR);if(!T.length)return toast('Хэвлэх хү
 
 obs.observe($('main'),{childList:true,subtree:true});
 applyUi();go(LS.bmTab2&&TABS.some(t=>t[0]==LS.bmTab2)?LS.bmTab2:'dash');
-$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;load();
+$('#rl').onclick=load;$('#d1').onchange=$('#d2').onchange=bmTable;$('#q').oninput=bmTable;$('#mv').checked=true;$('#mv').onchange=bmTable;
+if(URL_&&!SES){showLg(sessionStorage.lgm||'');delete sessionStorage.lgm}else{meUi();load()}
 </script></body></html>
