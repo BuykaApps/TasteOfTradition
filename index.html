@@ -146,7 +146,7 @@ body.lgon>*:not(#lg):not(script){visibility:hidden}body.ro #fab{display:none}#me
 #bz .bzb{height:7px;margin:12px 0 6px;border-radius:4px;background:var(--b);overflow:hidden;position:relative}#bz .bzb i{display:block;height:100%;width:0;background:var(--a);border-radius:4px;transition:width .25s}
 #bz .bzb.ind i{position:absolute;width:40%;animation:bzi 1.1s ease-in-out infinite}#bz .bzn{color:var(--m)}
 #bgl{position:fixed;top:0;left:0;right:0;height:3px;z-index:99999;overflow:hidden;display:none;pointer-events:none}#bgl i{position:absolute;height:100%;width:35%;background:var(--a);animation:bzi 1s ease-in-out infinite}#bgl span{position:fixed;top:10px;right:14px;background:var(--cd);color:var(--t);border:1px solid var(--b);border-radius:20px;padding:4px 12px;font-size:12px;box-shadow:var(--sh)}
-#p-docs tfoot td{position:sticky;background:var(--cd);font-weight:700;border-top:1px solid var(--b);height:34px;z-index:2}#p-docs tfoot tr:first-child td{border-top:2px solid var(--a)}@keyframes bzr{to{transform:rotate(360deg)}}@keyframes bzi{from{left:-40%}to{left:100%}}
+#p-docs tfoot td{position:static;background:transparent;font-weight:700;border-top:1px solid var(--b)}#p-docs tfoot tr:first-child td{border-top:2px solid var(--a)}@keyframes bzr{to{transform:rotate(360deg)}}@keyframes bzi{from{left:-40%}to{left:100%}}
 </style>
 <script>
 // ===== Хадгалах үед бүх дэлгэцийг хаасан "Хадгалж байна" цонх (давхар дарахаас сэргийлнэ)
@@ -188,6 +188,6 @@ document.getElementById('rl').onclick=rlGo;
 function docFoot(){const tb=document.querySelector('#p-docs .sc table');if(!tb||typeof DLV=='undefined')return;const it=((DS&&DS.item)||'').trim(),G={};
  DLV.forEach(d=>{const g=G[d.t]=G[d.t]||{n:0,r:0,a:0,q:0};g.n++;g.r+=it?d.M.length:d.L.length;g.a+=+(it?d.ma:d.amt)||0;g.q+=+(it?d.mq:d.qty)||0});
  const K=Object.keys(G);if(!K.length)return;const H=34;
- const row=(i,c1,n,r,a)=>`<tr class="ft"><td colspan="3" style="bottom:${(K.length-i)*H}px">${c1}</td><td colspan="3" style="bottom:${(K.length-i)*H}px;text-align:right">${n} баримт</td><td class="n" style="bottom:${(K.length-i)*H}px">${fmt(r)}</td><td class="n" style="bottom:${(K.length-i)*H}px">${a}</td><td colspan="2" style="bottom:${(K.length-i)*H}px"></td></tr>`;
+ const row=(i,c1,n,r,a)=>`<tr class="ft"><td colspan="3">${c1}</td><td colspan="3" style="text-align:right">${n} баримт</td><td class="n">${fmt(r)}</td><td class="n">${a}</td><td colspan="2"></td></tr>`;
  tb.insertAdjacentHTML('beforeend','<tfoot>'+K.map((t,i)=>{const g=G[t];return row(i,`<span class="tc" style="background:${TY[t][1]}">${TY[t][0]}</span> <span class="sub">хөл дүн</span>`,g.n,g.r,t=='adj'?((g.q>0?'+':'')+fmt(g.q)):T(g.a))}).join('')+'</tfoot>')}
 </script></body></html>
