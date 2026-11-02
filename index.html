@@ -145,6 +145,7 @@ body.lgon>*:not(#lg):not(script){visibility:hidden}body.ro #fab{display:none}#me
 #bz .bzs{width:32px;height:32px;margin:0 auto 12px;border:3px solid var(--b);border-top-color:var(--a);border-radius:50%;animation:bzr .8s linear infinite}
 #bz .bzb{height:7px;margin:12px 0 6px;border-radius:4px;background:var(--b);overflow:hidden;position:relative}#bz .bzb i{display:block;height:100%;width:0;background:var(--a);border-radius:4px;transition:width .25s}
 #bz .bzb.ind i{position:absolute;width:40%;animation:bzi 1.1s ease-in-out infinite}#bz .bzn{color:var(--m)}
+#bgl{position:fixed;top:0;left:0;right:0;height:3px;z-index:99999;overflow:hidden;display:none;pointer-events:none}#bgl i{position:absolute;height:100%;width:35%;background:var(--a);animation:bzi 1s ease-in-out infinite}#bgl span{position:fixed;top:10px;right:14px;background:var(--cd);color:var(--t);border:1px solid var(--b);border-radius:20px;padding:4px 12px;font-size:12px;box-shadow:var(--sh)}
 @keyframes bzr{to{transform:rotate(360deg)}}@keyframes bzi{from{left:-40%}to{left:100%}}
 </style>
 <script>
@@ -154,18 +155,22 @@ function busyOn(t,tot){if(!_bz){_bz=document.createElement('dialog');_bz.id='bz'
  busyUp(t,0,tot);if(!_bz.open)_bz.showModal()}
 function busyUp(t,i,tot){if(!_bz)return;_bz.querySelector('.bzt').textContent=t;const b=_bz.querySelector('.bzb');b.classList.toggle('ind',!tot);b.firstChild.style.width=tot?Math.round(i/tot*100)+'%':'';_bz.querySelector('.bzn').textContent=tot?i+' / '+tot:'Түр хүлээнэ үү...'}
 function busyOff(){if(!_bz)return;const m=document.getElementById('msg');if(m&&_bz.contains(m))document.body.appendChild(m);if(_bz.open)_bz.close()}
+let _bgn=0;window._ld=null;
+function bgLoad(){let el=document.getElementById('bgl');if(!el){el=document.createElement('div');el.id='bgl';el.innerHTML='<i></i><span>🔄 Жагсаалт шинэчилж байна…</span>';document.body.appendChild(el)}_bgn++;el.style.display='block';return window._ld=load().catch(()=>{}).finally(()=>{if(!--_bgn)el.style.display='none'})}
 window.addEventListener('beforeunload',e=>{if(BUSY){e.preventDefault();e.returnValue=''}});
 async function api(d){if(!URL_){toast('Холболт тохируулаагүй');return false}
  if(BUSY){toast('Өмнөх үйлдэл дуусаагүй байна, түр хүлээнэ үү...');return false}BUSY=true;busyOn('Хадгалж байна...',0);
- try{const j=await call('act',d);if(j.ok){busyUp('Мэдээллийг шинэчилж байна...',0,0);await load();BUSY=false;busyOff();toast('Хадгаллаа ✅');return true}busyOff();alert('Алдаа: '+j.error)}catch(e){busyOff();toast('Холбогдож чадсангүй')}BUSY=false;busyOff();return false}
+ try{const j=await call('act',d);if(j.ok){BUSY=false;busyOff();toast('Хадгаллаа ✅');bgLoad();return true}busyOff();alert('Алдаа: '+j.error)}catch(e){busyOff();toast('Холбогдож чадсангүй')}BUSY=false;busyOff();return false}
 async function bulk(A){if(!URL_)return toast('Холболт тохируулаагүй');
  if(BUSY){toast('Өмнөх үйлдэл дуусаагүй байна, түр хүлээнэ үү...');return false}
  BUSY=true;const bt=[...document.querySelectorAll('dialog[open] .btn')];bt.forEach(b=>b.disabled=true);let i=0;busyOn('Хадгалж байна...',A.length);
  try{for(const d of A){const j=await call('act',d);if(!j.ok&&!(d.act=='del'&&/Мөр олдсонгүй/.test(j.error||''))){const er=new Error(j.error||'?');er.srv=1;throw er}busyUp('Хадгалж байна...',++i,A.length)}}
  catch(e){BUSY=false;bt.forEach(b=>b.disabled=false);busyOff();alert('Алдаа: '+e.message+(e.srv?'':' (Холболт эсвэл Apps Script-ийн Deploy-г шалгана уу)'));await load();return false}
- busyUp('Мэдээллийг шинэчилж байна...',0,0);try{await load()}finally{BUSY=false;bt.forEach(b=>b.disabled=false);busyOff()}toast('Хадгаллаа ✅');return true}
+ BUSY=false;bt.forEach(b=>b.disabled=false);busyOff();toast('Хадгаллаа ✅');bgLoad();return true}
 
 // ===== Баримтын жагсаалтад checkbox дарахад дахин зурагдахдаа гүйлтийн байрлалаа хадгална
 function scKeep(f){const P=[];for(let e=document.getElementById('p-docs');e&&e!==document.body;e=e.parentElement)P.push([e,e.scrollTop,e.scrollLeft]);const o=document.querySelector('#p-docs .sc'),s=o?[o.scrollTop,o.scrollLeft]:null,wx=window.scrollX,wy=window.scrollY;f();P.forEach(([e,t,l])=>{e.scrollTop=t;e.scrollLeft=l});const n=document.querySelector('#p-docs .sc');if(n&&s){n.scrollTop=s[0];n.scrollLeft=s[1]}window.scrollTo({left:wx,top:wy,behavior:'instant'})}
 {const _a=window.dS,_b=window.dAll;window.dS=(...x)=>scKeep(()=>_a(...x));window.dAll=(...x)=>scKeep(()=>_b(...x))}
+
+{const _m=window.mvP;if(typeof _m=='function')window.mvP=async(...x)=>{await window._ld;return _m(...x)}}
 </script></body></html>
