@@ -190,4 +190,12 @@ function docFoot(){const tb=document.querySelector('#p-docs .sc table');if(!tb||
  const K=Object.keys(G);if(!K.length)return;const H=34;
  const row=(i,c1,n,r,a)=>`<tr class="ft"><td colspan="3">${c1}</td><td colspan="3" style="text-align:right">${n} баримт</td><td class="n">${fmt(r)}</td><td class="n">${a}</td><td colspan="2"></td></tr>`;
  tb.insertAdjacentHTML('beforeend','<tfoot>'+K.map((t,i)=>{const g=G[t];return row(i,`<span class="tc" style="background:${TY[t][1]}">${TY[t][0]}</span>`,g.n,g.r,t=='adj'?((g.q>0?'+':'')+fmt(g.q)):T(g.a))}).join('')+'</tfoot>')}
+
+// ===== Нэвтрэлт хүчингүй болсон шалтгааны кодыг харуулна (оношилгоо)
+async function call(a,d){
+ if(!URL_)return{error:'Холболт тохируулаагүй'};
+ const j=await (await fetch(URL_,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a,d,tok:SES&&SES.t})})).json();
+ if(j.auth&&a!='login'){sessionStorage.lgm='Нэвтрэх хугацаа дууслаа. Дахин нэвтэрнэ үү.'+(j.why?' ['+j.why+']':'');clearSes();location.reload()}
+ if(j.mc&&a!='pw')setTimeout(()=>pwDlg(true),50);
+ return j}
 </script></body></html>
