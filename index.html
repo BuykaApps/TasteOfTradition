@@ -189,5 +189,5 @@ function docFoot(){const tb=document.querySelector('#p-docs .sc table');if(!tb||
  DLV.forEach(d=>{const g=G[d.t]=G[d.t]||{n:0,r:0,a:0,q:0};g.n++;g.r+=it?d.M.length:d.L.length;g.a+=+(it?d.ma:d.amt)||0;g.q+=+(it?d.mq:d.qty)||0});
  const K=Object.keys(G);if(!K.length)return;const H=34;
  const row=(i,c1,n,r,a)=>`<tr class="ft"><td colspan="3">${c1}</td><td colspan="3" style="text-align:right">${n} баримт</td><td class="n">${fmt(r)}</td><td class="n">${a}</td><td colspan="2"></td></tr>`;
- tb.insertAdjacentHTML('beforeend','<tfoot>'+K.map((t,i)=>{const g=G[t];return row(i,`<span class="tc" style="background:${TY[t][1]}">${TY[t][0]}</span> <span class="sub">хөл дүн</span>`,g.n,g.r,t=='adj'?((g.q>0?'+':'')+fmt(g.q)):T(g.a))}).join('')+'</tfoot>')}
+ tb.insertAdjacentHTML('beforeend','<tfoot>'+K.map((t,i)=>{const g=G[t];return row(i,`<span class="tc" style="background:${TY[t][1]}">${TY[t][0]}</span>`,g.n,g.r,t=='adj'?((g.q>0?'+':'')+fmt(g.q)):T(g.a))}).join('')+'</tfoot>')}
 </script></body></html>
