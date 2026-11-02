@@ -164,4 +164,8 @@ async function bulk(A){if(!URL_)return toast('Холболт тохируула�
  try{for(const d of A){const j=await call('act',d);if(!j.ok&&!(d.act=='del'&&/Мөр олдсонгүй/.test(j.error||''))){const er=new Error(j.error||'?');er.srv=1;throw er}busyUp('Хадгалж байна...',++i,A.length)}}
  catch(e){BUSY=false;bt.forEach(b=>b.disabled=false);busyOff();alert('Алдаа: '+e.message+(e.srv?'':' (Холболт эсвэл Apps Script-ийн Deploy-г шалгана уу)'));await load();return false}
  busyUp('Мэдээллийг шинэчилж байна...',0,0);try{await load()}finally{BUSY=false;bt.forEach(b=>b.disabled=false);busyOff()}toast('Хадгаллаа ✅');return true}
+
+// ===== Баримтын жагсаалтад checkbox дарахад дахин зурагдахдаа гүйлтийн байрлалаа хадгална
+function scKeep(f){const P=[];for(let e=document.getElementById('p-docs');e&&e!==document.body;e=e.parentElement)P.push([e,e.scrollTop,e.scrollLeft]);const o=document.querySelector('#p-docs .sc'),s=o?[o.scrollTop,o.scrollLeft]:null,wx=window.scrollX,wy=window.scrollY;f();P.forEach(([e,t,l])=>{e.scrollTop=t;e.scrollLeft=l});const n=document.querySelector('#p-docs .sc');if(n&&s){n.scrollTop=s[0];n.scrollLeft=s[1]}window.scrollTo({left:wx,top:wy,behavior:'instant'})}
+{const _a=window.dS,_b=window.dAll;window.dS=(...x)=>scKeep(()=>_a(...x));window.dAll=(...x)=>scKeep(()=>_b(...x))}
 </script></body></html>
